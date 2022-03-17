@@ -1,0 +1,18 @@
+.board {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  background: #9692aa;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.26);
+  padding: 2rem 3rem;
+  width: 55rem;
+}
+
+.rowC {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin: -1rem 0 -1rem 0;
+  flex-wrap: wrap;
+}
