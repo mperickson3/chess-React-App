@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { Component } from "react/cjs/react.production.min";
+import React from "react";
 import "./Boardspace.css";
 import GamePiece from "./GamePiece";
 
 const Boardspace1 = (props) => {
-  const [pieceName, setPieceName] = useState(props.piece);
   let color = "";
   const num = parseInt(props.space.charCodeAt(0)) + parseInt(props.space[1]);
   if (num % 2 === 0) {
@@ -20,7 +18,7 @@ const Boardspace1 = (props) => {
 
   return (
     <div className={color} onClick={clickSpace}>
-      <GamePiece piece={props.gameStateTest[props.space]} key={pieceName} />
+      <GamePiece piece={props.gameStateTest[props.space]} key={props.piece} />
     </div>
   );
 };

@@ -3,6 +3,9 @@ import "./App.css";
 import "./Components/Board";
 import Board from "./Components/Board";
 import axios from "axios";
+import SaveGame from "./Components/UserInterface/saveGame";
+
+//Matthew
 
 const gameStateStart = {
   a1: "bRook1",
@@ -38,40 +41,6 @@ const gameStateStart = {
   f7: "wPawn6",
   g7: "wPawn7",
   h7: "wPawn8",
-
-  // a8: "bRook1",
-  // b8: "bKnight1",
-  // c8: "bBishop1",
-  // d8: "bQueen1",
-  // e8: "bKing1",
-  // f8: "bBishop2",
-  // g8: "bKnight2",
-  // h8: "bRook2",
-  // a7: "bPawn1",
-  // b7: "bPawn2",
-  // c7: "bPawn3",
-  // d7: "bPawn4",
-  // e7: "bPawn5",
-  // f7: "bPawn6",
-  // g7: "bPawn7",
-  // h7: "bPawn8",
-
-  // a1: "wRook1",
-  // b1: "wKnight1",
-  // c1: "wBishop1",
-  // d1: "wQueen1",
-  // e1: "wKing1",
-  // f1: "wBishop2",
-  // g1: "wKnight2",
-  // h1: "wRook2",
-  // a2: "wPawn1",
-  // b2: "wPawn2",
-  // c2: "wPawn3",
-  // d2: "wPawn4",
-  // e2: "wPawn5",
-  // f2: "wPawn6",
-  // g2: "wPawn7",
-  // h2: "wPawn8",
 
   a3: "",
   b3: "",
@@ -117,26 +86,24 @@ function App() {
       locationTo: moveTo,
       locationFrom: moveFrom,
       ...gameState,
-      //Add gameState Here
     };
 
-    //console.log(data_test);
-
+    //Return Axios call from the server
     return await axios
 
+      //post the desired move and the current gameState to the API to check the move
       .post(api, data)
+      //Get response
       .then((response) => {
-        //wait(3000);
+        //Checking format and returning response
         console.log(response["data"]["body"]);
         console.log("Result " + response["data"]["moveLegal"]);
         return response["data"]["moveLegal"];
-        //const dataFromDb = response["data"];
       })
+      //catch an error
       .catch((error) => {
         console.log(error);
       });
-
-    //console.log(expenses);
   };
 
   const [gameState, setGameState] = useState(gameStateStart);
@@ -144,11 +111,7 @@ function App() {
 
   const movePiece = async (moveFrom, moveTo, piece) => {
     console.log("movePiece");
-    //call API to check if valid move
-    //Send current gameState, piece to check, and location to move the piece
-    //Return True/False and update state accordingly
-    //console.log("Important!!!" + apiTest());
-
+    // console.log(turn);
     if (turn === piece[0]) {
       const isValidMove = await checkValidMove(moveFrom, moveTo, piece);
       console.log(isValidMove);
@@ -171,13 +134,29 @@ function App() {
     }
   };
 
+  const changeGame = async (changedGame, userName, gameNumber, turn) => {
+    console.log(changedGame);
+    setGameState(() => {
+      return changedGame;
+    });
+    console.log(turn);
+    setTurn(turn);
+  };
+
   return (
     <div className="App-header">
+      {/*render board*/}
       <Board
         gameState={gameState}
         movePiece={movePiece}
         apiTest={checkValidMove}
       ></Board>
+      <SaveGame
+        gameState={gameState}
+        turn={turn}
+        changeGame={changeGame}
+        gameStateStart={gameStateStart}
+      />
     </div>
   );
 }

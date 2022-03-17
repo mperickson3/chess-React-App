@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import Boardspace1 from "./Boardspace1";
 import "./Board.css";
+//Matthew
 
 const Board = (props) => {
   const boardMapKeys = [
@@ -95,6 +96,7 @@ const Board = (props) => {
   return (
     <div className="board">
       <div className="rowC">
+        {/*map all the pieces onto the board with necesary props*/}
         {boardMapKeys.map((spaces) => {
           return (
             <Boardspace1
