@@ -4,6 +4,11 @@ import "./Components/Board";
 import Board from "./Components/Board";
 import axios from "axios";
 import SaveGame from "./Components/UserInterface/saveGame";
+import { withAuthenticator, Authenticator } from "@aws-amplify/ui-react";
+import Amplify from "aws-amplify";
+import config from "./aws-exports";
+import "@aws-amplify/ui-react/styles.css";
+Amplify.configure(config);
 
 //Matthew
 
@@ -145,20 +150,29 @@ function App() {
 
   return (
     <div className="App-header">
-      {/*render board*/}
-      <Board
-        gameState={gameState}
-        movePiece={movePiece}
-        apiTest={checkValidMove}
-      ></Board>
-      <SaveGame
-        gameState={gameState}
-        turn={turn}
-        changeGame={changeGame}
-        gameStateStart={gameStateStart}
-      />
+      <Authenticator>
+        {({ signOut, user }) => (
+          <main>
+            <button onClick={signOut}>Sign out</button>
+            {/*render board*/}
+            <div className="row">
+              <Board
+                gameState={gameState}
+                movePiece={movePiece}
+                apiTest={checkValidMove}
+              ></Board>
+              <SaveGame
+                gameState={gameState}
+                turn={turn}
+                changeGame={changeGame}
+                gameStateStart={gameStateStart}
+              />
+            </div>
+          </main>
+        )}
+      </Authenticator>
     </div>
   );
 }
 
-export default App;
+export default withAuthenticator(App);
