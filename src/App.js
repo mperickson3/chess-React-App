@@ -149,11 +149,13 @@ function App() {
   };
 
   return (
-    <div className="App-header">
+    <div className="fullScreen">
+      {" "}
+      Sign in to Play Chess
       <Authenticator>
         {({ signOut, user }) => (
-          <main>
-            <button onClick={signOut}>Sign out</button>
+          <main className="App-header">
+            <button onClick={signOut}>Sign out {user.username}</button>
             {/*render board*/}
             <div className="row">
               <Board
@@ -166,6 +168,7 @@ function App() {
                 turn={turn}
                 changeGame={changeGame}
                 gameStateStart={gameStateStart}
+                username={user.username}
               />
             </div>
           </main>
@@ -175,4 +178,4 @@ function App() {
   );
 }
 
-export default withAuthenticator(App);
+export default App;

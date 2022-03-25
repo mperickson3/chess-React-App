@@ -19,3 +19,18 @@
   flex-direction: row;
   align-items: center;
 }
+
+.fullScreen {
+  min-height: 100vh;
+  min-width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.data-amplify-authenticator {
+  background: tomato;
+  padding: 5px;
+  background-color: #a36a29;
+  align-items: center;
+}

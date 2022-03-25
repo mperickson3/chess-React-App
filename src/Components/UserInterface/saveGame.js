@@ -16,7 +16,7 @@ function SaveGame(props) {
       "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
 
     const data = {
-      userName: "testUser",
+      userName: props.username,
       gameNumber: "1",
       turn: props.turn,
       ...props.gameState,
@@ -56,7 +56,7 @@ function SaveGame(props) {
     await axios
 
       //post the desired move and the current gameState to the API to check the move
-      .post(getAPI, { Greeting: "Hello" })
+      .post(getAPI, { userName: props.username, gameNumber: "1" })
       //Get response
       .then((response) => {
         // console.log(response);
@@ -88,7 +88,7 @@ function SaveGame(props) {
         onMouseLeave={hoverOut}
         onClick={saveGameButton}
       >
-        Save Game
+        Save Game {props.username}
       </button>
       <button
         className="saveGameButton"
