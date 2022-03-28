@@ -150,19 +150,16 @@ function App() {
 
   return (
     <div className="fullScreen">
-      {" "}
-      Sign in to Play Chess
+      {/* Sign in to Play Chess */}
       <Authenticator>
         {({ signOut, user }) => (
           <main className="App-header">
-            <button onClick={signOut}>Sign out {user.username}</button>
-            {/*render board*/}
             <div className="row">
-              <Board
-                gameState={gameState}
-                movePiece={movePiece}
-                apiTest={checkValidMove}
-              ></Board>
+              <button className="saveGameButton" onClick={signOut}>
+                Sign out {user.username}
+              </button>
+              {/*render board*/}
+
               <SaveGame
                 gameState={gameState}
                 turn={turn}
@@ -171,6 +168,11 @@ function App() {
                 username={user.username}
               />
             </div>
+            <Board
+              gameState={gameState}
+              movePiece={movePiece}
+              apiTest={checkValidMove}
+            ></Board>
           </main>
         )}
       </Authenticator>

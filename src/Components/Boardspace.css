@@ -3,8 +3,8 @@
   background: #1f2022;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.26);
   color: white;
-  height: 6rem;
-  width: 6rem;
+  height: 96px;
+  width: 96px;
   cursor: pointer;
   font-size: 20px;
   text-align: center;
@@ -15,8 +15,8 @@
   background: #f5f6ff;
   box-shadow: 0 2px 2px rgba(13, 13, 14, 0.26);
   color: rgb(0, 0, 0);
-  height: 6rem;
-  width: 6rem;
+  height: 96px;
+  width: 96px;
   cursor: pointer;
   font-size: 20px;
   text-align: center;
@@ -27,8 +27,8 @@
   background: #1a1b1d;
   box-shadow: 0 4px 4px rgba(238, 237, 237, 0.26);
   color: white;
-  height: 6rem;
-  width: 6rem;
+  height: 96px;
+  width: 96px;
   cursor: pointer;
   font-size: 20px;
   text-align: center;
@@ -39,8 +39,8 @@
   background: #f0efd7;
   box-shadow: 0 4px 4px rgba(238, 237, 237, 0.26);
   color: rgb(0, 0, 0);
-  height: 6rem;
-  width: 6rem;
+  height: 96px;
+  width: 96px;
   cursor: pointer;
   font-size: 20px;
   text-align: center;

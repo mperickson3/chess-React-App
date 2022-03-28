@@ -81,14 +81,14 @@ function SaveGame(props) {
   }
 
   return (
-    <div className="column">
+    <div className="row">
       <button
         className="saveGameButton"
         onMouseEnter={hoverIn}
         onMouseLeave={hoverOut}
         onClick={saveGameButton}
       >
-        Save Game {props.username}
+        Save Game
       </button>
       <button
         className="saveGameButton"
