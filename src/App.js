@@ -8,6 +8,7 @@ import { withAuthenticator, Authenticator } from "@aws-amplify/ui-react";
 import Amplify from "aws-amplify";
 import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
+import SaveGameConfirm from "./Components/UserInterface/saveGameConfirm";
 Amplify.configure(config);
 
 //Matthew
@@ -110,9 +111,10 @@ function App() {
         console.log(error);
       });
   };
-
+  const [saveMessage, setSaveMessage] = useState("");
   const [gameState, setGameState] = useState(gameStateStart);
   const [turn, setTurn] = useState("w");
+  const [gameNumber, setGameNumber] = useState("1");
 
   const movePiece = async (moveFrom, moveTo, piece) => {
     console.log("movePiece");
@@ -148,12 +150,20 @@ function App() {
     setTurn(turn);
   };
 
+  const saveGameMessage = (message) => {
+    setSaveMessage(message);
+    setTimeout(() => {
+      setSaveMessage("");
+    }, 2000);
+  };
+
   return (
     <div className="fullScreen">
       {/* Sign in to Play Chess */}
       <Authenticator>
         {({ signOut, user }) => (
           <main className="App-header">
+            <SaveGameConfirm saveMessage={saveMessage} />
             <div className="row">
               <button className="saveGameButton" onClick={signOut}>
                 Sign out {user.username}
@@ -166,6 +176,8 @@ function App() {
                 changeGame={changeGame}
                 gameStateStart={gameStateStart}
                 username={user.username}
+                gameNumber={gameNumber}
+                saveGameMessage={saveGameMessage}
               />
             </div>
             <Board

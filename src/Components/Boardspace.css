@@ -24,7 +24,7 @@
 
 .spaceBlackSelected {
   margin: 0rem 0;
-  background: #1a1b1d;
+  background: #393a3d;
   box-shadow: 0 4px 4px rgba(238, 237, 237, 0.26);
   color: white;
   height: 96px;
@@ -36,7 +36,7 @@
 
 .spaceWhiteSelected {
   margin: 0rem 0;
-  background: #f0efd7;
+  background: #f5f4e4;
   box-shadow: 0 4px 4px rgba(238, 237, 237, 0.26);
   color: rgb(0, 0, 0);
   height: 96px;

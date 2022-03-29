@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Boardspace1 from "./Boardspace1";
 import "./Board.css";
 //Matthew
+let currentSpace = "";
 
 const Board = (props) => {
   const boardMapKeys = [
@@ -73,7 +74,9 @@ const Board = (props) => {
   let previousPiece = "";
   let currentPiece = "";
   let previousSpace = "";
-  let currentSpace = "";
+
+  const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
+  // const [currentSpace, setCurrentSpace] = useState("");
   const clickedPieceCheck = (space) => {
     previousSpace = currentSpace;
     currentSpace = space;
@@ -93,6 +96,10 @@ const Board = (props) => {
     }
   };
 
+  const setCurrentSpaceCheck = (space) => {
+    // setCurrentSpaceSelected(space);
+  };
+
   return (
     <div className="board">
       <div className="rowC">
@@ -105,6 +112,9 @@ const Board = (props) => {
               piece={props.gameState[spaces]}
               gameStateTest={props.gameState}
               clickedPieceCheck={clickedPieceCheck}
+              setCurrentSpaceCheck={setCurrentSpaceCheck}
+              currentSpace={currentSpace}
+              // currentSpaceColor={currentSpaceSelected}
             />
           );
         })}

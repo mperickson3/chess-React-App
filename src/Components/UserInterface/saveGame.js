@@ -17,7 +17,7 @@ function SaveGame(props) {
 
     const data = {
       userName: props.username,
-      gameNumber: "1",
+      gameNumber: props.gameNumber,
       turn: props.turn,
       ...props.gameState,
     };
@@ -31,7 +31,8 @@ function SaveGame(props) {
       //Get response
       .then((response) => {
         //Checking format and returning response
-        console.log(response["data"]);
+        console.log(response["data"]["body"]);
+        props.saveGameMessage(response["data"]["body"]);
       })
       //catch an error
       .catch((error) => {
@@ -49,14 +50,14 @@ function SaveGame(props) {
       //   ...props.gameStateStart,
     };
 
-    let gameNumber = 1;
-    let turn = "w";
-    let userName = "testUser";
+    let gameNumber = props.gameNumber;
+    let turn = "";
+    let userName = "";
 
     await axios
 
       //post the desired move and the current gameState to the API to check the move
-      .post(getAPI, { userName: props.username, gameNumber: "1" })
+      .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
       //Get response
       .then((response) => {
         // console.log(response);
