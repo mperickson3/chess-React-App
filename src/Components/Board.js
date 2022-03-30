@@ -79,9 +79,9 @@ const Board = (props) => {
   // const [currentSpace, setCurrentSpace] = useState("");
   const clickedPieceCheck = (space) => {
     previousSpace = currentSpace;
-    currentSpace = space;
     previousPiece = currentPiece;
-    currentPiece = props.gameState[space];
+    currentSpace = space;
+    currentPiece = props.gameState[currentSpace];
     console.log(
       "Curent piece: " + currentPiece + "Current space: " + currentSpace
     );
@@ -97,7 +97,7 @@ const Board = (props) => {
   };
 
   const setCurrentSpaceCheck = (space) => {
-    // setCurrentSpaceSelected(space);
+    setCurrentSpaceSelected(space);
   };
 
   return (

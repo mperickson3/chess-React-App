@@ -82,7 +82,7 @@ function SaveGame(props) {
   }
 
   return (
-    <div className="row">
+    <div>
       <button
         className="saveGameButton"
         onMouseEnter={hoverIn}

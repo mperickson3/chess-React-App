@@ -9,6 +9,7 @@ import Amplify from "aws-amplify";
 import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import SaveGameConfirm from "./Components/UserInterface/saveGameConfirm";
+import NavBar from "./Components/UserInterface/NavBar";
 Amplify.configure(config);
 
 //Matthew
@@ -163,12 +164,22 @@ function App() {
       <Authenticator>
         {({ signOut, user }) => (
           <main className="App-header">
-            <SaveGameConfirm saveMessage={saveMessage} />
+            <NavBar
+              saveMessage={saveMessage}
+              gameState={gameState}
+              turn={turn}
+              changeGame={changeGame}
+              gameStateStart={gameStateStart}
+              username={user.username}
+              gameNumber={gameNumber}
+              saveGameMessage={saveGameMessage}
+              signOut={signOut}
+            />
+            {/* <SaveGameConfirm saveMessage={saveMessage} />
             <div className="row">
               <button className="saveGameButton" onClick={signOut}>
                 Sign out {user.username}
               </button>
-              {/*render board*/}
 
               <SaveGame
                 gameState={gameState}
@@ -178,8 +189,8 @@ function App() {
                 username={user.username}
                 gameNumber={gameNumber}
                 saveGameMessage={saveGameMessage}
-              />
-            </div>
+              /> 
+        </div>*/}
             <Board
               gameState={gameState}
               movePiece={movePiece}
