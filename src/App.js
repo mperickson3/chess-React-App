@@ -10,6 +10,7 @@ import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import SaveGameConfirm from "./Components/UserInterface/saveGameConfirm";
 import NavBar from "./Components/UserInterface/NavBar";
+import GameList from "./Components/GameSelection/GameList";
 Amplify.configure(config);
 
 //Matthew
@@ -117,7 +118,15 @@ function App() {
   const [turn, setTurn] = useState("w");
   const [gameNumber, setGameNumber] = useState("1");
 
-  const movePiece = async (moveFrom, moveTo, piece) => {
+  const [boardVisible, setboardVisible] = useState(false);
+
+  const gameVisibile = (value) => {
+    console.log("NavVisibile Trigger");
+    setboardVisible(value);
+    // if (navVisible ? setNavVisible(false) : setNavVisible(true));
+  };
+
+  const movePiece = async (moveFrom, moveTo, piece, username) => {
     console.log("movePiece");
     // console.log(turn);
     if (turn === piece[0]) {
@@ -133,8 +142,10 @@ function App() {
         });
         setTurn((previousTurn) => {
           if (previousTurn === "w") {
+            saveGameButton(username, "b");
             return "b";
           } else {
+            saveGameButton(username, "w");
             return "w";
           }
         });
@@ -142,11 +153,41 @@ function App() {
     }
   };
 
+  function saveGameButton(username, turn) {
+    const saveAPI =
+      "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
+
+    const data = {
+      userName: username,
+      gameNumber: gameNumber,
+      turn: turn,
+      ...gameState,
+    };
+
+    // console.log(data);
+
+    axios
+
+      //post the desired move and the current gameState to the API to check the move
+      .post(saveAPI, data)
+      //Get response
+      .then((response) => {
+        //Checking format and returning response
+        console.log(response["data"]["body"]);
+        saveGameMessage(response["data"]["body"]);
+      })
+      //catch an error
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   const changeGame = async (changedGame, userName, gameNumber, turn) => {
     console.log(changedGame);
     setGameState(() => {
       return changedGame;
     });
+    setGameNumber(gameNumber);
     console.log(turn);
     setTurn(turn);
   };
@@ -164,7 +205,13 @@ function App() {
       <Authenticator>
         {({ signOut, user }) => (
           <main className="App-header">
-            <NavBar
+            <GameList
+              username={user.username}
+              changeGame={changeGame}
+              gameVisible={gameVisibile}
+              signOut={signOut}
+            />
+            {/* <NavBar
               saveMessage={saveMessage}
               gameState={gameState}
               turn={turn}
@@ -174,7 +221,7 @@ function App() {
               gameNumber={gameNumber}
               saveGameMessage={saveGameMessage}
               signOut={signOut}
-            />
+            /> */}
             {/* <SaveGameConfirm saveMessage={saveMessage} />
             <div className="row">
               <button className="saveGameButton" onClick={signOut}>
@@ -191,11 +238,16 @@ function App() {
                 saveGameMessage={saveGameMessage}
               /> 
         </div>*/}
-            <Board
-              gameState={gameState}
-              movePiece={movePiece}
-              apiTest={checkValidMove}
-            ></Board>
+            {boardVisible === false ? (
+              <div />
+            ) : (
+              <Board
+                gameState={gameState}
+                movePiece={movePiece}
+                apiTest={checkValidMove}
+                username={user.username}
+              ></Board>
+            )}
           </main>
         )}
       </Authenticator>

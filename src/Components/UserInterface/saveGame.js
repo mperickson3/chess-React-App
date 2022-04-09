@@ -11,7 +11,6 @@ function hoverOut(event) {
 
 function SaveGame(props) {
   function saveGameButton() {
-    //https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev
     const saveAPI =
       "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
 
@@ -91,14 +90,14 @@ function SaveGame(props) {
       >
         Save Game
       </button>
-      <button
+      {/* <button
         className="saveGameButton"
         onMouseEnter={hoverIn}
         onMouseLeave={hoverOut}
         onClick={getGame}
       >
         Retrieve Game
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -90,9 +90,19 @@ const Board = (props) => {
     );
 
     if (currentPiece === "" && previousPiece !== "") {
-      props.movePiece(previousSpace, currentSpace, previousPiece);
+      props.movePiece(
+        previousSpace,
+        currentSpace,
+        previousPiece,
+        props.username
+      );
     } else if (currentPiece[0] !== previousPiece[0] && previousPiece !== "") {
-      props.movePiece(previousSpace, currentSpace, previousPiece);
+      props.movePiece(
+        previousSpace,
+        currentSpace,
+        previousPiece,
+        props.username
+      );
     }
   };
 
