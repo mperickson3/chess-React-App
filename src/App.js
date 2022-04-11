@@ -153,16 +153,31 @@ function App() {
     }
   };
 
-  function saveGameButton(username, turn) {
+  function saveGameButton(
+    username,
+    turn,
+    newGameNumber = "0",
+    newGame = false
+  ) {
     const saveAPI =
       "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
-
-    const data = {
-      userName: username,
-      gameNumber: gameNumber,
-      turn: turn,
-      ...gameState,
-    };
+    let data = {};
+    if (newGame) {
+      data = {
+        userName: username,
+        gameNumber: newGameNumber,
+        turn: turn,
+        ...gameStateStart,
+      };
+      changeGame(gameStateStart, username, newGameNumber, turn);
+    } else {
+      data = {
+        userName: username,
+        gameNumber: gameNumber,
+        turn: turn,
+        ...gameState,
+      };
+    }
 
     // console.log(data);
 
@@ -209,6 +224,7 @@ function App() {
               username={user.username}
               changeGame={changeGame}
               gameVisible={gameVisibile}
+              saveGame={saveGameButton}
               signOut={signOut}
             />
             {/* <NavBar

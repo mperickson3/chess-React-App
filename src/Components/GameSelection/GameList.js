@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./GameList.css";
 import axios from "axios";
 import Games from "./Games";
+import { button } from "aws-amplify";
+import UserFunctions from "./userFunctions";
 
 const GameList = (props) => {
   const [gameListVisible, setGameListVisible] = useState(true);
@@ -64,6 +66,14 @@ const GameList = (props) => {
     console.log(gameLists);
     toggleGameListVisible(true);
   };
+  const newGame = () => {
+    const newGameNumber = (gameLists.length + 1).toString();
+    console.log("New Game");
+    console.log((gameLists.length + 1).toString());
+    props.saveGame(props.username, "w", newGameNumber, true);
+    props.gameVisible(true);
+    toggleGameListVisible(false);
+  };
 
   return (
     <div className="column">
@@ -86,9 +96,19 @@ const GameList = (props) => {
           );
         })
       )}
-      <button className="saveGameButton" onClick={props.signOut}>
-        Sign out {props.username}
-      </button>
+
+      {gameListVisible === true ? (
+        <div>
+          <button className="saveGameButton" onClick={newGame}>
+            New Game
+          </button>
+          <button className="saveGameButton" onClick={props.signOut}>
+            Sign out {props.username}
+          </button>
+        </div>
+      ) : (
+        <div />
+      )}
     </div>
   );
 };

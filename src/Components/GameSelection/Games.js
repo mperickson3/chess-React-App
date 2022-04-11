@@ -23,7 +23,7 @@ const Games = (props) => {
   return (
     <div className="column">
       <button className="saveGameButton" onClick={selectGame}>
-        <div>{props.userName + " " + props.gameNumber}</div>
+        <div>{"Game Number: " + props.gameNumber}</div>
       </button>
     </div>
   );
