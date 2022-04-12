@@ -73,9 +73,47 @@ const GameList = (props) => {
     props.gameVisible(true); //Display the newgame
     toggleGameListVisible(false); //Turn off the game list menu
   };
-  const deleteGame = () => {
+  const deleteGame = async () => {
     //In Development!
     console.log("Delete Game to be built!");
+    const deleteAPI =
+      "https://mudw22xr23.execute-api.us-east-2.amazonaws.com/beta";
+    let retrievedGameState = {
+      //   userName: "testUser",
+      //   gameNumber: "1",
+      //   turn: props.turn,
+      //   ...props.gameStateStart,
+    };
+
+    await axios
+
+      //post the desired move and the current gameState to the API to check the move
+      // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
+      .post(deleteAPI, {
+        userName: props.username,
+        gameNumber: props.gameNumber,
+      })
+
+      //Get response
+      .then((response) => {
+        console.log(response);
+        //Checking format and returning response
+        // retrievedGameState = response["data"]["gameState"];
+        // responseGames = response["data"]["games"];
+      })
+      //catch an error
+      .catch((error) => {
+        console.log(error);
+      });
+
+    // console.log(retrievedGameState);
+    // props.changeGame(retrievedGameState, userName, gameNumber, turn);
+
+    // setGameLists(responseGames);
+    props.gameVisible(false);
+    // return responseGames;
+    console.log(gameLists);
+    toggleGameListVisible(true);
   };
 
   return (

@@ -113,7 +113,7 @@ function App() {
   // const [saveMessage, setSaveMessage] = useState("");
   const [gameState, setGameState] = useState(gameStateStart);
   const [turn, setTurn] = useState("w");
-  const [gameNumber, setGameNumber] = useState("1");
+  const [gameNumber, setGameNumber] = useState("0");
 
   const [boardVisible, setboardVisible] = useState(false);
 
@@ -227,6 +227,7 @@ function App() {
           <main className="App-header">
             <GameList
               username={user.username}
+              gameNumber={gameNumber}
               changeGame={changeGame}
               gameVisible={gameVisibile}
               saveGame={saveGameButton}
