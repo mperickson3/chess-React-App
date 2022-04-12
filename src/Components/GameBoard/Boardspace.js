@@ -2,18 +2,15 @@ import React, { useState } from "react";
 import "./Boardspace.css";
 import GamePiece from "./GamePiece";
 
-const Boardspace1 = (props) => {
+const Boardspace = (props) => {
   let color = "";
   const num = parseInt(props.space.charCodeAt(0)) + parseInt(props.space[1]);
+  //Used to set the color of the space
   if (num % 2 === 0) {
     color = "spaceBlack";
   } else {
     color = "spaceWhite";
   }
-
-  // if (props.space === props.currentSpace) {
-  //   console.log("Same Thing" + props.space);
-  // }
 
   const [spaceColor, setSpaceColor] = useState(color);
 
@@ -21,7 +18,6 @@ const Boardspace1 = (props) => {
     //console.log(props.space);
     props.clickedPieceCheck(props.space);
     console.log(props.currentSpace);
-    // props.setCurrentSpaceCheck(props.space);
 
     // if (props.currentSpaceSelected === props.space) {
     //   setSpaceColor("spaceWhiteSelected");
@@ -30,15 +26,11 @@ const Boardspace1 = (props) => {
     // }
   };
 
-  const clickOffSpace = () => {
-    console.log("Off Click");
-  };
-
   return (
-    <div className={spaceColor} onClick={clickSpace} onBlur={clickOffSpace}>
+    <div className={spaceColor} onClick={clickSpace}>
       <GamePiece piece={props.gameStateTest[props.space]} key={props.piece} />
     </div>
   );
 };
 
-export default Boardspace1;
+export default Boardspace;

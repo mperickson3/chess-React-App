@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import "./App.css";
-import "./Components/Board";
-import Board from "./Components/Board";
+import "./Components/GameBoard/Board";
+import Board from "./Components/GameBoard/Board";
 import axios from "axios";
-import SaveGame from "./Components/UserInterface/saveGame";
-import { withAuthenticator, Authenticator } from "@aws-amplify/ui-react";
+import { withAuthentication, Authenticator } from "@aws-amplify/ui-react";
 import Amplify from "aws-amplify";
 import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
-import SaveGameConfirm from "./Components/UserInterface/saveGameConfirm";
-import NavBar from "./Components/UserInterface/NavBar";
 import GameList from "./Components/GameSelection/GameList";
 Amplify.configure(config);
 
@@ -113,7 +110,7 @@ function App() {
         console.log(error);
       });
   };
-  const [saveMessage, setSaveMessage] = useState("");
+  // const [saveMessage, setSaveMessage] = useState("");
   const [gameState, setGameState] = useState(gameStateStart);
   const [turn, setTurn] = useState("w");
   const [gameNumber, setGameNumber] = useState("1");
@@ -121,19 +118,23 @@ function App() {
   const [boardVisible, setboardVisible] = useState(false);
 
   const gameVisibile = (value) => {
-    console.log("NavVisibile Trigger");
+    //Takes a boolean to define if the gameboard is visibile
+    console.log("Game Board Visible Trigger");
     setboardVisible(value);
-    // if (navVisible ? setNavVisible(false) : setNavVisible(true));
   };
 
   const movePiece = async (moveFrom, moveTo, piece, username) => {
-    console.log("movePiece");
-    // console.log(turn);
+    console.log("movePiece function executed");
+    //check to see if the current turn is the same color as the piece being moved
     if (turn === piece[0]) {
+      //Calls the check valid move function This function will return a promise object until a response is recieved
+      //Await is needed to ensure the checks do not execute prior to recieving the response
       const isValidMove = await checkValidMove(moveFrom, moveTo, piece);
-      console.log(isValidMove);
+      // console.log(isValidMove);
       if (isValidMove) {
+        //If the move is valid from the server set the game state to the new game state
         setGameState((prevGameState) => {
+          //Create newGameState clone and upate the object to respect the moved piece
           const newGameState = prevGameState;
           newGameState[moveFrom] = "";
           newGameState[moveTo] = piece;
@@ -141,6 +142,7 @@ function App() {
           return { ...newGameState };
         });
         setTurn((previousTurn) => {
+          //Update the player turn
           if (previousTurn === "w") {
             saveGameButton(username, "b");
             return "b";
@@ -153,6 +155,8 @@ function App() {
     }
   };
 
+  //This function commits the current state of the game to the database
+  //Executed when a piece is moved or a new game is created
   function saveGameButton(
     username,
     turn,
@@ -161,14 +165,16 @@ function App() {
   ) {
     const saveAPI =
       "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
-    let data = {};
+    let data = {}; // Declare the JSON object to be sent to the api
     if (newGame) {
+      //If a new game is selected the JSON object will take the starting position of the game state
       data = {
         userName: username,
         gameNumber: newGameNumber,
         turn: turn,
         ...gameStateStart,
       };
+      //Change game function needs to be called for a new game but not when a piece is moved
       changeGame(gameStateStart, username, newGameNumber, turn);
     } else {
       data = {
@@ -179,17 +185,15 @@ function App() {
       };
     }
 
-    // console.log(data);
-
     axios
 
-      //post the desired move and the current gameState to the API to check the move
+      //post the desired move and the current gameState to the API
       .post(saveAPI, data)
       //Get response
       .then((response) => {
         //Checking format and returning response
-        console.log(response["data"]["body"]);
-        saveGameMessage(response["data"]["body"]);
+        console.log("Response from Lamda Save: " + response["data"]["body"]);
+        // saveGameMessage(response["data"]["body"]);
       })
       //catch an error
       .catch((error) => {
@@ -207,12 +211,13 @@ function App() {
     setTurn(turn);
   };
 
-  const saveGameMessage = (message) => {
-    setSaveMessage(message);
-    setTimeout(() => {
-      setSaveMessage("");
-    }, 2000);
-  };
+  //Old Feature, May use in the future
+  // const saveGameMessage = (message) => {
+  //   setSaveMessage(message);
+  //   setTimeout(() => {
+  //     setSaveMessage("");
+  //   }, 2000);
+  // };
 
   return (
     <div className="fullScreen">
@@ -227,34 +232,8 @@ function App() {
               saveGame={saveGameButton}
               signOut={signOut}
             />
-            {/* <NavBar
-              saveMessage={saveMessage}
-              gameState={gameState}
-              turn={turn}
-              changeGame={changeGame}
-              gameStateStart={gameStateStart}
-              username={user.username}
-              gameNumber={gameNumber}
-              saveGameMessage={saveGameMessage}
-              signOut={signOut}
-            /> */}
-            {/* <SaveGameConfirm saveMessage={saveMessage} />
-            <div className="row">
-              <button className="saveGameButton" onClick={signOut}>
-                Sign out {user.username}
-              </button>
-
-              <SaveGame
-                gameState={gameState}
-                turn={turn}
-                changeGame={changeGame}
-                gameStateStart={gameStateStart}
-                username={user.username}
-                gameNumber={gameNumber}
-                saveGameMessage={saveGameMessage}
-              /> 
-        </div>*/}
             {boardVisible === false ? (
+              //Do not display the gameboard if the user is at game selection
               <div />
             ) : (
               <Board

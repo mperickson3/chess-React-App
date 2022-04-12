@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./GameList.css";
 import axios from "axios";
 import Games from "./Games";
-import { button } from "aws-amplify";
-import UserFunctions from "./userFunctions";
+// import { button } from "aws-amplify";
+// import UserFunctions from "./userFunctions";
 
 const GameList = (props) => {
   const [gameListVisible, setGameListVisible] = useState(true);
@@ -43,23 +43,16 @@ const GameList = (props) => {
         // console.log(response);
         //Checking format and returning response
         retrievedGameState = response["data"]["gameState"];
-        // console.log(response["data"]["games"][0]["userName"]);
         responseGames = response["data"]["games"];
-        // console.log(response["data"]);
-        // gameNumber = response["data"]["gameNumber"];
-        // turn = response["data"]["gameState"]["turn"];
-        // userName = response["data"]["userName"];
       })
       //catch an error
       .catch((error) => {
         console.log(error);
       });
-    // delete retrievedGameState["gameNumber"];
-    // delete retrievedGameState["turn"];
-    // delete retrievedGameState["userName"];
 
     // console.log(retrievedGameState);
     // props.changeGame(retrievedGameState, userName, gameNumber, turn);
+
     setGameLists(responseGames);
     props.gameVisible(false);
     // return responseGames;
@@ -67,27 +60,44 @@ const GameList = (props) => {
     toggleGameListVisible(true);
   };
   const newGame = () => {
-    const newGameNumber = (gameLists.length + 1).toString();
-    console.log("New Game");
-    console.log((gameLists.length + 1).toString());
-    props.saveGame(props.username, "w", newGameNumber, true);
-    props.gameVisible(true);
-    toggleGameListVisible(false);
+    // let newGameNumber = (gameLists.length + 1).toString();
+    let newGameNumber = "0";
+    if (gameLists.length > 0) {
+      //If there are games in the game list set the new game number to 1 higher than the Highest internal unique gamenumber ID
+      newGameNumber = (
+        parseInt(gameLists[gameLists.length - 1]["gameNumber"]) + 1
+      ).toString();
+    }
+    console.log("New Game Number: " + newGameNumber);
+    props.saveGame(props.username, "w", newGameNumber, true); //Save the new game with the newgamenumber
+    props.gameVisible(true); //Display the newgame
+    toggleGameListVisible(false); //Turn off the game list menu
+  };
+  const deleteGame = () => {
+    //In Development!
+    console.log("Delete Game to be built!");
   };
 
   return (
     <div className="column">
       {gameListVisible === false ? (
-        <button className="saveGameButton" onClick={getUserGames}>
-          Select Games
-        </button>
-      ) : (
-        gameLists.map((gameInfo) => {
+        <div>
+          <button className="saveGameButton" onClick={getUserGames}>
+            Select Games
+          </button>
+          <button className="saveGameButton" onClick={deleteGame}>
+            Delete This Game
+          </button>
+        </div>
+      ) : gameLists.length > 0 ? (
+        // When there are games to display display the game list
+        gameLists.map((gameInfo, index) => {
           return (
             <Games
               key={gameInfo["userName"] + gameInfo["gameNumber"]}
               userName={gameInfo["userName"]}
-              gameNumber={gameInfo["gameNumber"]}
+              //Game Number seen by the user will be the index of the array
+              gameNumberDisplayed={index + 1}
               gameInfo={gameInfo}
               changeGame={props.changeGame}
               gameVisible={props.gameVisible}
@@ -95,9 +105,12 @@ const GameList = (props) => {
             />
           );
         })
+      ) : (
+        <div />
       )}
 
       {gameListVisible === true ? (
+        //Display the new game and sign out button with the Game lsit
         <div>
           <button className="saveGameButton" onClick={newGame}>
             New Game

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Boardspace1 from "./Boardspace1";
+import Boardspace from "./Boardspace";
 import "./Board.css";
 //Matthew
 let currentSpace = "";
@@ -75,13 +75,17 @@ const Board = (props) => {
   let currentPiece = "";
   let previousSpace = "";
 
-  const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
-  // const [currentSpace, setCurrentSpace] = useState("");
+  //This may be used to change the color of the selected space for some more user feedback
+  // const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
+
   const clickedPieceCheck = (space) => {
+    //Check to see if a move is attempted
+    //Click the piece you would like to move then click the space you would like to go to
     previousSpace = currentSpace;
     previousPiece = currentPiece;
     currentSpace = space;
     currentPiece = props.gameState[currentSpace];
+    //Helps understand what pieces are selected
     console.log(
       "Curent piece: " + currentPiece + "Current space: " + currentSpace
     );
@@ -89,6 +93,7 @@ const Board = (props) => {
       "Previous piece: " + previousPiece + "Previous space: " + previousSpace
     );
 
+    //Calls the parent Move Piece function if certain conditions are met
     if (currentPiece === "" && previousPiece !== "") {
       props.movePiece(
         previousSpace,
@@ -107,7 +112,7 @@ const Board = (props) => {
   };
 
   const setCurrentSpaceCheck = (space) => {
-    setCurrentSpaceSelected(space);
+    // setCurrentSpaceSelected(space);
   };
 
   return (
@@ -116,7 +121,7 @@ const Board = (props) => {
         {/*map all the pieces onto the board with necesary props*/}
         {boardMapKeys.map((spaces) => {
           return (
-            <Boardspace1
+            <Boardspace
               key={spaces}
               space={spaces}
               piece={props.gameState[spaces]}
