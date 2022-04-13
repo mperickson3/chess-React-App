@@ -158,7 +158,12 @@ function App() {
 
   //This function commits the current state of the game to the database
   //Executed when a piece is moved or a new game is created
-  function saveGame(username, turn, newGameNumber = "0", newGame = false) {
+  async function saveGame(
+    username,
+    turn,
+    newGameNumber = "0",
+    newGame = false
+  ) {
     const saveAPI =
       "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
     let data = {}; // Declare the JSON object to be sent to the api
@@ -180,7 +185,7 @@ function App() {
       };
     }
 
-    axios
+    await axios
 
       //post the desired move and the current gameState to the API
       .post(saveAPI, data)

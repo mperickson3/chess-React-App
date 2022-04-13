@@ -59,7 +59,7 @@ const GameList = (props) => {
     console.log(gameLists);
     toggleGameListVisible(true);
   };
-  const newGame = () => {
+  const newGame = async () => {
     // let newGameNumber = (gameLists.length + 1).toString();
     let newGameNumber = "0";
     if (gameLists.length > 0) {
@@ -70,11 +70,11 @@ const GameList = (props) => {
     }
 
     console.log("New Game Number: " + newGameNumber);
-    props.changeGame(props.newGameState, props.username, newGameNumber, "w");
-    props.saveGame(props.username, "w", newGameNumber, true); //Save the new game with the newgamenumber
-
-    props.gameVisible(true); //Display the newgame
-    toggleGameListVisible(false); //Turn off the game list menu
+    // props.changeGame(props.newGameState, props.username, newGameNumber, "w");
+    await props.saveGame(props.username, "w", newGameNumber, true); //Save the new game with the newgamenumber
+    getUserGames();
+    // props.gameVisible(true); //Display the newgame
+    // toggleGameListVisible(false); //Turn off the game list menu
   };
   const deleteGame = async () => {
     //In Development!
