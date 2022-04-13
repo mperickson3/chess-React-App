@@ -80,6 +80,7 @@ const gameStateStart = {
   g6: "",
   h6: "",
 };
+const newGameState = { ...gameStateStart };
 
 function App() {
   const checkValidMove = async (moveFrom, moveTo, pieceName) => {
@@ -144,10 +145,10 @@ function App() {
         setTurn((previousTurn) => {
           //Update the player turn
           if (previousTurn === "w") {
-            saveGameButton(username, "b");
+            saveGame(username, "b");
             return "b";
           } else {
-            saveGameButton(username, "w");
+            saveGame(username, "w");
             return "w";
           }
         });
@@ -157,12 +158,7 @@ function App() {
 
   //This function commits the current state of the game to the database
   //Executed when a piece is moved or a new game is created
-  function saveGameButton(
-    username,
-    turn,
-    newGameNumber = "0",
-    newGame = false
-  ) {
+  function saveGame(username, turn, newGameNumber = "0", newGame = false) {
     const saveAPI =
       "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
     let data = {}; // Declare the JSON object to be sent to the api
@@ -172,10 +168,9 @@ function App() {
         userName: username,
         gameNumber: newGameNumber,
         turn: turn,
-        ...gameStateStart,
+        ...newGameState,
       };
       //Change game function needs to be called for a new game but not when a piece is moved
-      changeGame(gameStateStart, username, newGameNumber, turn);
     } else {
       data = {
         userName: username,
@@ -229,8 +224,9 @@ function App() {
               username={user.username}
               gameNumber={gameNumber}
               changeGame={changeGame}
+              newGameState={newGameState}
               gameVisible={gameVisibile}
-              saveGame={saveGameButton}
+              saveGame={saveGame}
               signOut={signOut}
             />
             {boardVisible === false ? (

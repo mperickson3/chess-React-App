@@ -68,8 +68,11 @@ const GameList = (props) => {
         parseInt(gameLists[gameLists.length - 1]["gameNumber"]) + 1
       ).toString();
     }
+
     console.log("New Game Number: " + newGameNumber);
+    props.changeGame(props.newGameState, props.username, newGameNumber, "w");
     props.saveGame(props.username, "w", newGameNumber, true); //Save the new game with the newgamenumber
+
     props.gameVisible(true); //Display the newgame
     toggleGameListVisible(false); //Turn off the game list menu
   };
@@ -106,14 +109,9 @@ const GameList = (props) => {
         console.log(error);
       });
 
-    // console.log(retrievedGameState);
-    // props.changeGame(retrievedGameState, userName, gameNumber, turn);
-
-    // setGameLists(responseGames);
-    props.gameVisible(false);
+    getUserGames();
     // return responseGames;
     console.log(gameLists);
-    toggleGameListVisible(true);
   };
 
   return (
