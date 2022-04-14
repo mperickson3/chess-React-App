@@ -15,6 +15,7 @@
 }
 
 .saveGameButton {
+  color: black;
   margin: 20px 41px 0px 41px;
   height: 60px;
   min-width: 183px;
