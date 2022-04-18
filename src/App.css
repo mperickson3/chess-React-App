@@ -1,5 +1,5 @@
 .App-header {
-  background-color: #a36a29;
+  background-color: #ffffff;
   /* background-color: #b88060; */
   display: flex;
   flex-direction: column;
@@ -14,16 +14,72 @@
   left: 0;
 }
 
-.saveGameButton {
-  color: black;
+.functionGameButton {
+  color: white;
   margin: 20px 41px 0px 41px;
-  height: 60px;
+  height: 75px;
+  min-width: 75px;
+  background-color:   #ffffff;
+  border-radius: 20px;
+  border-width: 0px;
+  font-weight: bold;
+  font-size: 36px;
+  box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
+}
+
+.newGameButton {
+  color: white;
+  margin: 20px 41px 0px 41px;
+  height: 75px;
   min-width: 183px;
-  background-color: #ffffff;
-  border-radius: 0px;
-  border-width: 4px;
-  border-color: black;
-  font-size: 28px;
+  background-color:   #C566FF;
+  border-radius: 20px;
+  border-width: 0px;
+  font-weight: bold;
+  font-size: 36px;
+  box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
+}
+
+.GameButton {
+  color: #C566FF;
+  margin: 20px 41px 0px 41px;
+  /* padding: 10px 75px 10px 75px; */
+  height: 75px;
+  min-width: 300px;
+  background-color:   white;
+  border-radius: 20px;
+  border-width: 0px;
+  font-size: 36px;
+  font-weight: bold;
+  box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
+}
+
+.newGameButton {
+  color: white;
+  margin: 20px 41px 0px 41px;
+  padding: 5px 75px 5px 75px;
+  height: 75px;
+  min-width: 300px;
+  background-color:   #C566FF;
+  border-radius: 20px;
+  border-width: 0px;
+  font-size: 36px;
+  font-weight: bold;
+  box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
+}
+
+.signOutButton {
+  color: white;
+  margin: 20px 41px 0px 41px;
+  padding: 5px 75px 5px 75px;
+  height: 75px;
+  min-width: 300px;
+  background-color:   #5E2085;
+  border-radius: 20px;
+  border-width: 0px;
+  font-size: 36px;
+  font-weight: bold;
+  box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
 }
 
 .column {

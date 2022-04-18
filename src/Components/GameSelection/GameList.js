@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./GameList.css";
 import axios from "axios";
 import Games from "./Games";
-// import { button } from "aws-amplify";
-// import UserFunctions from "./userFunctions";
+import Trash from "../Icons/garbage.png";
+import Menu from "../Icons/menu.png";
 
 const GameList = (props) => {
   const [gameListVisible, setGameListVisible] = useState(true);
@@ -116,13 +116,21 @@ const GameList = (props) => {
 
   return (
     <div className="column">
+      {gameListVisible === true ? (
+        //Display the new game and sign out button with the Game lsit
+        <button className="newGameButton" onClick={newGame}>
+          New Game
+        </button>
+      ) : (
+        <div />
+      )}
       {gameListVisible === false ? (
         <div>
-          <button className="saveGameButton" onClick={getUserGames}>
-            Select Games
+          <button className="functionGameButton" onClick={getUserGames}>
+            <img src={Menu} alt="Menu" />
           </button>
-          <button className="saveGameButton" onClick={deleteGame}>
-            Delete This Game
+          <button className="functionGameButton" onClick={deleteGame}>
+            <img src={Trash} alt="Trash" />
           </button>
         </div>
       ) : gameLists.length > 0 ? (
@@ -147,14 +155,9 @@ const GameList = (props) => {
 
       {gameListVisible === true ? (
         //Display the new game and sign out button with the Game lsit
-        <div>
-          <button className="saveGameButton" onClick={newGame}>
-            New Game
-          </button>
-          <button className="saveGameButton" onClick={props.signOut}>
-            Sign out {props.username}
-          </button>
-        </div>
+        <button className="signOutButton" onClick={props.signOut}>
+          Sign out
+        </button>
       ) : (
         <div />
       )}
