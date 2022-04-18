@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Boardspace from "./Boardspace";
 import "./Board.css";
+import Icons from "../Icons/Icons";
+
 //Matthew
 let currentSpace = "";
 
@@ -75,6 +77,8 @@ const Board = (props) => {
   let currentPiece = "";
   let previousSpace = "";
 
+  const pieceIconDict = { bPawm: "" };
+
   //This may be used to change the color of the selected space for some more user feedback
   // const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
 
@@ -118,12 +122,14 @@ const Board = (props) => {
   return (
     <div className="board">
       <div className="rowC">
+        {/* <img src={Icons.bPawn} alt="Hello"></img> */}
         {/*map all the pieces onto the board with necesary props*/}
         {boardMapKeys.map((spaces) => {
           return (
             <Boardspace
               key={spaces}
               space={spaces}
+              icons={Icons}
               piece={props.gameState[spaces]}
               gameStateTest={props.gameState}
               clickedPieceCheck={clickedPieceCheck}

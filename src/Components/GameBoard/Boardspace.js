@@ -28,7 +28,11 @@ const Boardspace = (props) => {
 
   return (
     <div className={spaceColor} onClick={clickSpace}>
-      <GamePiece piece={props.gameStateTest[props.space]} key={props.piece} />
+      <GamePiece
+        piece={props.gameStateTest[props.space]}
+        key={props.piece}
+        icons={props.icons}
+      />
     </div>
   );
 };
