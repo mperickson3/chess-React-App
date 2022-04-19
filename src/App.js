@@ -8,7 +8,6 @@ import Amplify from "aws-amplify";
 import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import GameList from "./Components/GameSelection/GameList";
-import Icons from "./Components/Icons/Icons";
 Amplify.configure(config);
 
 //Matthew
