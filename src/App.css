@@ -7,10 +7,10 @@
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  padding-top: 20px;
+  padding-top: 0px;
   min-height: 100vh;
   min-width: 100%;
-  /* position: fixed; */
+  position: fixed;
   top: 0;
   left: 0;
 }
@@ -20,9 +20,11 @@
   height: 40px;
 }
 
+
+
 .functionGameButton {
   color: white;
-  margin: 20px 41px 0px 41px;
+  margin: 0px 41px 0px 41px;
   height: 100px;
   min-width: 100px;
   background-color:   #ffffff;
