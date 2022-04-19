@@ -8,6 +8,7 @@ import Amplify from "aws-amplify";
 import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import GameList from "./Components/GameSelection/GameList";
+import TurnIndicator from "./Components/GameSelection/TurnIndicator";
 Amplify.configure(config);
 
 //Matthew
@@ -233,17 +234,21 @@ function App() {
               gameVisible={gameVisibile}
               saveGame={saveGame}
               signOut={signOut}
+              turn={turn}
             />
             {boardVisible === false ? (
               //Do not display the gameboard if the user is at game selection
               <div />
             ) : (
-              <Board
-                gameState={gameState}
-                movePiece={movePiece}
-                apiTest={checkValidMove}
-                username={user.username}
-              ></Board>
+              <div>
+                <Board
+                  gameState={gameState}
+                  movePiece={movePiece}
+                  apiTest={checkValidMove}
+                  username={user.username}
+                />
+                <TurnIndicator turn={turn} />
+              </div>
             )}
           </main>
         )}

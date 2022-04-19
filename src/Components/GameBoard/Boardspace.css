@@ -2,6 +2,7 @@
   margin: 0rem 0;
   /* background: #343538; */
   background: #5E2085;
+  /* background-color: #C566FF; */
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.26);
   color: white;
   height: 96px;
@@ -13,7 +14,9 @@
 
 .spaceWhite {
   margin: 0rem 0;
-  background: #f5f6ff;
+  /* background: #f5f6ff; */
+  background: #fcefef;
+  /* background: #494949; */
   box-shadow: 0 2px 2px rgba(13, 13, 14, 0.26);
   color: rgb(0, 0, 0);
   height: 96px;

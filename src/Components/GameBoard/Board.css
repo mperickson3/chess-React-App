@@ -1,13 +1,16 @@
 .board {
-  margin-top: 20px;
-  margin-bottom: 2rem;
+  margin-top: 10px;
+  margin-bottom: 50x;
   margin-left: 2px;
   margin-right: 2px;
   /* background: #9692aa; */
-  background: white;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.26);
+  /* background: white; */
+  /* background: #ffe7e7; */
+  background: #fcefef;
+  /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.26); */
   padding: 20px 20px 20px 20px;
   width: 843px;
+  transition: 2s;
 }
 
 .rowC {

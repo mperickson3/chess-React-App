@@ -127,10 +127,10 @@ const GameList = (props) => {
       {gameListVisible === false ? (
         <div>
           <button className="functionGameButton" onClick={getUserGames}>
-            <img src={Menu} alt="Menu" />
+            <img src={Menu} className="functionIcon" alt="Menu" />
           </button>
           <button className="functionGameButton" onClick={deleteGame}>
-            <img src={Trash} alt="Trash" />
+            <img src={Trash} className="functionIcon" alt="Trash" />
           </button>
         </div>
       ) : gameLists.length > 0 ? (
