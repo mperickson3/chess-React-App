@@ -103,6 +103,7 @@ function App() {
       //Get response
       .then((response) => {
         //Checking format and returning response
+        console.log(response);
         console.log(response["data"]["body"]);
         console.log("Result " + response["data"]["moveLegal"]);
         return response["data"]["moveLegal"];
