@@ -1,9 +1,7 @@
 const Games = (props) => {
   const selectGame = () => {
     //Select game will take the gameInfo and call the change game function to load the gameState into the board
-    // //Will also display the board and hide the Game List menu
-    // console.log("Game Info: " + props.gameInfo["gameNumber"]);
-    // console.log("Turn: " + props.gameInfo["turn"]);
+    //Will also display the board and hide the Game List menu
 
     let retrievedGameState = { ...props.gameInfo };
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./GameList.css";
 import axios from "axios";
 import Games from "./Games";
 import Trash from "../Icons/garbage.png";
@@ -7,15 +6,15 @@ import Menu from "../Icons/menu.png";
 
 const GameList = (props) => {
   const [gameListVisible, setGameListVisible] = useState(true);
-  const toggleGameListVisible = (value) => {
-    setGameListVisible(value);
-  };
+  const [gameLists, setGameLists] = useState([]);
 
   useEffect(() => {
     getUserGames();
   }, []);
 
-  const [gameLists, setGameLists] = useState([]);
+  const toggleGameListVisible = (value) => {
+    setGameListVisible(value);
+  };
 
   const getUserGames = async () => {
     const getAPI =

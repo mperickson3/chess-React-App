@@ -19,6 +19,7 @@ const Boardspace = (props) => {
     props.clickedPieceCheck(props.space);
     console.log(props.currentSpace);
 
+    //Seeking to impliment a selected space color indicator
     // if (props.currentSpaceSelected === props.space) {
     //   setSpaceColor("spaceWhiteSelected");
     // } else {

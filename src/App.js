@@ -84,6 +84,11 @@ const gameStateStart = {
 const newGameState = { ...gameStateStart };
 
 function App() {
+  const [gameState, setGameState] = useState(gameStateStart);
+  const [turn, setTurn] = useState("w");
+  const [gameNumber, setGameNumber] = useState("0");
+  const [boardVisible, setboardVisible] = useState(false);
+
   const checkValidMove = async (moveFrom, moveTo, pieceName) => {
     console.log("apiTest Called");
     const api = "https://7zbikadls1.execute-api.us-east-2.amazonaws.com/dev";
@@ -112,18 +117,6 @@ function App() {
       .catch((error) => {
         console.log(error);
       });
-  };
-  // const [saveMessage, setSaveMessage] = useState("");
-  const [gameState, setGameState] = useState(gameStateStart);
-  const [turn, setTurn] = useState("w");
-  const [gameNumber, setGameNumber] = useState("0");
-
-  const [boardVisible, setboardVisible] = useState(false);
-
-  const gameVisibile = (value) => {
-    //Takes a boolean to define if the gameboard is visibile
-    console.log("Game Board Visible Trigger");
-    setboardVisible(value);
   };
 
   const movePiece = async (moveFrom, moveTo, piece, username) => {
@@ -213,7 +206,14 @@ function App() {
     setTurn(turn);
   };
 
+  const gameVisibile = (value) => {
+    //Takes a boolean to define if the gameboard is visibile
+    console.log("Game Board Visible Trigger");
+    setboardVisible(value);
+  };
+
   //Old Feature, May use in the future
+  // const [saveMessage, setSaveMessage] = useState("");
   // const saveGameMessage = (message) => {
   //   setSaveMessage(message);
   //   setTimeout(() => {

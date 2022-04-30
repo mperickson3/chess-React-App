@@ -77,8 +77,6 @@ const Board = (props) => {
   let currentPiece = "";
   let previousSpace = "";
 
-  const pieceIconDict = { bPawm: "" };
-
   //This may be used to change the color of the selected space for some more user feedback
   // const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
 
@@ -122,8 +120,6 @@ const Board = (props) => {
   return (
     <div className="board">
       <div className="rowC">
-        {/* <img src={Icons.bPawn} alt="Hello"></img> */}
-        {/*map all the pieces onto the board with necesary props*/}
         {boardMapKeys.map((spaces) => {
           return (
             <Boardspace
@@ -135,7 +131,6 @@ const Board = (props) => {
               clickedPieceCheck={clickedPieceCheck}
               setCurrentSpaceCheck={setCurrentSpaceCheck}
               currentSpace={currentSpace}
-              // currentSpaceColor={currentSpaceSelected}
             />
           );
         })}

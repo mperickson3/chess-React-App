@@ -1,7 +1,5 @@
 .App-header {
-  /* background-color: #494949; */
   background-color: #fcefef;
-  /* background-color: #b88060; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,8 +16,6 @@
 .functionIcon{
   width: 3vh;
   height: 3vh;
-  /* width: 40px;
-  height: 40px; */
 }
 
 
@@ -29,8 +25,6 @@
   margin: 0px 41px 0px 41px;
   height: 7vh;
   min-width: 7vh;
-  /* height: 100px;
-  min-width: 100px; */
   background-color:   #ffffff;
   border-radius: 20px;
   border-width: 0px;
@@ -40,23 +34,10 @@
   box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
 }
 
-.newGameButton {
-  color: white;
-  margin: 20px 41px 0px 41px;
-  height: 75px;
-  min-width: 183px;
-  background-color:   #C566FF;
-  border-radius: 20px;
-  border-width: 0px;
-  font-weight: bold;
-  font-size: 36px;
-  box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
-}
 
 .GameButton {
   color: #C566FF;
   margin: 20px 41px 0px 41px;
-  /* padding: 10px 75px 10px 75px; */
   height: 75px;
   min-width: 300px;
   background-color:   white;
@@ -100,11 +81,11 @@
   flex-direction: column;
 }
 
-.row {
+/* .row {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
+} */
 
 .fullScreen {
   min-height: 100vh;
@@ -112,11 +93,4 @@
   position: fixed;
   top: 0;
   left: 0;
-}
-
-.data-amplify-authenticator {
-  background: tomato;
-  padding: 5px;
-  background-color: #a36a29;
-  align-items: center;
 }
