@@ -129,7 +129,7 @@ const Board = (props) => {
               piece={props.gameState[spaces]}
               gameStateTest={props.gameState}
               clickedPieceCheck={clickedPieceCheck}
-              setCurrentSpaceCheck={setCurrentSpaceCheck}
+              setCurrentSpaceCheck={setCurrentSpaceCheck} // Not in use yet
               currentSpace={currentSpace}
             />
           );

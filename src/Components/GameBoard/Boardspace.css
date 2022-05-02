@@ -24,9 +24,9 @@
   text-align: center;
 }
 
-.spaceBlackSelected {
+.spaceBlack:active {
   margin: 0rem 0;
-  background: #393a3d;
+  background: #5f4968;
   box-shadow: 0 4px 4px rgba(238, 237, 237, 0.26);
   color: white;
   height: 96px;
@@ -36,9 +36,9 @@
   text-align: center;
 }
 
-.spaceWhiteSelected {
+.spaceWhite:active {
   margin: 0rem 0;
-  background: #f5f4e4;
+  background: #ffcccc;
   box-shadow: 0 4px 4px rgba(238, 237, 237, 0.26);
   color: rgb(0, 0, 0);
   height: 96px;

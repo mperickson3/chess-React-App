@@ -4,7 +4,7 @@ import "./Components/GameBoard/Board";
 import Board from "./Components/GameBoard/Board";
 import axios from "axios";
 import { withAuthentication, Authenticator } from "@aws-amplify/ui-react";
-import Amplify from "aws-amplify";
+import { Amplify, Auth, AuthState } from "aws-amplify";
 import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import GameList from "./Components/GameSelection/GameList";
@@ -88,6 +88,10 @@ function App() {
   const [turn, setTurn] = useState("w");
   const [gameNumber, setGameNumber] = useState("0");
   const [boardVisible, setboardVisible] = useState(false);
+  const [testSignInUser, setTestSignInUser] = useState(
+    "Sign in as a test user"
+  );
+  const [waterMark, setWaterMark] = useState("");
 
   const checkValidMove = async (moveFrom, moveTo, pieceName) => {
     console.log("apiTest Called");
@@ -212,6 +216,14 @@ function App() {
     setboardVisible(value);
   };
 
+  const signInTest = async () => {
+    await Auth.signIn("testUser", "test1234");
+    setTestSignInUser("Signed In");
+    setWaterMark("This is a test session");
+    window.location.reload();
+    // Authenticator.SetAuthState(AuthState.SignedIn);
+  };
+
   //Old Feature, May use in the future
   // const [saveMessage, setSaveMessage] = useState("");
   // const saveGameMessage = (message) => {
@@ -222,11 +234,12 @@ function App() {
   // };
 
   return (
-    <div className="fullScreen">
+    <div className="signInScreen">
       {/* Sign in to Play Chess */}
       <Authenticator>
         {({ signOut, user }) => (
           <main className="App-header">
+            <div>{waterMark}</div>
             <GameList
               username={user.username}
               gameNumber={gameNumber}
@@ -254,6 +267,14 @@ function App() {
           </main>
         )}
       </Authenticator>
+      <button
+        className="button-asdfg"
+        type="submit"
+        // data-variation="primary"
+        onClick={signInTest}
+      >
+        {testSignInUser}
+      </button>
     </div>
   );
 }
