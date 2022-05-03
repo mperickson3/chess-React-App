@@ -100,7 +100,7 @@
   left: 0;
 }
 
-.amplify-button2 {
+/* .amplify-button2 {
   width: 200px;
   height: 75px;
   display: inline-flex;
@@ -115,7 +115,7 @@
   color: white;
   font-size: 1rem;
   cursor: pointer;
-}
+} */
 .button-signIn {
   width: 400px;
   height: 50px;
@@ -133,3 +133,4 @@
   font-size: 1rem;
   cursor: pointer;
 }
+

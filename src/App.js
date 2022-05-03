@@ -9,6 +9,7 @@ import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import GameList from "./Components/GameSelection/GameList";
 import TurnIndicator from "./Components/GameSelection/TurnIndicator";
+import ErrorModal from "./Components/UI/ErrorModal";
 Amplify.configure(config);
 
 //Matthew
@@ -88,6 +89,7 @@ function App() {
   const [turn, setTurn] = useState("w");
   const [gameNumber, setGameNumber] = useState("0");
   const [boardVisible, setboardVisible] = useState(false);
+  const [modal, setModalVis] = useState(false);
   const [testSignInUser, setTestSignInUser] = useState(
     "Sign in as a test user"
   );
@@ -119,6 +121,12 @@ function App() {
         console.log(response);
         console.log(response["data"]["body"]);
         console.log("Result " + response["data"]["moveLegal"]);
+        if (!response["data"]["testSync"]) {
+          setModalVis(true);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }
         return response["data"]["moveLegal"];
       })
       //catch an error
@@ -248,6 +256,12 @@ function App() {
       <Authenticator>
         {({ signOut, user }) => (
           <main className="App-header">
+            {modal && (
+              <ErrorModal
+                message="Desync Detected"
+                body="The page will reload in 2 seconds"
+              />
+            )}
             <div>{waterMark}</div>
             <GameList
               username={user.username}
