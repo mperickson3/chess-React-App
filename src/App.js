@@ -93,7 +93,7 @@ function App() {
   );
   const [waterMark, setWaterMark] = useState("");
 
-  const checkValidMove = async (moveFrom, moveTo, pieceName) => {
+  const checkValidMove = async (moveFrom, moveTo, pieceName, username) => {
     console.log("apiTest Called");
     const api = "https://7zbikadls1.execute-api.us-east-2.amazonaws.com/dev";
 
@@ -101,8 +101,12 @@ function App() {
       piece: pieceName,
       locationTo: moveTo,
       locationFrom: moveFrom,
+      userName: username,
+      gameNumber: gameNumber,
+      turn: turn,
       ...gameState,
     };
+    console.log("gameNumber: " + gameNumber);
 
     //Return Axios call from the server
     return await axios
@@ -129,7 +133,12 @@ function App() {
     if (turn === piece[0]) {
       //Calls the check valid move function This function will return a promise object until a response is recieved
       //Await is needed to ensure the checks do not execute prior to recieving the response
-      const isValidMove = await checkValidMove(moveFrom, moveTo, piece);
+      const isValidMove = await checkValidMove(
+        moveFrom,
+        moveTo,
+        piece,
+        username
+      );
       // console.log(isValidMove);
       if (isValidMove) {
         //If the move is valid from the server set the game state to the new game state
@@ -268,7 +277,7 @@ function App() {
         )}
       </Authenticator>
       <button
-        className="button-asdfg"
+        className="button-signIn"
         type="submit"
         // data-variation="primary"
         onClick={signInTest}

@@ -110,16 +110,13 @@
   font-weight: 700;
   transition: 0.25s;
   background-color: hsl(190, 95%, 30%);;
-  /* border-width: var(--amplify-components-button-border-width);
-  border-style: var(--amplify-components-button-border-style); */
   border-color: hsl(190, 95%, 30%);
   border-radius: .25rem;
   color: white;
   font-size: 1rem;
-  /* user-select: none; */
   cursor: pointer;
 }
-.button-asdfg {
+.button-signIn {
   width: 400px;
   height: 50px;
   margin: -25vh 0 25vh 0;
@@ -130,12 +127,9 @@
   font-weight: 700;
   transition: 0.25s;
   background-color: hsl(190, 95%, 30%);;
-  /* border-width: var(--amplify-components-button-border-width);
-  border-style: var(--amplify-components-button-border-style); */
   border-color: hsl(190, 95%, 30%);
   border-radius: .25rem;
   color: white;
   font-size: 1rem;
-  /* user-select: none; */
   cursor: pointer;
 }
