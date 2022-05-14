@@ -3,6 +3,7 @@ import axios from "axios";
 import Games from "./Games";
 import Trash from "../Icons/garbage.png";
 import Menu from "../Icons/menu.png";
+import Auth from "aws-amplify";
 
 const GameList = (props) => {
   const [gameListVisible, setGameListVisible] = useState(true);
@@ -31,11 +32,17 @@ const GameList = (props) => {
     let userName = "";
     let responseGames = [];
 
+    const header = {
+      headers: {
+        authorization: props.getToken(),
+      },
+    };
+
     await axios
 
       //post the desired move and the current gameState to the API to check the move
       // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
-      .post(getAPI, { userName: props.username, gameNumber: "1" })
+      .post(getAPI, { userName: props.username, gameNumber: "1" }, header)
 
       //Get response
       .then((response) => {
@@ -87,14 +94,21 @@ const GameList = (props) => {
       //   ...props.gameStateStart,
     };
 
+    const header = {
+      headers: {
+        authorization: props.getToken(),
+      },
+    };
+    const data = {
+      userName: props.username,
+      gameNumber: props.gameNumber,
+    };
+
     await axios
 
       //post the desired move and the current gameState to the API to check the move
       // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
-      .post(deleteAPI, {
-        userName: props.username,
-        gameNumber: props.gameNumber,
-      })
+      .post(deleteAPI, data, header)
 
       //Get response
       .then((response) => {

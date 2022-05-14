@@ -90,6 +90,10 @@ function App() {
   const [gameNumber, setGameNumber] = useState("0");
   const [boardVisible, setboardVisible] = useState(false);
   const [modal, setModalVis] = useState(false);
+  const [modalMessage, setModalMessage] = useState({
+    title: "",
+    body: "",
+  });
   const [testSignInUser, setTestSignInUser] = useState(
     "Sign in as a test user"
   );
@@ -110,11 +114,19 @@ function App() {
     };
     console.log("gameNumber: " + gameNumber);
 
+    const token = await Auth.currentSession().then((data) => {
+      // console.log(data["idToken"]);
+      return data["idToken"]["jwtToken"];
+    });
     //Return Axios call from the server
     return await axios
 
       //post the desired move and the current gameState to the API to check the move
-      .post(api, data)
+      .post(api, data, {
+        headers: {
+          authorization: token,
+        },
+      })
       //Get response
       .then((response) => {
         //Checking format and returning response
@@ -122,6 +134,10 @@ function App() {
         console.log(response["data"]["body"]);
         console.log("Result " + response["data"]["moveLegal"]);
         if (!response["data"]["testSync"]) {
+          setModalMessage({
+            title: "Desync detected",
+            body: "A desync with the database has been detected. You will be brought back to the game selection screen",
+          });
           setModalVis(true);
           setTimeout(() => {
             window.location.reload();
@@ -161,10 +177,10 @@ function App() {
         setTurn((previousTurn) => {
           //Update the player turn
           if (previousTurn === "w") {
-            saveGame(username, "b");
+            // saveGame(username, "b");
             return "b";
           } else {
-            saveGame(username, "w");
+            // saveGame(username, "w");
             return "w";
           }
         });
@@ -172,8 +188,7 @@ function App() {
     }
   };
 
-  //This function commits the current state of the game to the database
-  //Executed when a piece is moved or a new game is created
+  //This function creates a new game. Game state is defined in serverless function
   async function saveGame(
     username,
     turn,
@@ -201,10 +216,19 @@ function App() {
       };
     }
 
+    const token = await Auth.currentSession().then((data) => {
+      // console.log(data["idToken"]);
+      return data["idToken"]["jwtToken"];
+    });
+
     await axios
 
       //post the desired move and the current gameState to the API
-      .post(saveAPI, data)
+      .post(saveAPI, data, {
+        headers: {
+          authorization: token,
+        },
+      })
       //Get response
       .then((response) => {
         //Checking format and returning response
@@ -241,6 +265,13 @@ function App() {
     // Authenticator.SetAuthState(AuthState.SignedIn);
   };
 
+  const getToken = async () => {
+    const token = await Auth.currentSession().then((data) => {
+      // console.log(data["idToken"]);
+      return data["idToken"]["jwtToken"];
+    });
+    return token;
+  };
   //Old Feature, May use in the future
   // const [saveMessage, setSaveMessage] = useState("");
   // const saveGameMessage = (message) => {
@@ -258,8 +289,8 @@ function App() {
           <main className="App-header">
             {modal && (
               <ErrorModal
-                message="Desync Detected"
-                body="The page will reload in 2 seconds"
+                title={modalMessage["title"]}
+                body={modalMessage["body"]}
               />
             )}
             <div>{waterMark}</div>
@@ -272,6 +303,7 @@ function App() {
               saveGame={saveGame}
               signOut={signOut}
               turn={turn}
+              getToken={getToken}
             />
             {boardVisible === false ? (
               //Do not display the gameboard if the user is at game selection
