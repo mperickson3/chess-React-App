@@ -37,6 +37,7 @@ const GameList = (props) => {
         authorization: props.getToken(),
       },
     };
+    console.log(header);
 
     await axios
 
@@ -83,8 +84,6 @@ const GameList = (props) => {
     // toggleGameListVisible(false); //Turn off the game list menu
   };
   const deleteGame = async () => {
-    //In Development!
-    console.log("Delete Game to be built!");
     const deleteAPI =
       "https://mudw22xr23.execute-api.us-east-2.amazonaws.com/beta";
     let retrievedGameState = {
@@ -103,6 +102,7 @@ const GameList = (props) => {
       userName: props.username,
       gameNumber: props.gameNumber,
     };
+    console.log(header);
 
     await axios
 
@@ -114,8 +114,6 @@ const GameList = (props) => {
       .then((response) => {
         console.log(response);
         //Checking format and returning response
-        // retrievedGameState = response["data"]["gameState"];
-        // responseGames = response["data"]["games"];
       })
       //catch an error
       .catch((error) => {
