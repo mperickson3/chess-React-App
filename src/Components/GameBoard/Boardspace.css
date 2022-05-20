@@ -1,10 +1,11 @@
 .spaceBlack {
   margin: 0rem 0;
   background: #5E2085;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
   color: white;
   height: 96px;
   width: 96px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 20px;
   text-align: center;
@@ -13,7 +14,7 @@
 .spaceWhite {
   margin: 0rem 0;
   /* background: #f5f6ff; */
-  background: #fcefef;
+  background: #ffd9d9;
   /* background: #494949; */
   box-shadow: 0 2px 2px rgba(13, 13, 14, 0.26);
   color: rgb(0, 0, 0);
