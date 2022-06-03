@@ -243,6 +243,8 @@ const Board = (props) => {
         lastSelectedPiece,
         props.username
       );
+      setLastSelectedPiece("");
+      setLastSelectedSpace("");
     } else if (
       currentPiece[0] !== lastSelectedPiece[0] &&
       lastSelectedPiece !== ""
@@ -253,17 +255,20 @@ const Board = (props) => {
         lastSelectedPiece,
         props.username
       );
+      setLastSelectedPiece("");
+      setLastSelectedSpace("");
+    } else {
+      setLastSelectedPiece(currentPiece);
+      setLastSelectedSpace(currentSpace);
     }
     //Sets the last selected space and piece so it will be stored even when DOM refreshes
-    setLastSelectedPiece(currentPiece);
-    setLastSelectedSpace(currentSpace);
   };
 
   const getPiceNameRaw = (pieceName) => {
     return pieceName.slice(1, -1);
   };
 
-  const spaceMath = (location, x, y) => {
+  const spaceMathString = (location, x, y) => {
     let result = location;
     let numericLocation = keysForSpaceMath[location];
     let xComponet = parseInt(numericLocation[0]) + x;
@@ -272,36 +277,56 @@ const Board = (props) => {
     return result;
   };
 
+  const spaceMathInt = (location, x, y) => {
+    let result = location;
+    let numericLocation = keysForSpaceMath[location];
+    let xComponet = parseInt(numericLocation[0]) + x;
+    let yComponet = parseInt(numericLocation[1]) + y;
+    result = [xComponet, yComponet];
+    return result;
+  };
+
   const pawnMoves = (location, color) => {
     let numericLocation = keysForSpaceMath[location];
 
-    console.log(spaceMath(location, 1, 0));
+    console.log(spaceMathString(location, 1, 0));
     let distance = 1;
     if (location[1] === "7" || location[1] === "2") {
       distance = 2;
     }
     let options = [];
-    let option = "";
     for (let i = 1; i <= distance; i++) {
       if (color === "b") {
-        if (props.gameState[spaceMath(location, 0, i)] === "") {
-          options.push(spaceMath(location, 0, i));
+        if (props.gameState[spaceMathString(location, 0, i)] === "") {
+          options.push(spaceMathString(location, 0, i));
         }
-        if (props.gameState[spaceMath(location, 1, 1)] !== "") {
-          options.push(spaceMath(location, 1, 1));
+        if (
+          spaceMathInt(location, 1, 1)[0] < 8 &&
+          props.gameState[spaceMathString(location, 1, 1)][0] === "w"
+        ) {
+          options.push(spaceMathString(location, 1, 1));
         }
-        if (props.gameState[spaceMath(location, -1, 1)] !== "") {
-          options.push(spaceMath(location, -1, 1));
+        if (
+          spaceMathInt(location, -1, 1)[0] > 0 &&
+          props.gameState[spaceMathString(location, -1, 1)][0] === "w"
+        ) {
+          options.push(spaceMathString(location, -1, 1));
         }
       } else if (color === "w") {
-        if (props.gameState[spaceMath(location, 0, -i)] === "") {
-          options.push(spaceMath(location, 0, -i));
+        if (props.gameState[spaceMathString(location, 0, -i)] === "") {
+          options.push(spaceMathString(location, 0, -i));
         }
-        if (props.gameState[spaceMath(location, 1, -1)] !== "") {
-          options.push(spaceMath(location, 1, -1));
+        if (
+          spaceMathInt(location, 1, -1)[0] < 9 &&
+          props.gameState[spaceMathString(location, 1, -1)][0] === "b"
+        ) {
+          options.push(spaceMathString(location, 1, -1));
         }
-        if (props.gameState[spaceMath(location, -1, -1)] !== "") {
-          options.push(spaceMath(location, -1, -1));
+        if (
+          spaceMathInt(location, -1, -1)[0] > 0 &&
+          props.gameState[spaceMathString(location, -1, -1)][0] === "b"
+        ) {
+          options.push(spaceMathString(location, -1, -1));
         }
       }
     }
@@ -309,9 +334,46 @@ const Board = (props) => {
     return options;
   };
 
-  const bishopMoves = (location) => {
+  const bishopMoves = (location, color) => {
     let options = [];
-    while (location[1] < 9 && location[1] > 0) {}
+    const directions = [-1, 1];
+
+    for (const x of directions) {
+      for (const y of directions) {
+        let xlocation = parseInt(keysForSpaceMath[location][0]);
+        let ylocation = parseInt(keysForSpaceMath[location][1]);
+        let nextSpacePiece = "";
+        let iteratedLocation = location;
+        while (
+          xlocation + x > 0 &&
+          ylocation + y > 0 &&
+          xlocation + x < 9 &&
+          ylocation + y < 9
+        ) {
+          console.log(xlocation + " " + ylocation);
+          nextSpacePiece =
+            props.gameState[spaceMathString(iteratedLocation, x, y)];
+          console.log(nextSpacePiece);
+          if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
+            options.push(spaceMathString(iteratedLocation, x, y));
+          }
+          if (
+            (nextSpacePiece !== "" && nextSpacePiece[0] !== color) ||
+            (nextSpacePiece !== "" && nextSpacePiece[0] === color)
+          ) {
+            break;
+          }
+
+          console.log(options);
+          iteratedLocation = spaceMathString(iteratedLocation, x, y);
+          xlocation = xlocation + x;
+          ylocation = ylocation + y;
+        }
+      }
+    }
+
+    // location = spaceMath(location, -1, -1);
+    return options;
   };
 
   const rookMoves = (location) => {
@@ -334,6 +396,8 @@ const Board = (props) => {
       case "Knight":
         break;
       case "Bishop":
+        moves = bishopMoves(location, pieceColor);
+        console.log("Bishop: " + moves);
         break;
       case "Queen":
         break;
