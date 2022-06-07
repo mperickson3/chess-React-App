@@ -1,10 +1,10 @@
 .spaceBlack {
   margin: 0rem 0;
-  background: #5E2085;
+  background: #5e2085;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
   color: white;
-  height: 9vh;
-  width: 9vh;
+  height: 9.7vmin;
+  width: 9.7vmin;
   border-radius: 5px;
   cursor: pointer;
   font-size: 20px;
@@ -18,9 +18,9 @@
   /* background: #494949; */
   box-shadow: 0 2px 2px rgba(13, 13, 14, 0.26);
   color: rgb(0, 0, 0);
-  height: 9vh;
+  height: 9.7vmin;
   /* width: 96px; */
-  width: 9vh;
+  width: 9.7vmin;
   cursor: pointer;
   font-size: 20px;
   text-align: center;
@@ -31,8 +31,8 @@
   background: #5f4968;
   box-shadow: 0 4px 4px rgba(238, 237, 237, 0.26);
   color: white;
-  height: 9vh;
-  width: 9vh;
+  height: 9.7vmin;
+  width: 9.7vmin;
   cursor: pointer;
   font-size: 20px;
   text-align: center;
@@ -43,8 +43,8 @@
   background: #ffcccc;
   box-shadow: 0 4px 4px rgba(238, 237, 237, 0.26);
   color: rgb(0, 0, 0);
-  height: 9vh;
-  width: 9vh;
+  height: 9.7vmin;
+  width: 9.7vmin;
   cursor: pointer;
   font-size: 20px;
   text-align: center;

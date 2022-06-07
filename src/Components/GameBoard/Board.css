@@ -1,12 +1,13 @@
 .board {
   margin-top: 10px;
-  margin-bottom: 50x;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-bottom: 10x;
+  margin-left: auto;
+  margin-right: auto;
   background: #fcefef;
-  padding: 20px 20px 20px 20px;
+  padding: 5px 5px 5px 5px;
   /* width: 843px; */
-  width: 90vh;
+  width: 90vmin;
+  /* height: 80vh; */
 }
 
 .rowC {
