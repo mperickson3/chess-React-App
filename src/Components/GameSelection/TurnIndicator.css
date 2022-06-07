@@ -1,19 +1,19 @@
 .turnWhite {
-    margin: 0px 0px 0px 20px;
-    width: 45px;
-    height: 45px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    transition: 0.5s;
+  margin: 3px 0px 0px 20px;
+  width: 45px;
+  height: 45px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  transition: 0.5s;
 }
 
 .turnBlack {
-    margin: 0px 0px 0px 20px;
-    width: 45px;
-    height: 45px;
-    background-color: #222222;
-    border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    transition: 0.5s;
+  margin: 3px 0px 0px 20px;
+  width: 45px;
+  height: 45px;
+  background-color: #222222;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  transition: 0.5s;
 }

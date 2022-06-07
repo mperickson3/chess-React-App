@@ -320,6 +320,7 @@ function App() {
                   movePiece={movePiece}
                   apiTest={checkValidMove}
                   username={user.username}
+                  turn={turn}
                 />
                 <TurnIndicator turn={turn} />
               </div>
