@@ -350,6 +350,132 @@ const Board = (props) => {
           xlocation + x < 9 &&
           ylocation + y < 9
         ) {
+          nextSpacePiece =
+            props.gameState[spaceMathString(iteratedLocation, x, y)];
+
+          if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
+            options.push(spaceMathString(iteratedLocation, x, y));
+          }
+          if (
+            (nextSpacePiece !== "" && nextSpacePiece[0] !== color) ||
+            (nextSpacePiece !== "" && nextSpacePiece[0] === color)
+          ) {
+            break;
+          }
+
+          iteratedLocation = spaceMathString(iteratedLocation, x, y);
+          xlocation = xlocation + x;
+          ylocation = ylocation + y;
+        }
+      }
+    }
+
+    // location = spaceMath(location, -1, -1);
+    return options;
+  };
+
+  const rookMoves = (location, color) => {
+    let options = [];
+
+    const directions2 = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ];
+
+    for (const direction of directions2) {
+      const x = direction[0];
+      const y = direction[1];
+
+      let xlocation = parseInt(keysForSpaceMath[location][0]);
+      let ylocation = parseInt(keysForSpaceMath[location][1]);
+      let nextSpacePiece = "";
+      let iteratedLocation = location;
+      while (
+        xlocation + x > 0 &&
+        ylocation + y > 0 &&
+        xlocation + x < 9 &&
+        ylocation + y < 9
+      ) {
+        nextSpacePiece =
+          props.gameState[spaceMathString(iteratedLocation, x, y)];
+
+        if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
+          options.push(spaceMathString(iteratedLocation, x, y));
+        }
+        if (
+          (nextSpacePiece !== "" && nextSpacePiece[0] !== color) ||
+          (nextSpacePiece !== "" && nextSpacePiece[0] === color)
+        ) {
+          break;
+        }
+
+        iteratedLocation = spaceMathString(iteratedLocation, x, y);
+        xlocation = xlocation + x;
+        ylocation = ylocation + y;
+      }
+    }
+
+    // location = spaceMath(location, -1, -1);
+    return options;
+  };
+
+  const queenMoves = (location, color) => {
+    let options = [];
+    const directions = [-1, 0, 1];
+
+    for (const x of directions) {
+      for (const y of directions) {
+        let xlocation = parseInt(keysForSpaceMath[location][0]);
+        let ylocation = parseInt(keysForSpaceMath[location][1]);
+        let nextSpacePiece = "";
+        let iteratedLocation = location;
+        while (
+          xlocation + x > 0 &&
+          ylocation + y > 0 &&
+          xlocation + x < 9 &&
+          ylocation + y < 9
+        ) {
+          nextSpacePiece =
+            props.gameState[spaceMathString(iteratedLocation, x, y)];
+          if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
+            options.push(spaceMathString(iteratedLocation, x, y));
+          }
+          if (
+            (nextSpacePiece !== "" && nextSpacePiece[0] !== color) ||
+            (nextSpacePiece !== "" && nextSpacePiece[0] === color)
+          ) {
+            break;
+          }
+
+          iteratedLocation = spaceMathString(iteratedLocation, x, y);
+          xlocation = xlocation + x;
+          ylocation = ylocation + y;
+        }
+      }
+    }
+
+    // location = spaceMath(location, -1, -1);
+    return options;
+  };
+
+  const kingMoves = (location, color) => {
+    let options = [];
+    const directions = [-1, 0, 1];
+
+    for (const x of directions) {
+      for (const y of directions) {
+        let xlocation = parseInt(keysForSpaceMath[location][0]);
+        let ylocation = parseInt(keysForSpaceMath[location][1]);
+        let nextSpacePiece = "";
+        let iteratedLocation = location;
+        while (
+          xlocation + x > 0 &&
+          ylocation + y > 0 &&
+          xlocation + x < 9 &&
+          ylocation + y < 9
+        ) {
           console.log(xlocation + " " + ylocation);
           nextSpacePiece =
             props.gameState[spaceMathString(iteratedLocation, x, y)];
@@ -364,10 +490,7 @@ const Board = (props) => {
             break;
           }
 
-          console.log(options);
-          iteratedLocation = spaceMathString(iteratedLocation, x, y);
-          xlocation = xlocation + x;
-          ylocation = ylocation + y;
+          break;
         }
       }
     }
@@ -376,12 +499,55 @@ const Board = (props) => {
     return options;
   };
 
-  const rookMoves = (location) => {
-    return "Rook";
+  const knightMoves = (location, color) => {
+    let options = [];
+    const directions = [
+      [2, 1],
+      [-2, 1],
+      [2, -1],
+      [-2, -1],
+      [1, 2],
+      [1, -2],
+      [-1, 2],
+      [-1, -2],
+    ];
+
+    for (const direction of directions) {
+      const x = direction[0];
+      const y = direction[1];
+
+      let xlocation = parseInt(keysForSpaceMath[location][0]);
+      let ylocation = parseInt(keysForSpaceMath[location][1]);
+      let nextSpacePiece = "";
+      let iteratedLocation = location;
+
+      while (
+        xlocation + x > 0 &&
+        ylocation + y > 0 &&
+        xlocation + x < 9 &&
+        ylocation + y < 9
+      ) {
+        nextSpacePiece =
+          props.gameState[spaceMathString(iteratedLocation, x, y)];
+        console.log(nextSpacePiece);
+        if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
+          options.push(spaceMathString(iteratedLocation, x, y));
+        }
+        if (
+          (nextSpacePiece !== "" && nextSpacePiece[0] !== color) ||
+          (nextSpacePiece !== "" && nextSpacePiece[0] === color)
+        ) {
+          break;
+        }
+
+        break;
+      }
+    }
+
+    return options;
   };
 
   const findValidMoves = (pieceName, location) => {
-    console.log("Getting valid moves" + pieceName.slice(1, -1));
     const pieceColor = pieceName[0];
     const pieceSwitch = pieceName.slice(1, -1);
     let moves = [];
@@ -391,17 +557,24 @@ const Board = (props) => {
         moves = pawnMoves(location, pieceColor);
         break;
       case "Rook":
-        console.log(rookMoves());
+        moves = rookMoves(location, pieceColor);
+        console.log("Rook: " + moves);
         break;
       case "Knight":
+        moves = knightMoves(location, pieceColor);
+        console.log("Knight: " + moves);
         break;
       case "Bishop":
         moves = bishopMoves(location, pieceColor);
         console.log("Bishop: " + moves);
         break;
       case "Queen":
+        moves = queenMoves(location, pieceColor);
+        console.log("Queen: " + moves);
         break;
       case "King":
+        moves = kingMoves(location, pieceColor);
+        console.log("King: " + moves);
         break;
 
       default:

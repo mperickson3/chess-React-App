@@ -5,7 +5,8 @@
   margin-right: 2px;
   background: #fcefef;
   padding: 20px 20px 20px 20px;
-  width: 843px;
+  /* width: 843px; */
+  width: 90vh;
 }
 
 .rowC {
