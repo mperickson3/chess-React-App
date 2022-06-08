@@ -86,29 +86,31 @@ const GameList = (props) => {
   const deleteGame = async () => {
     const deleteAPI =
       "https://mudw22xr23.execute-api.us-east-2.amazonaws.com/beta";
-    let retrievedGameState = {
-      //   userName: "testUser",
-      //   gameNumber: "1",
-      //   turn: props.turn,
-      //   ...props.gameStateStart,
-    };
 
     const header = {
       headers: {
-        authorization: props.getToken(),
+        // authorization: await props.getToken().toString(),
+        authorization: props.authToken,
       },
     };
     const data = {
       userName: props.username,
       gameNumber: props.gameNumber,
     };
-    console.log(header);
+    // console.log(props.authToken);
 
     await axios
 
       //post the desired move and the current gameState to the API to check the move
       // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
-      .post(deleteAPI, data, header)
+      .post(
+        deleteAPI,
+        {
+          userName: props.username,
+          gameNumber: props.gameNumber,
+        },
+        header
+      )
 
       //Get response
       .then((response) => {

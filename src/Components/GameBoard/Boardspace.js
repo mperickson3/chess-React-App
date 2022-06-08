@@ -17,7 +17,11 @@ const Boardspace = (props) => {
   const clickSpace = (event) => {
     //console.log(props.space);
     props.clickedPieceCheck(props.space);
-    console.log(props.currentSpace);
+    // console.log(props.currentSpace);
+    props.findValidMoves(props.piece, props.space);
+
+    if (props.availableMoves.includes(props.space)) {
+    }
 
     //Seeking to impliment a selected space color indicator
     // if (props.currentSpaceSelected === props.space) {
@@ -27,8 +31,17 @@ const Boardspace = (props) => {
     // }
   };
 
+  let moveradius = 0;
+  if (props.availableMoves.includes(props.space)) {
+    moveradius = 30;
+  }
+
   return (
-    <div className={spaceColor} onClick={clickSpace}>
+    <div
+      className={spaceColor}
+      onClick={clickSpace}
+      style={{ borderRadius: moveradius }}
+    >
       <GamePiece
         piece={props.gameStateTest[props.space]}
         key={props.piece}

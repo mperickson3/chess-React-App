@@ -98,6 +98,10 @@ function App() {
     "Sign in as a test user"
   );
   const [waterMark, setWaterMark] = useState("");
+  const authToken = Auth.currentSession().then((data) => {
+    // console.log(data["idToken"]);
+    return data["idToken"]["jwtToken"];
+  });
 
   const checkValidMove = async (moveFrom, moveTo, pieceName, username) => {
     console.log("apiTest Called");
@@ -304,6 +308,7 @@ function App() {
               signOut={signOut}
               turn={turn}
               getToken={getToken}
+              authToken={authToken}
             />
             {boardVisible === false ? (
               //Do not display the gameboard if the user is at game selection
@@ -315,6 +320,7 @@ function App() {
                   movePiece={movePiece}
                   apiTest={checkValidMove}
                   username={user.username}
+                  turn={turn}
                 />
                 <TurnIndicator turn={turn} />
               </div>
