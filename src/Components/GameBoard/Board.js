@@ -235,8 +235,11 @@ const Board = (props) => {
         lastSelectedSpace
     );
 
+    // if (currentPiece in availableMoves){
+
+    // }
     //Calls the parent Move Piece function if certain conditions are met
-    if (currentPiece === "" && lastSelectedPiece !== "") {
+    if (availableMoves.includes(currentSpace)) {
       props.movePiece(
         lastSelectedSpace,
         currentSpace,
@@ -246,20 +249,22 @@ const Board = (props) => {
       setLastSelectedPiece("");
       setLastSelectedSpace("");
       setAvailableMoves([]);
-    } else if (
-      currentPiece[0] !== lastSelectedPiece[0] &&
-      lastSelectedPiece !== ""
-    ) {
-      props.movePiece(
-        lastSelectedSpace,
-        currentSpace,
-        lastSelectedPiece,
-        props.username
-      );
-      setLastSelectedPiece("");
-      setLastSelectedSpace("");
-      setAvailableMoves([]);
-    } else {
+    }
+    // else if (
+    //   currentPiece[0] !== lastSelectedPiece[0] &&
+    //   lastSelectedPiece !== ""
+    // ) {
+    //   props.movePiece(
+    //     lastSelectedSpace,
+    //     currentSpace,
+    //     lastSelectedPiece,
+    //     props.username
+    //   );
+    //   setLastSelectedPiece("");
+    //   setLastSelectedSpace("");
+    //   setAvailableMoves([]);
+    // }
+    else {
       setLastSelectedPiece(currentPiece);
       setLastSelectedSpace(currentSpace);
     }
