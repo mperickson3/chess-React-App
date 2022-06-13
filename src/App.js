@@ -105,7 +105,8 @@ function App() {
 
   const checkValidMove = async (moveFrom, moveTo, pieceName, username) => {
     console.log("apiTest Called");
-    const api = "https://7zbikadls1.execute-api.us-east-2.amazonaws.com/dev";
+    const api =
+      "https://7zbikadls1.execute-api.us-east-2.amazonaws.com/TestAuthentication";
 
     const data = {
       piece: pieceName,
@@ -145,7 +146,7 @@ function App() {
           setModalVis(true);
           setTimeout(() => {
             window.location.reload();
-          }, 2000);
+          }, 25000);
         }
         return response["data"]["moveLegal"];
       })

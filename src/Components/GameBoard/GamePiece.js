@@ -7,9 +7,9 @@ import "./GamePiece.css";
 const GamePiece = (props) => {
   const pieceName = props.piece.slice(0, -1);
   return (
-    <div>
+    <>
       <img src={props.icons[pieceName]} alt="" className="icon" />
-    </div>
+    </>
   );
 };
 
