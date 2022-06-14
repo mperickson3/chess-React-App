@@ -29,3 +29,17 @@
   display: flex;
   flex-direction: column;
 }
+
+.modalButton {
+  color: white;
+  margin: 5px auto 0px auto;
+
+  height: 50px;
+  min-width: 150px;
+  background-color: #c566ff;
+  border-radius: 20px;
+  border-width: 0px;
+  font-size: 36px;
+  font-weight: bolder;
+  box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
+}

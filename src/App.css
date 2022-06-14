@@ -1,5 +1,5 @@
 .App-header {
-  background-color: #fcefef;
+  background-color: #0e1929;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,9 +23,11 @@
   margin: 0px 41px 3px 41px;
   height: 7vh;
   min-width: 7vh;
-  background-color: #ffffff;
+  background-color: #0e1929;
+  border-color: #354c75;
   border-radius: 20px;
-  border-width: 0px;
+  border-width: 1px;
+  border-style: solid;
   font-weight: bold;
   font-size: 36px;
   padding-top: 0px;
@@ -33,7 +35,7 @@
 }
 
 .GameButton {
-  color: #c566ff;
+  color: #364c75;
   margin: 20px 41px 0px 41px;
   height: 75px;
   min-width: 300px;
@@ -51,7 +53,7 @@
   padding: 5px 75px 5px 75px;
   height: 75px;
   min-width: 300px;
-  background-color: #c566ff;
+  background-color: #b9c6df;
   border-radius: 20px;
   border-width: 0px;
   font-size: 36px;
@@ -65,7 +67,7 @@
   padding: 5px 75px 5px 75px;
   height: 75px;
   min-width: 300px;
-  background-color: #5e2085;
+  background-color: #364c75;
   border-radius: 20px;
   border-width: 0px;
   font-size: 36px;
@@ -78,11 +80,11 @@
   flex-direction: column;
 }
 
-/* .row {
+.row {
   display: flex;
   flex-direction: row;
   align-items: center;
-} */
+}
 
 .signInScreen {
   background-color: #fcefef;

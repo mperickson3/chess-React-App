@@ -94,6 +94,7 @@ function App() {
     title: "",
     body: "",
   });
+  const [modalButtons, setModalButtons] = useState(false);
   const [testSignInUser, setTestSignInUser] = useState(
     "Sign in as a test user"
   );
@@ -102,6 +103,8 @@ function App() {
     // console.log(data["idToken"]);
     return data["idToken"]["jwtToken"];
   });
+
+  const [userName1, setUserName1] = useState("");
 
   const checkValidMove = async (moveFrom, moveTo, pieceName, username) => {
     console.log("apiTest Called");
@@ -146,7 +149,7 @@ function App() {
           setModalVis(true);
           setTimeout(() => {
             window.location.reload();
-          }, 25000);
+          }, 2000);
         }
         return response["data"]["moveLegal"];
       })
@@ -277,14 +280,72 @@ function App() {
     });
     return token;
   };
-  //Old Feature, May use in the future
-  // const [saveMessage, setSaveMessage] = useState("");
-  // const saveGameMessage = (message) => {
-  //   setSaveMessage(message);
-  //   setTimeout(() => {
-  //     setSaveMessage("");
-  //   }, 2000);
-  // };
+
+  const deleteGameModal = async (userName, gameNumber) => {
+    setModalMessage({
+      title: "Are you sure you want to delete?",
+      body: "",
+    });
+    setModalVis(true);
+    setModalButtons(true);
+    const thisUserName = await Auth.currentUserInfo().then((data) => {
+      return data["username"];
+    });
+    setUserName1(thisUserName);
+
+    // setTimeout(() => {
+    //   setModalVis(false);
+    //   setModalButtons(false);
+    // }, 2000);
+  };
+
+  const deleteResult = async (deleteConfirmed) => {
+    setModalVis(false);
+    setModalButtons(false);
+    console.log(deleteConfirmed);
+    console.log(userName1 + gameNumber);
+
+    if (deleteConfirmed) {
+      deleteGameTest();
+    }
+  };
+
+  const deleteGameTest = async () => {
+    const deleteAPI =
+      "https://mudw22xr23.execute-api.us-east-2.amazonaws.com/beta";
+
+    const header = {
+      headers: {
+        // authorization: await props.getToken().toString(),
+        authorization: authToken,
+      },
+    };
+    const data = {
+      userName: userName1,
+      gameNumber: gameNumber,
+    };
+    // console.log(props.authToken);
+
+    await axios
+
+      //post the desired move and the current gameState to the API to check the move
+      // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
+      .post(deleteAPI, data, header)
+
+      //Get response
+      .then((response) => {
+        console.log(response);
+        //Checking format and returning response
+      })
+      //catch an error
+      .catch((error) => {
+        console.log(error);
+      });
+
+    // getUserGames();
+    // return responseGames;
+    // console.log(gameLists);
+  };
 
   return (
     <div className="signInScreen">
@@ -296,6 +357,8 @@ function App() {
               <ErrorModal
                 title={modalMessage["title"]}
                 body={modalMessage["body"]}
+                modalButtons={modalButtons}
+                deleteResult={deleteResult}
               />
             )}
             <div>{waterMark}</div>
@@ -310,6 +373,7 @@ function App() {
               turn={turn}
               getToken={getToken}
               authToken={authToken}
+              deleteGameModal={deleteGameModal}
             />
             {boardVisible === false ? (
               //Do not display the gameboard if the user is at game selection

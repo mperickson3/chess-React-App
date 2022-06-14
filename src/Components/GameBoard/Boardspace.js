@@ -32,15 +32,18 @@ const Boardspace = (props) => {
   };
 
   let moveradius = 0;
+  let borderColor = "";
+
   if (props.availableMoves.includes(props.space)) {
     moveradius = 30;
+    borderColor = "#d1ad6b";
   }
 
   return (
     <div
       className={spaceColor}
       onClick={clickSpace}
-      style={{ borderRadius: moveradius }}
+      style={{ borderColor: borderColor }}
     >
       <GamePiece
         piece={props.gameStateTest[props.space]}

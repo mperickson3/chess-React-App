@@ -83,49 +83,54 @@ const GameList = (props) => {
     // props.gameVisible(true); //Display the newgame
     // toggleGameListVisible(false); //Turn off the game list menu
   };
-  const deleteGame = async () => {
-    const deleteAPI =
-      "https://mudw22xr23.execute-api.us-east-2.amazonaws.com/beta";
 
-    const header = {
-      headers: {
-        // authorization: await props.getToken().toString(),
-        authorization: props.authToken,
-      },
-    };
-    const data = {
-      userName: props.username,
-      gameNumber: props.gameNumber,
-    };
-    // console.log(props.authToken);
-
-    await axios
-
-      //post the desired move and the current gameState to the API to check the move
-      // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
-      .post(
-        deleteAPI,
-        {
-          userName: props.username,
-          gameNumber: props.gameNumber,
-        },
-        header
-      )
-
-      //Get response
-      .then((response) => {
-        console.log(response);
-        //Checking format and returning response
-      })
-      //catch an error
-      .catch((error) => {
-        console.log(error);
-      });
-
-    getUserGames();
-    // return responseGames;
-    console.log(gameLists);
+  const deleteGameConfirm = () => {
+    props.deleteGameModal(props.username, props.gameNumber);
   };
+
+  // const deleteGame = async () => {
+  //   const deleteAPI =
+  //     "https://mudw22xr23.execute-api.us-east-2.amazonaws.com/beta";
+
+  //   const header = {
+  //     headers: {
+  //       // authorization: await props.getToken().toString(),
+  //       authorization: props.authToken,
+  //     },
+  //   };
+  //   const data = {
+  //     userName: props.username,
+  //     gameNumber: props.gameNumber,
+  //   };
+  //   // console.log(props.authToken);
+
+  //   await axios
+
+  //     //post the desired move and the current gameState to the API to check the move
+  //     // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
+  //     .post(
+  //       deleteAPI,
+  //       {
+  //         userName: props.username,
+  //         gameNumber: props.gameNumber,
+  //       },
+  //       header
+  //     )
+
+  //     //Get response
+  //     .then((response) => {
+  //       console.log(response);
+  //       //Checking format and returning response
+  //     })
+  //     //catch an error
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+
+  //   getUserGames();
+  //   // return responseGames;
+  //   console.log(gameLists);
+  // };
 
   return (
     <div className="column">
@@ -142,7 +147,7 @@ const GameList = (props) => {
           <button className="functionGameButton" onClick={getUserGames}>
             <img src={Menu} className="functionIcon" alt="Menu" />
           </button>
-          <button className="functionGameButton" onClick={deleteGame}>
+          <button className="functionGameButton" onClick={deleteGameConfirm}>
             <img src={Trash} className="functionIcon" alt="Trash" />
           </button>
         </div>
