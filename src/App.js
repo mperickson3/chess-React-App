@@ -95,6 +95,8 @@ function App() {
     body: "",
   });
   const [modalButtons, setModalButtons] = useState(false);
+  const [modalButtonsOk, setModalButtonsOk] = useState(false);
+
   const [testSignInUser, setTestSignInUser] = useState(
     "Sign in as a test user"
   );
@@ -152,7 +154,7 @@ function App() {
           setModalVis(true);
           setTimeout(() => {
             window.location.reload();
-          }, 2000);
+          }, 3000);
         }
         return response["data"]["moveLegal"];
       })
@@ -243,7 +245,18 @@ function App() {
       //Get response
       .then((response) => {
         //Checking format and returning response
+        console.log("Full Response: ");
+        console.log(response["data"]);
         console.log("Response from Lamda Save: " + response["data"]["body"]);
+        if (response["data"]["statusCode"] === 201) {
+          // console.log("No New Game");
+          setModalMessage({
+            title: "New game could not be created",
+            body: "Each user is limited to six games",
+          });
+          setModalVis(true);
+          setModalButtonsOk(true);
+        }
         // saveGameMessage(response["data"]["body"]);
       })
       //catch an error
@@ -305,6 +318,7 @@ function App() {
   const deleteResult = async (deleteConfirmed) => {
     setModalVis(false);
     setModalButtons(false);
+    setModalButtonsOk(false);
     console.log(deleteConfirmed);
     console.log(userName1 + gameNumber);
 
@@ -367,8 +381,8 @@ function App() {
         authorization: authToken,
       },
     };
-    console.log(userName["username"]);
-    console.log("userName: " + userName1);
+    // console.log(userName["username"]);
+    // console.log("userName: " + userName1);
 
     await axios
 
@@ -378,9 +392,9 @@ function App() {
 
       //Get response
       .then((response) => {
-        console.log(userName);
+        // console.log(userName);
 
-        console.log(response);
+        // console.log(response);
         //Checking format and returning response
         retrievedGameState = response["data"]["gameState"];
         responseGames = response["data"]["games"];
@@ -392,8 +406,8 @@ function App() {
 
     // console.log(retrievedGameState);
     // props.changeGame(retrievedGameState, userName, gameNumber, turn);
-    console.log("Response HERE");
-    console.log(responseGames);
+    // console.log("Response HERE");
+    // console.log(responseGames);
 
     setGameListsTest(responseGames);
 
@@ -424,6 +438,7 @@ function App() {
                 body={modalMessage["body"]}
                 modalButtons={modalButtons}
                 deleteResult={deleteResult}
+                modalButtonsOk={modalButtonsOk}
               />
             )}
             <div>{waterMark}</div>

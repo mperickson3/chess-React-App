@@ -6,62 +6,6 @@ import Menu from "../Icons/menu.png";
 import Auth from "aws-amplify";
 
 const GameList = (props) => {
-  const [gameListVisible, setGameListVisible] = useState(true);
-  const [gameLists, setGameLists] = useState([]);
-
-  useEffect(() => {
-    getUserGames();
-    // setGameLists(props.gameListsTest)
-  }, []);
-
-  const toggleGameListVisible = (value) => {
-    setGameListVisible(value);
-  };
-
-  const getUserGames = async () => {
-    const getAPI =
-      "https://lqzqanzyeh.execute-api.us-east-2.amazonaws.com/default";
-    let retrievedGameState = {};
-
-    let gameNumber = props.gameNumber;
-    let turn = "";
-    let userName = "";
-    let responseGames = [];
-
-    const header = {
-      headers: {
-        authorization: props.getToken(),
-      },
-    };
-    console.log(header);
-
-    await axios
-
-      //post the desired move and the current gameState to the API to check the move
-      // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
-      .post(getAPI, { userName: props.username, gameNumber: "1" }, header)
-
-      //Get response
-      .then((response) => {
-        // console.log(response);
-        //Checking format and returning response
-        retrievedGameState = response["data"]["gameState"];
-        responseGames = response["data"]["games"];
-      })
-      //catch an error
-      .catch((error) => {
-        console.log(error);
-      });
-
-    // console.log(retrievedGameState);
-    // props.changeGame(retrievedGameState, userName, gameNumber, turn);
-
-    setGameLists(responseGames);
-    props.gameVisible(false);
-    // return responseGames;
-    console.log(gameLists);
-    toggleGameListVisible(true);
-  };
   const newGame = async () => {
     // let newGameNumber = (gameLists.length + 1).toString();
     let newGameNumber = "0";
@@ -88,13 +32,10 @@ const GameList = (props) => {
 
   return (
     <div className="column">
-      {props.gameListVisibleTest === true ? (
-        //Display the new game and sign out button with the Game lsit
+      {props.gameListVisibleTest && (
         <button className="newGameButton" onClick={newGame}>
           New Game
         </button>
-      ) : (
-        <div />
       )}
       {props.gameListVisibleTest === false ? (
         <div>

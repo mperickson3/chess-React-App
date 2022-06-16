@@ -16,6 +16,11 @@ const ErrorModal = (props) => {
         <div className="modal">{props.title}</div>
         <div className="modal">{props.body}</div>
         <div className="row">
+          {props.modalButtonsOk && (
+            <button className="modalButtonPrimary" onClick={deleteDenied}>
+              OK
+            </button>
+          )}
           {props.modalButtons && (
             <button className="modalButtonPrimary" onClick={deleteConfirmed}>
               YES

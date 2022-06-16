@@ -50,9 +50,9 @@
 .newGameButton {
   color: white;
   margin: 20px 41px 0px 41px;
-  padding: 5px 75px 5px 75px;
+  padding: auto;
   height: 75px;
-  min-width: 300px;
+  min-width: 350px;
   background-color: #b9c6df;
   border-radius: 20px;
   border-width: 0px;
@@ -87,7 +87,7 @@
 }
 
 .signInScreen {
-  background-color: #fcefef;
+  background-color: #0e1929;
   display: flex;
   flex-direction: column;
   align-items: center;
