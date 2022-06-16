@@ -112,7 +112,7 @@ function App() {
   const [userName1, setUserName1] = useState("");
 
   const checkValidMove = async (moveFrom, moveTo, pieceName, username) => {
-    console.log("apiTest Called");
+    console.log("apiCheckMove Called");
     const api =
       "https://7zbikadls1.execute-api.us-east-2.amazonaws.com/TestAuthentication";
 
@@ -125,7 +125,7 @@ function App() {
       turn: turn,
       ...gameState,
     };
-    console.log("gameNumber: " + gameNumber);
+    // console.log("gameNumber: " + gameNumber);
 
     const token = await Auth.currentSession().then((data) => {
       // console.log(data["idToken"]);
@@ -143,8 +143,8 @@ function App() {
       //Get response
       .then((response) => {
         //Checking format and returning response
-        console.log(response);
-        console.log(response["data"]["body"]);
+        // console.log(response);
+        // console.log(response["data"]["body"]);
         console.log("Result " + response["data"]["moveLegal"]);
         if (!response["data"]["testSync"]) {
           setModalMessage({
@@ -165,7 +165,7 @@ function App() {
   };
 
   const movePiece = async (moveFrom, moveTo, piece, username) => {
-    console.log("movePiece function executed");
+    // console.log("movePiece function executed");
     //check to see if the current turn is the same color as the piece being moved
     if (turn === piece[0]) {
       //Calls the check valid move function This function will return a promise object until a response is recieved
@@ -184,7 +184,7 @@ function App() {
           const newGameState = prevGameState;
           newGameState[moveFrom] = "";
           newGameState[moveTo] = piece;
-          console.log("state set");
+
           return { ...newGameState };
         });
         setTurn((previousTurn) => {
@@ -245,8 +245,8 @@ function App() {
       //Get response
       .then((response) => {
         //Checking format and returning response
-        console.log("Full Response: ");
-        console.log(response["data"]);
+        // console.log("Full Response: ");
+        // console.log(response["data"]);
         console.log("Response from Lamda Save: " + response["data"]["body"]);
         if (response["data"]["statusCode"] === 201) {
           // console.log("No New Game");
@@ -266,12 +266,12 @@ function App() {
   }
 
   const changeGame = async (changedGame, userName, gameNumber, turn) => {
-    console.log(changedGame);
+    // console.log(changedGame);
     setGameState(() => {
       return changedGame;
     });
     setGameNumber(gameNumber);
-    console.log(turn);
+    // console.log(turn);
     setTurn(turn);
   };
 
@@ -319,8 +319,7 @@ function App() {
     setModalVis(false);
     setModalButtons(false);
     setModalButtonsOk(false);
-    console.log(deleteConfirmed);
-    console.log(userName1 + gameNumber);
+    // console.log(deleteConfirmed);
 
     if (deleteConfirmed) {
       deleteGameTest();
@@ -352,7 +351,7 @@ function App() {
 
       //Get response
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         //Checking format and returning response
       })
       //catch an error

@@ -303,7 +303,7 @@ const Board = (props) => {
   const pawnMoves = (location, color) => {
     let numericLocation = keysForSpaceMath[location];
 
-    console.log(spaceMathString(location, 1, 0));
+    // console.log(spaceMathString(location, 1, 0));
     let distance = 1;
     if (location[1] === "7" || location[1] === "2") {
       distance = 2;
@@ -413,10 +413,10 @@ const Board = (props) => {
           xlocation + x < 9 &&
           ylocation + y < 9
         ) {
-          console.log(xlocation + " " + ylocation);
+          // console.log(xlocation + " " + ylocation);
           nextSpacePiece =
             props.gameState[spaceMathString(iteratedLocation, x, y)];
-          console.log(nextSpacePiece);
+          // console.log(nextSpacePiece);
           if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
             options.push(spaceMathString(iteratedLocation, x, y));
           }
@@ -466,7 +466,7 @@ const Board = (props) => {
       ) {
         nextSpacePiece =
           props.gameState[spaceMathString(iteratedLocation, x, y)];
-        console.log(nextSpacePiece);
+        // console.log(nextSpacePiece);
         if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
           options.push(spaceMathString(iteratedLocation, x, y));
         }
@@ -490,7 +490,7 @@ const Board = (props) => {
     let moves = [];
     switch (pieceSwitch) {
       case "Pawn":
-        console.log("pawn" + location);
+        // console.log("pawn" + location);
         props.turn === pieceColor
           ? (moves = pawnMoves(location, pieceColor))
           : (moves = []);
@@ -500,35 +500,35 @@ const Board = (props) => {
         props.turn === pieceColor
           ? (moves = rookMoves(location, pieceColor))
           : (moves = []);
-        console.log("Rook: " + moves);
+        // console.log("Rook: " + moves);
         break;
       case "Knight":
         props.turn === pieceColor
           ? (moves = knightMoves(location, pieceColor))
           : (moves = []);
-        console.log("Knight: " + moves);
+        // console.log("Knight: " + moves);
         break;
       case "Bishop":
         props.turn === pieceColor
           ? (moves = bishopMoves(location, pieceColor))
           : (moves = []);
-        console.log("Bishop: " + moves);
+        // console.log("Bishop: " + moves);
         break;
       case "Queen":
         props.turn === pieceColor
           ? (moves = queenMoves(location, pieceColor))
           : (moves = []);
-        console.log("Queen: " + moves);
+        // console.log("Queen: " + moves);
         break;
       case "King":
         props.turn === pieceColor
           ? (moves = kingMoves(location, pieceColor))
           : (moves = []);
-        console.log("King: " + moves);
+        // console.log("King: " + moves);
         break;
 
       default:
-        console.log("blankspace");
+      // console.log("blankspace");
     }
     setAvailableMoves(moves);
     // setAvailableMoves(moves);
