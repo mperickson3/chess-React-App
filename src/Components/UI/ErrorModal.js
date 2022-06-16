@@ -17,12 +17,12 @@ const ErrorModal = (props) => {
         <div className="modal">{props.body}</div>
         <div className="row">
           {props.modalButtons && (
-            <button className="modalButton" onClick={deleteConfirmed}>
+            <button className="modalButtonPrimary" onClick={deleteConfirmed}>
               YES
             </button>
           )}
           {props.modalButtons && (
-            <button className="modalButton" onClick={deleteDenied}>
+            <button className="modalButtonSecondary" onClick={deleteDenied}>
               NO
             </button>
           )}

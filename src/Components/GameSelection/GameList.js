@@ -11,6 +11,7 @@ const GameList = (props) => {
 
   useEffect(() => {
     getUserGames();
+    // setGameLists(props.gameListsTest)
   }, []);
 
   const toggleGameListVisible = (value) => {
@@ -20,12 +21,7 @@ const GameList = (props) => {
   const getUserGames = async () => {
     const getAPI =
       "https://lqzqanzyeh.execute-api.us-east-2.amazonaws.com/default";
-    let retrievedGameState = {
-      //   userName: "testUser",
-      //   gameNumber: "1",
-      //   turn: props.turn,
-      //   ...props.gameStateStart,
-    };
+    let retrievedGameState = {};
 
     let gameNumber = props.gameNumber;
     let turn = "";
@@ -69,17 +65,19 @@ const GameList = (props) => {
   const newGame = async () => {
     // let newGameNumber = (gameLists.length + 1).toString();
     let newGameNumber = "0";
-    if (gameLists.length > 0) {
+    if (props.gameListsTest.length > 0) {
       //If there are games in the game list set the new game number to 1 higher than the Highest internal unique gamenumber ID
       newGameNumber = (
-        parseInt(gameLists[gameLists.length - 1]["gameNumber"]) + 1
+        parseInt(
+          props.gameListsTest[props.gameListsTest.length - 1]["gameNumber"]
+        ) + 1
       ).toString();
     }
 
     console.log("New Game Number: " + newGameNumber);
     // props.changeGame(props.newGameState, props.username, newGameNumber, "w");
     await props.saveGame(props.username, "w", newGameNumber, true); //Save the new game with the newgamenumber
-    getUserGames();
+    props.getUserGamesTest();
     // props.gameVisible(true); //Display the newgame
     // toggleGameListVisible(false); //Turn off the game list menu
   };
@@ -88,53 +86,9 @@ const GameList = (props) => {
     props.deleteGameModal(props.username, props.gameNumber);
   };
 
-  // const deleteGame = async () => {
-  //   const deleteAPI =
-  //     "https://mudw22xr23.execute-api.us-east-2.amazonaws.com/beta";
-
-  //   const header = {
-  //     headers: {
-  //       // authorization: await props.getToken().toString(),
-  //       authorization: props.authToken,
-  //     },
-  //   };
-  //   const data = {
-  //     userName: props.username,
-  //     gameNumber: props.gameNumber,
-  //   };
-  //   // console.log(props.authToken);
-
-  //   await axios
-
-  //     //post the desired move and the current gameState to the API to check the move
-  //     // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
-  //     .post(
-  //       deleteAPI,
-  //       {
-  //         userName: props.username,
-  //         gameNumber: props.gameNumber,
-  //       },
-  //       header
-  //     )
-
-  //     //Get response
-  //     .then((response) => {
-  //       console.log(response);
-  //       //Checking format and returning response
-  //     })
-  //     //catch an error
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-
-  //   getUserGames();
-  //   // return responseGames;
-  //   console.log(gameLists);
-  // };
-
   return (
     <div className="column">
-      {gameListVisible === true ? (
+      {props.gameListVisibleTest === true ? (
         //Display the new game and sign out button with the Game lsit
         <button className="newGameButton" onClick={newGame}>
           New Game
@@ -142,18 +96,21 @@ const GameList = (props) => {
       ) : (
         <div />
       )}
-      {gameListVisible === false ? (
+      {props.gameListVisibleTest === false ? (
         <div>
-          <button className="functionGameButton" onClick={getUserGames}>
+          <button
+            className="functionGameButton"
+            onClick={props.getUserGamesTest}
+          >
             <img src={Menu} className="functionIcon" alt="Menu" />
           </button>
           <button className="functionGameButton" onClick={deleteGameConfirm}>
             <img src={Trash} className="functionIcon" alt="Trash" />
           </button>
         </div>
-      ) : gameLists.length > 0 ? (
+      ) : props.gameListsTest.length > 0 ? (
         // When there are games to display display the game list
-        gameLists.map((gameInfo, index) => {
+        props.gameListsTest.map((gameInfo, index) => {
           return (
             <Games
               key={gameInfo["userName"] + gameInfo["gameNumber"]}
@@ -163,7 +120,7 @@ const GameList = (props) => {
               gameInfo={gameInfo}
               changeGame={props.changeGame}
               gameVisible={props.gameVisible}
-              toggleGameListVisible={toggleGameListVisible}
+              toggleGameListVisible={props.toggleGameListVisibleTest}
             />
           );
         })
@@ -171,7 +128,7 @@ const GameList = (props) => {
         <div />
       )}
 
-      {gameListVisible === true ? (
+      {props.gameListVisibleTest === true ? (
         //Display the new game and sign out button with the Game lsit
         <button className="signOutButton" onClick={props.signOut}>
           Sign out

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./Components/GameBoard/Board";
 import Board from "./Components/GameBoard/Board";
@@ -99,6 +99,9 @@ function App() {
     "Sign in as a test user"
   );
   const [waterMark, setWaterMark] = useState("");
+  const [gameListsTest, setGameListsTest] = useState([]);
+  const [gameListVisibleTest, setGameListVisibleTest] = useState(true);
+
   const authToken = Auth.currentSession().then((data) => {
     // console.log(data["idToken"]);
     return data["idToken"]["jwtToken"];
@@ -259,7 +262,7 @@ function App() {
     setTurn(turn);
   };
 
-  const gameVisibile = (value) => {
+  const gameVisible = (value) => {
     //Takes a boolean to define if the gameboard is visibile
     console.log("Game Board Visible Trigger");
     setboardVisible(value);
@@ -320,6 +323,7 @@ function App() {
         authorization: authToken,
       },
     };
+
     const data = {
       userName: userName1,
       gameNumber: gameNumber,
@@ -342,9 +346,70 @@ function App() {
         console.log(error);
       });
 
-    // getUserGames();
+    getUserGamesTest();
+
     // return responseGames;
     // console.log(gameLists);
+  };
+
+  const getUserGamesTest = async () => {
+    const getAPI =
+      "https://lqzqanzyeh.execute-api.us-east-2.amazonaws.com/default";
+    let retrievedGameState = {};
+
+    let turn = "";
+    let userName = await Auth.currentAuthenticatedUser();
+    userName = userName["username"];
+    let responseGames = [];
+
+    const header = {
+      headers: {
+        authorization: authToken,
+      },
+    };
+    console.log(userName["username"]);
+    console.log("userName: " + userName1);
+
+    await axios
+
+      //post the desired move and the current gameState to the API to check the move
+      // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
+      .post(getAPI, { userName: userName, gameNumber: "1" }, header)
+
+      //Get response
+      .then((response) => {
+        console.log(userName);
+
+        console.log(response);
+        //Checking format and returning response
+        retrievedGameState = response["data"]["gameState"];
+        responseGames = response["data"]["games"];
+      })
+      //catch an error
+      .catch((error) => {
+        console.log(error);
+      });
+
+    // console.log(retrievedGameState);
+    // props.changeGame(retrievedGameState, userName, gameNumber, turn);
+    console.log("Response HERE");
+    console.log(responseGames);
+
+    setGameListsTest(responseGames);
+
+    gameVisible(false);
+    // return responseGames;
+    // console.log(gameLists);
+    toggleGameListVisibleTest(true);
+  };
+
+  useEffect(() => {
+    getUserGamesTest();
+  }, []);
+
+  const toggleGameListVisibleTest = (value) => {
+    console.log("Toggle Game List");
+    setGameListVisibleTest(value);
   };
 
   return (
@@ -367,13 +432,17 @@ function App() {
               gameNumber={gameNumber}
               changeGame={changeGame}
               newGameState={newGameState}
-              gameVisible={gameVisibile}
+              gameVisible={gameVisible}
               saveGame={saveGame}
               signOut={signOut}
               turn={turn}
               getToken={getToken}
               authToken={authToken}
               deleteGameModal={deleteGameModal}
+              gameListVisibleTest={gameListVisibleTest}
+              toggleGameListVisibleTest={toggleGameListVisibleTest}
+              getUserGamesTest={getUserGamesTest}
+              gameListsTest={gameListsTest}
             />
             {boardVisible === false ? (
               //Do not display the gameboard if the user is at game selection
