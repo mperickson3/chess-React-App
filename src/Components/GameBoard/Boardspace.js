@@ -15,20 +15,12 @@ const Boardspace = (props) => {
   const [spaceColor, setSpaceColor] = useState(color);
 
   const clickSpace = (event) => {
-    //console.log(props.space);
     props.clickedPieceCheck(props.space);
-    // console.log(props.currentSpace);
+
     props.findValidMoves(props.piece, props.space);
 
     if (props.availableMoves.includes(props.space)) {
     }
-
-    //Seeking to impliment a selected space color indicator
-    // if (props.currentSpaceSelected === props.space) {
-    //   setSpaceColor("spaceWhiteSelected");
-    // } else {
-    //   setSpaceColor("spaceBlack");
-    // }
   };
 
   let moveradius = 0;

@@ -4,7 +4,6 @@ import "./Board.css";
 import Icons from "../Icons/Icons";
 
 //Matthew
-// let currentSpace = "";
 
 const Board = (props) => {
   const boardMapKeys = [
@@ -212,7 +211,6 @@ const Board = (props) => {
     76: "g6",
     86: "h6",
   };
-  // let currentPiece = "";
 
   //This may be used to change the color of the selected space for some more user feedback
   // const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
@@ -235,9 +233,6 @@ const Board = (props) => {
         lastSelectedSpace
     );
 
-    // if (currentPiece in availableMoves){
-
-    // }
     //Calls the parent Move Piece function if certain conditions are met
     if (availableMoves.includes(currentSpace)) {
       props.movePiece(
@@ -249,22 +244,7 @@ const Board = (props) => {
       setLastSelectedPiece("");
       setLastSelectedSpace("");
       setAvailableMoves([]);
-    }
-    // else if (
-    //   currentPiece[0] !== lastSelectedPiece[0] &&
-    //   lastSelectedPiece !== ""
-    // ) {
-    //   props.movePiece(
-    //     lastSelectedSpace,
-    //     currentSpace,
-    //     lastSelectedPiece,
-    //     props.username
-    //   );
-    //   setLastSelectedPiece("");
-    //   setLastSelectedSpace("");
-    //   setAvailableMoves([]);
-    // }
-    else {
+    } else {
       setLastSelectedPiece(currentPiece);
       setLastSelectedSpace(currentSpace);
     }
@@ -379,7 +359,6 @@ const Board = (props) => {
       }
     }
 
-    // location = spaceMath(location, -1, -1);
     return options;
   };
 
@@ -401,7 +380,6 @@ const Board = (props) => {
       options.push(option);
     }
 
-    // location = spaceMath(location, -1, -1);
     return options;
   };
 
@@ -416,7 +394,6 @@ const Board = (props) => {
       }
     }
 
-    // location = spaceMath(location, -1, -1);
     return options;
   };
 
