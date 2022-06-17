@@ -10,6 +10,7 @@ import "@aws-amplify/ui-react/styles.css";
 import GameList from "./Components/GameSelection/GameList";
 import TurnIndicator from "./Components/GameSelection/TurnIndicator";
 import ErrorModal from "./Components/UI/ErrorModal";
+import MenuSelection from "./Components/UI/MenuSelection";
 Amplify.configure(config);
 
 //Matthew
@@ -441,6 +442,7 @@ function App() {
               />
             )}
             <div>{waterMark}</div>
+            <MenuSelection></MenuSelection>
             <GameList
               username={user.username}
               gameNumber={gameNumber}
