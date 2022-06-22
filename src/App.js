@@ -267,11 +267,14 @@ function App() {
   }
 
   const changeGame = async (changedGame, userName, gameNumber, turn) => {
+    console.log("Change Game Called");
     // console.log(changedGame);
     setGameState(() => {
       return changedGame;
     });
     setGameNumber(gameNumber);
+    gameVisible(true);
+    toggleGameListVisibleTest(false);
     // console.log(turn);
     setTurn(turn);
   };
@@ -419,6 +422,15 @@ function App() {
 
   useEffect(() => {
     getUserGamesTest();
+
+    // if (userName1 === "testuser")
+    //   setModalMessage({
+    //     title: "You have signed in as a test user",
+    //     body: "Some changes may not be overwritten",
+    //   });
+    // console.log("MODAL");
+    // setModalVis(true);
+    // setModalButtonsOk(true);
   }, []);
 
   const toggleGameListVisibleTest = (value) => {
@@ -442,9 +454,9 @@ function App() {
               />
             )}
             <div>{waterMark}</div>
-            <MenuSelection></MenuSelection>
-            <GameList
+            <MenuSelection
               username={user.username}
+              gameStateStart={gameStateStart}
               gameNumber={gameNumber}
               changeGame={changeGame}
               newGameState={newGameState}
@@ -459,11 +471,11 @@ function App() {
               toggleGameListVisibleTest={toggleGameListVisibleTest}
               getUserGamesTest={getUserGamesTest}
               gameListsTest={gameListsTest}
-            />
-            {boardVisible === false ? (
-              //Do not display the gameboard if the user is at game selection
-              <div />
-            ) : (
+              setModalVis={setModalVis}
+              setModalButtonsOk={setModalButtonsOk}
+              setModalMessage={setModalMessage}
+            ></MenuSelection>
+            {boardVisible && (
               <div>
                 <Board
                   gameState={gameState}

@@ -66,7 +66,7 @@
   margin: 20px 41px 0px 41px;
   padding: 5px 75px 5px 75px;
   height: 75px;
-  min-width: 300px;
+  min-width: 350px;
   background-color: #364c75;
   border-radius: 20px;
   border-width: 0px;
@@ -118,7 +118,7 @@
 .button-signIn {
   width: 400px;
   height: 50px;
-  margin: -25vh 0 25vh 0;
+  margin: 0vh 0 25vh 0;
   display: inline-flex;
   justify-content: center;
   align-items: center;
