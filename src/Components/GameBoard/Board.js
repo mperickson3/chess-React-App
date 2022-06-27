@@ -255,6 +255,7 @@ const Board = (props) => {
           tempGameState
         );
         if (kingCheckbool) {
+          console.log(isCheckMate(kingLocation, oponentColor, tempGameState));
           setPiecesCheck(oponentColor + "King1");
         } else {
           setPiecesCheck(null);
@@ -586,6 +587,40 @@ const Board = (props) => {
       }
     }
 
+    let optionsPawn = [];
+
+    let xlocation = parseInt(keysForSpaceMath[location][0]);
+    let ylocation = parseInt(keysForSpaceMath[location][1]);
+    let nextSpacePiece = "";
+    let iteratedLocation = location;
+    let xD = [-1, 1];
+
+    for (const x of xD) {
+      if (
+        color === "b" &&
+        ylocation < 8 &&
+        xlocation + x < 8 &&
+        xlocation + x > 0
+      ) {
+        let y = 1;
+        nextSpacePiece = gameStateUsed[spaceMathString(iteratedLocation, x, y)];
+        if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
+          optionsPawn.push(spaceMathString(iteratedLocation, x, y));
+        }
+      } else if (
+        color === "w" &&
+        ylocation > 0 &&
+        xlocation + x < 8 &&
+        xlocation + x > 0
+      ) {
+        let y = -1;
+        nextSpacePiece = gameStateUsed[spaceMathString(iteratedLocation, x, y)];
+        if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
+          optionsPawn.push(spaceMathString(iteratedLocation, x, y));
+        }
+      }
+    }
+
     // console.log(optionsDiag);
     // console.log(optionsLinear);
     // console.log(optionsKnight);
@@ -620,8 +655,18 @@ const Board = (props) => {
         return true;
       }
     }
+
+    for (const space of optionsPawn) {
+      if (gameStateUsed[space].includes(oponentColor + "Pawn")) {
+        console.log("check Pawn");
+        return true;
+      }
+    }
+
     return false;
   };
+
+  const isCheckMate = (location, color, gameStateUse) => {};
 
   const kingMoves = (location, color) => {
     // kingCheck(location, color);
