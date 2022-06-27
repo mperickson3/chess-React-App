@@ -40,11 +40,49 @@ const MenuSelection = (props) => {
 
   const newNetworkGame = async () => {
     console.log("New");
-    props.setModalMessage({
-      title: "Multiplayer games in progress",
-      body: "Please go back",
-    });
-    newMultiplayer("muliplayer");
+    // props.setModalMessage({
+    //   title: "Multiplayer games in progress",
+    //   body: "Please go back",
+    // });
+    // newMultiplayer("muliplayer");
+    // // const saveAPI =
+    // //   "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
+    // let data = {}; // Declare the JSON object to be sent to the api
+
+    // const token = await Auth.currentSession().then((data) => {
+    //   // console.log(data["idToken"]);
+    //   return data["idToken"]["jwtToken"];
+    // });
+
+    // await axios
+
+    //   //post the desired move and the current gameState to the API
+    //   .post(saveAPI, data, {
+    //     headers: {
+    //       authorization: token,
+    //     },
+    //   })
+    //   //Get response
+    //   .then((response) => {
+    //     //Checking format and returning response
+    //     // console.log("Full Response: ");
+    //     // console.log(response["data"]);
+    //     console.log("Response from Lamda Save: " + response["data"]["body"]);
+    //     if (response["data"]["statusCode"] === 201) {
+    //       // console.log("No New Game");
+    //       setModalMessage({
+    //         title: "New game could not be created",
+    //         body: "Each user is limited to six games",
+    //       });
+    //       setModalVis(true);
+    //       setModalButtonsOk(true);
+    //     }
+    //     // saveGameMessage(response["data"]["body"]);
+    //   })
+    //   //catch an error
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   const joinNetworkGames = async () => {

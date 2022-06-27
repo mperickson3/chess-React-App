@@ -31,6 +31,10 @@ const Boardspace = (props) => {
     borderColor = "#d1ad6b";
   }
 
+  if (props.piece.includes(props.piecesCheck)) {
+    borderColor = "#ff0000";
+  }
+
   return (
     <div
       className={spaceColor}

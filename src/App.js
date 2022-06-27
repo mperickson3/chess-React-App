@@ -82,6 +82,8 @@ const gameStateStart = {
   f6: "",
   g6: "",
   h6: "",
+  wKing: "e8",
+  bKing: "e1",
 };
 const newGameState = { ...gameStateStart };
 
@@ -199,6 +201,7 @@ function App() {
           }
         });
       }
+      // return true;
     }
   };
 
