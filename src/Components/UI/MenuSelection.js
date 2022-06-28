@@ -40,6 +40,11 @@ const MenuSelection = (props) => {
 
   const newNetworkGame = async () => {
     console.log("New");
+    props.setModalMessage({
+      title: "Multiplayer games in progress",
+      body: "Please go back",
+    });
+    newMultiplayer("muliplayer");
     // props.setModalMessage({
     //   title: "Multiplayer games in progress",
     //   body: "Please go back",

@@ -486,6 +486,10 @@ function App() {
                   apiTest={checkValidMove}
                   username={user.username}
                   turn={turn}
+                  setModalButtonsOk={setModalButtonsOk}
+                  setModalMessage={setModalMessage}
+                  setModalVis={setModalVis}
+                  deleteGameTest={deleteGameTest}
                 />
                 <TurnIndicator turn={turn} />
               </div>

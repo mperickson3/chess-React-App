@@ -17,7 +17,7 @@ const Boardspace = (props) => {
   const clickSpace = (event) => {
     props.clickedPieceCheck(props.space);
 
-    props.findValidMoves(props.piece, props.space);
+    props.findValidMoves(props.piece, props.space, props.turn);
 
     if (props.availableMoves.includes(props.space)) {
     }

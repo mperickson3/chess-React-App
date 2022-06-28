@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Boardspace from "./Boardspace";
 import "./Board.css";
 import Icons from "../Icons/Icons";
+import { findByLabelText } from "@testing-library/react";
 
 //Matthew
 
@@ -244,18 +245,45 @@ const Board = (props) => {
 
         tempGameState[lastSelectedSpace] = "";
         tempGameState[currentSpace] = lastSelectedPiece;
-        console.log(tempGameState[lastSelectedSpace]);
-        console.log(props.gameState[lastSelectedSpace]);
-        console.log(props.gameState);
+        // console.log(tempGameState[lastSelectedSpace]);
+        // console.log(props.gameState[lastSelectedSpace]);
+        // console.log(props.gameState);
         let kingLocation = getKeyByValue(tempGameState, oponentColor + "King1");
-        console.log(kingLocation + " : " + oponentColor);
+        // console.log(kingLocation + " : " + oponentColor);
         let kingCheckbool = kingCheck(
           kingLocation,
           oponentColor,
           tempGameState
         );
         if (kingCheckbool) {
-          console.log(isCheckMate(kingLocation, oponentColor, tempGameState));
+          setTimeout(() => {
+            let checkMateBool = isCheckMate(
+              kingLocation,
+              oponentColor,
+              tempGameState
+            );
+            console.log(checkMateBool);
+            if (checkMateBool) {
+              if (oponentColor === "b") {
+                props.setModalMessage({
+                  title: "White Player Wins!!!!!!!!!!",
+                  body: "The Game will now be deleted",
+                });
+              } else {
+                props.setModalMessage({
+                  title: "Black Player Wins!!!!!!!!!!",
+                  body: "The Game will now be deleted",
+                });
+              }
+
+              props.setModalButtonsOk(true);
+              props.setModalVis(true);
+              setTimeout(() => {
+                props.deleteGameTest();
+              }, 2000);
+            }
+          }, 1000);
+
           setPiecesCheck(oponentColor + "King1");
         } else {
           setPiecesCheck(null);
@@ -336,14 +364,13 @@ const Board = (props) => {
       xlocation = xlocation + x;
       ylocation = ylocation + y;
     }
-    // console.log(options);
+
     return options;
   };
 
   const pawnMoves = (location, color) => {
     let numericLocation = keysForSpaceMath[location];
 
-    // console.log(spaceMathString(location, 1, 0));
     let distance = 1;
     if (location[1] === "7" || location[1] === "2") {
       distance = 2;
@@ -393,12 +420,11 @@ const Board = (props) => {
     let finalOptions = [];
     for (const move of options) {
       let tempGameState = { ...props.gameState };
-      // console.log(move);
 
       tempGameState[move] = color + "Pawn1";
       tempGameState[location] = "";
       willCheck = kingCheck(kingLocation, color, tempGameState);
-      console.log(willCheck);
+      // console.log(willCheck);
       if (!willCheck) {
         finalOptions.push(move);
       }
@@ -428,7 +454,7 @@ const Board = (props) => {
       tempGameState[move] = color + "Queen1";
       tempGameState[location] = "";
       willCheck = kingCheck(kingLocation, color, tempGameState);
-      console.log(willCheck);
+      // console.log(willCheck);
       if (!willCheck) {
         finalOptions.push(move);
       }
@@ -464,7 +490,7 @@ const Board = (props) => {
       tempGameState[move] = color + "Rook1";
       tempGameState[location] = "";
       willCheck = kingCheck(kingLocation, color, tempGameState);
-      console.log(willCheck);
+      // console.log(willCheck);
       if (!willCheck) {
         finalOptions.push(move);
       }
@@ -493,7 +519,7 @@ const Board = (props) => {
       tempGameState[move] = color + "Queen1";
       tempGameState[location] = "";
       willCheck = kingCheck(kingLocation, color, tempGameState);
-      console.log(willCheck);
+      // console.log(willCheck);
       if (!willCheck) {
         finalOptions.push(move);
       }
@@ -507,6 +533,7 @@ const Board = (props) => {
 
     for (const x of directions) {
       for (const y of directions) {
+        console.log(location);
         const option = ideratedChecks(
           location,
           x,
@@ -621,9 +648,38 @@ const Board = (props) => {
       }
     }
 
-    // console.log(optionsDiag);
-    // console.log(optionsLinear);
-    // console.log(optionsKnight);
+    const directionsKing = [-1, 0, 1];
+    let optionsKing = [];
+    for (const x of directionsKing) {
+      for (const y of directionsKing) {
+        let xlocation = parseInt(keysForSpaceMath[location][0]);
+        let ylocation = parseInt(keysForSpaceMath[location][1]);
+        let nextSpacePiece = "";
+        let iteratedLocation = location;
+        while (
+          xlocation + x > 0 &&
+          ylocation + y > 0 &&
+          xlocation + x < 9 &&
+          ylocation + y < 9
+        ) {
+          // console.log(xlocation + " " + ylocation);
+          nextSpacePiece =
+            props.gameState[spaceMathString(iteratedLocation, x, y)];
+          // console.log(nextSpacePiece);
+          if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
+            optionsKing.push(spaceMathString(iteratedLocation, x, y));
+          }
+          if (
+            (nextSpacePiece !== "" && nextSpacePiece[0] !== color) ||
+            (nextSpacePiece !== "" && nextSpacePiece[0] === color)
+          ) {
+            break;
+          }
+
+          break;
+        }
+      }
+    }
 
     let oponentColor = "";
     color === "w" ? (oponentColor = "b") : (oponentColor = "w");
@@ -634,7 +690,7 @@ const Board = (props) => {
         gameStateUsed[space].includes(oponentColor + "Bishop") ||
         gameStateUsed[space].includes(oponentColor + "Queen")
       ) {
-        console.log("CHECK DIAG");
+        // console.log("CHECK DIAG");
         return true;
       }
     }
@@ -644,21 +700,29 @@ const Board = (props) => {
         gameStateUsed[space].includes(oponentColor + "Rook") ||
         gameStateUsed[space].includes(oponentColor + "Queen")
       ) {
-        console.log("CHECK LINEAR");
+        // console.log("CHECK LINEAR");
         return true;
       }
     }
     for (const space of optionsKnight) {
       // console.log(props.gameState[space]);
       if (gameStateUsed[space].includes(oponentColor + "Knight")) {
-        console.log("CHECK KNIGHT");
+        // console.log("CHECK KNIGHT");
         return true;
       }
     }
 
     for (const space of optionsPawn) {
       if (gameStateUsed[space].includes(oponentColor + "Pawn")) {
-        console.log("check Pawn");
+        // console.log("check Pawn");
+        return true;
+      }
+    }
+
+    for (const space of optionsKing) {
+      // console.log(props.gameState[space]);
+      if (gameStateUsed[space].includes(oponentColor + "King")) {
+        console.log("CHECK King");
         return true;
       }
     }
@@ -666,7 +730,24 @@ const Board = (props) => {
     return false;
   };
 
-  const isCheckMate = (location, color, gameStateUse) => {};
+  const isCheckMate = (location, color, gameStateUse) => {
+    console.log("In Check Mate Check");
+    let checkMate = true;
+    let validMoves = [];
+    for (const space of boardMapKeys) {
+      // console.log(props.gameState[space]);
+      if (props.gameState[space][0] === color) {
+        console.log(props.gameState[space]);
+        validMoves = findValidMoves(props.gameState[space], space, color);
+
+        console.log(validMoves);
+        if (validMoves.length !== 0) {
+          checkMate = false;
+        }
+      }
+    }
+    return checkMate;
+  };
 
   const kingMoves = (location, color) => {
     // kingCheck(location, color);
@@ -714,7 +795,7 @@ const Board = (props) => {
       tempGameState[move] = color + "King1";
       tempGameState[location] = "";
       willCheck = kingCheck(move, color, tempGameState);
-      console.log(willCheck);
+      // console.log(willCheck);
       if (!willCheck) {
         finalOptions.push(move);
       }
@@ -778,7 +859,7 @@ const Board = (props) => {
       tempGameState[move] = color + "Knight1";
       tempGameState[location] = "";
       willCheck = kingCheck(kingLocation, color, tempGameState);
-      console.log(willCheck);
+      // console.log(willCheck);
       if (!willCheck) {
         finalOptions.push(move);
       }
@@ -787,54 +868,54 @@ const Board = (props) => {
     return finalOptions;
   };
 
-  const findValidMoves = (pieceName, location) => {
+  const findValidMoves = (pieceName, location, turn) => {
     const pieceColor = pieceName[0];
     const pieceSwitch = pieceName.slice(1, -1);
     let moves = [];
     switch (pieceSwitch) {
       case "Pawn":
         // console.log("pawn" + location);
-        props.turn === pieceColor
+        turn === pieceColor
           ? (moves = pawnMoves(location, pieceColor))
           : (moves = []);
-
         break;
       case "Rook":
-        props.turn === pieceColor
+        turn === pieceColor
           ? (moves = rookMoves(location, pieceColor))
           : (moves = []);
         // console.log("Rook: " + moves);
         break;
       case "Knight":
-        props.turn === pieceColor
+        turn === pieceColor
           ? (moves = knightMoves(location, pieceColor))
           : (moves = []);
         // console.log("Knight: " + moves);
         break;
       case "Bishop":
-        props.turn === pieceColor
+        turn === pieceColor
           ? (moves = bishopMoves(location, pieceColor))
           : (moves = []);
         // console.log("Bishop: " + moves);
         break;
       case "Queen":
-        props.turn === pieceColor
+        turn === pieceColor
           ? (moves = queenMoves(location, pieceColor))
           : (moves = []);
         // console.log("Queen: " + moves);
         break;
       case "King":
-        props.turn === pieceColor
+        turn === pieceColor
           ? (moves = kingMoves(location, pieceColor))
           : (moves = []);
         // console.log("King: " + moves);
         break;
 
       default:
-      // console.log("blankspace");
+      // return "blank";
     }
     setAvailableMoves(moves);
-    // setAvailableMoves(moves);
+
+    return moves;
   };
 
   const setCurrentSpaceCheck = (space) => {
@@ -858,6 +939,7 @@ const Board = (props) => {
               // currentSpace={currentSpace}
               availableMoves={availableMoves}
               piecesCheck={piecesCheck}
+              turn={props.turn}
             />
           );
         })}
