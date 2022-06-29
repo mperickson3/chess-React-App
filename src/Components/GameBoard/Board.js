@@ -734,10 +734,10 @@ const Board = (props) => {
     for (const space of boardMapKeys) {
       // console.log(props.gameState[space]);
       if (props.gameState[space][0] === color) {
-        console.log(props.gameState[space]);
+        // console.log(props.gameState[space]);
         validMoves = findValidMoves(props.gameState[space], space, color);
 
-        console.log(validMoves);
+        // console.log(validMoves);
         if (validMoves.length !== 0) {
           checkMate = false;
         }
