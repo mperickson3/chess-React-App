@@ -266,23 +266,20 @@ const Board = (props) => {
             if (checkMateBool) {
               if (oponentColor === "b") {
                 props.setModalMessage({
-                  title: "White Player Wins!!!!!!!!!!",
-                  body: "The Game will now be deleted",
+                  title: "Check Mate: White Player Wins!!!",
+                  body: "Delete the game when you are ready",
                 });
               } else {
                 props.setModalMessage({
-                  title: "Black Player Wins!!!!!!!!!!",
-                  body: "The Game will now be deleted",
+                  title: "Black Player Wins!!!",
+                  body: "Delete the game when you are ready",
                 });
               }
 
               props.setModalButtonsOk(true);
               props.setModalVis(true);
-              setTimeout(() => {
-                props.deleteGameTest();
-              }, 2000);
             }
-          }, 1000);
+          }, 700);
 
           setPiecesCheck(oponentColor + "King1");
         } else {
