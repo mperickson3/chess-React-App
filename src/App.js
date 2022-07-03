@@ -117,7 +117,7 @@ function App() {
   const checkValidMove = async (moveFrom, moveTo, pieceName, username) => {
     console.log("apiCheckMove Called");
     const api =
-      "https://7zbikadls1.execute-api.us-east-2.amazonaws.com/TestAuthentication";
+      "https://fvhal8jc98.execute-api.us-east-2.amazonaws.com/multiplayerTest";
 
     const data = {
       piece: pieceName,
@@ -146,8 +146,8 @@ function App() {
       //Get response
       .then((response) => {
         //Checking format and returning response
-        // console.log(response);
-        // console.log(response["data"]["body"]);
+        console.log(response["data"]);
+        console.log(response["data"]["body"]);
         console.log("Result " + response["data"]["moveLegal"]);
         if (!response["data"]["testSync"]) {
           setModalMessage({
@@ -206,32 +206,21 @@ function App() {
   };
 
   //This function creates a new game. Game state is defined in serverless function
-  async function saveGame(
-    username,
-    turn,
-    newGameNumber = "0",
-    newGame = false
-  ) {
+  async function saveGame(username, newGameNumber = "0", joinGame = false) {
     const saveAPI =
-      "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
+      "https://vyhkeclbph.execute-api.us-east-2.amazonaws.com/Create-Game-API";
     let data = {}; // Declare the JSON object to be sent to the api
-    if (newGame) {
-      //If a new game is selected the JSON object will take the starting position of the game state
-      data = {
-        userName: username,
-        gameNumber: newGameNumber,
-        turn: turn,
-        ...newGameState,
-      };
-      //Change game function needs to be called for a new game but not when a piece is moved
-    } else {
-      data = {
-        userName: username,
-        gameNumber: gameNumber,
-        turn: turn,
-        ...gameState,
-      };
-    }
+
+    //If a new game is selected the JSON object will take the starting position of the game state
+
+    data = {
+      userName: username,
+      gameNumber: newGameNumber,
+      joinGame: joinGame,
+    };
+
+    console.log(data);
+    //Change game function needs to be called for a new game but not when a piece is moved
 
     const token = await Auth.currentSession().then((data) => {
       // console.log(data["idToken"]);
@@ -335,7 +324,7 @@ function App() {
 
   const deleteGameTest = async () => {
     const deleteAPI =
-      "https://mudw22xr23.execute-api.us-east-2.amazonaws.com/beta";
+      "https://b62dmtbp99.execute-api.us-east-2.amazonaws.com/multiplayerTest";
 
     const header = {
       headers: {
@@ -373,8 +362,9 @@ function App() {
   };
 
   const getUserGamesTest = async () => {
+    // console.log("Test");
     const getAPI =
-      "https://lqzqanzyeh.execute-api.us-east-2.amazonaws.com/default";
+      "https://4aobk66o27.execute-api.us-east-2.amazonaws.com/multiplayerTest";
     let retrievedGameState = {};
 
     let turn = "";

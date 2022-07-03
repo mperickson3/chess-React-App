@@ -33,7 +33,7 @@ const GameList = (props) => {
               key={gameInfo["userName"] + gameInfo["gameNumber"]}
               userName={gameInfo["userName"]}
               //Game Number seen by the user will be the index of the array
-              gameNumberDisplayed={index + 1}
+              gameNumberDisplayed={gameInfo["gameNumber"]}
               gameInfo={gameInfo}
               changeGame={props.changeGame}
               gameVisible={props.gameVisible}

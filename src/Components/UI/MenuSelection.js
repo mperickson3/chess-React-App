@@ -3,6 +3,7 @@ import GameList from "../GameSelection/GameList";
 
 const MenuSelection = (props) => {
   const [menuScreen, setMenuScreen] = useState("main");
+  const [gameInput, setGameInput] = useState("");
 
   const newGameMenu = () => {
     setMenuScreen("newGame");
@@ -12,8 +13,8 @@ const MenuSelection = (props) => {
   };
   const newMultiplayer = () => {
     setMenuScreen("multiplayer");
-    props.setModalVis(true);
-    props.setModalButtonsOk(true);
+    // props.setModalVis(true);
+    // props.setModalButtonsOk(true);
   };
   const newGameLocal = async () => {
     // let newGameNumber = (gameLists.length + 1).toString();
@@ -29,7 +30,7 @@ const MenuSelection = (props) => {
 
     console.log("New Game Number: " + newGameNumber);
     // props.changeGame(props.newGameState, props.username, newGameNumber, "w");
-    await props.saveGame(props.username, "w", newGameNumber, true); //Save the new game with the newgamenumber
+    await props.saveGame(props.username); //Save the new game with the newgamenumber
     props.getUserGamesTest();
     // props.gameVisible(true); //Display the newgame
     // toggleGameListVisible(false); //Turn off the game list menu
@@ -40,10 +41,10 @@ const MenuSelection = (props) => {
 
   const newNetworkGame = async () => {
     console.log("New");
-    props.setModalMessage({
-      title: "Multiplayer games in progress",
-      body: "Please go back",
-    });
+    // props.setModalMessage({
+    //   title: "Multiplayer games in progress",
+    //   body: "Please go back",
+    // });
     newMultiplayer("muliplayer");
     // props.setModalMessage({
     //   title: "Multiplayer games in progress",
@@ -92,11 +93,23 @@ const MenuSelection = (props) => {
 
   const joinNetworkGames = async () => {
     console.log("Join");
-    props.setModalMessage({
-      title: "Multiplayer games in progress",
-      body: "Please go back",
+    // props.setModalMessage({
+    //   title: "Multiplayer games in progress",
+    //   body: "Please go back",
+    // });
+    setMenuScreen("joinNetwork");
+  };
+
+  const gamenumberHandler = (event) => {
+    // console.log(event.target.value);
+    setGameInput((prevState) => {
+      return { ...prevState, enteredGameNumber: event.target.value };
     });
-    newMultiplayer("muliplayer");
+    // console.log(gameInput);
+  };
+
+  const joinGame = async () => {
+    props.saveGame(props.username, gameInput["enteredGameNumber"], true);
   };
 
   return (
@@ -110,7 +123,7 @@ const MenuSelection = (props) => {
             New Multiplayer Game
           </button>
           <button className="signOutButton" onClick={mainMenu}>
-            Game Selection
+            Back
           </button>
         </div>
       )}
@@ -123,8 +136,27 @@ const MenuSelection = (props) => {
           <button className="GameButton" onClick={joinNetworkGames}>
             Join Game
           </button>
-          <button className="signOutButton" onClick={mainMenu}>
-            Game Selection
+          <button className="signOutButton" onClick={newGameMenu}>
+            Back
+          </button>
+        </div>
+      )}
+
+      {menuScreen === "joinNetwork" && (
+        <div className="column">
+          <button className="GameButton" onClick={joinGame}>
+            Join Game
+          </button>
+          <input
+            className="newGameButton"
+            type="text"
+            id="gameNumber"
+            placeholder="Enter Game Number"
+            maxLength={4}
+            onChange={gamenumberHandler}
+          ></input>
+          <button className="signOutButton" onClick={newMultiplayer}>
+            Back
           </button>
         </div>
       )}

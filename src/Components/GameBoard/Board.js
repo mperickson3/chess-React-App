@@ -530,7 +530,7 @@ const Board = (props) => {
 
     for (const x of directions) {
       for (const y of directions) {
-        console.log(location);
+        // console.log(location);
         const option = ideratedChecks(
           location,
           x,
