@@ -206,7 +206,12 @@ function App() {
   };
 
   //This function creates a new game. Game state is defined in serverless function
-  async function saveGame(username, newGameNumber = "0", joinGame = false) {
+  async function saveGame(
+    username,
+    newGameNumber = "0",
+    joinGame = false,
+    multiPlayer = false
+  ) {
     const saveAPI =
       "https://vyhkeclbph.execute-api.us-east-2.amazonaws.com/Create-Game-API";
     let data = {}; // Declare the JSON object to be sent to the api
@@ -217,9 +222,10 @@ function App() {
       userName: username,
       gameNumber: newGameNumber,
       joinGame: joinGame,
+      multiPlayer: multiPlayer,
     };
 
-    console.log(data);
+    // console.log(data);
     //Change game function needs to be called for a new game but not when a piece is moved
 
     const token = await Auth.currentSession().then((data) => {
@@ -239,7 +245,7 @@ function App() {
       .then((response) => {
         //Checking format and returning response
         // console.log("Full Response: ");
-        // console.log(response["data"]);
+        console.log(response["data"]);
         console.log("Response from Lamda Save: " + response["data"]["body"]);
         if (response["data"]["statusCode"] === 201) {
           // console.log("No New Game");
@@ -250,6 +256,22 @@ function App() {
           setModalVis(true);
           setModalButtonsOk(true);
         }
+        if (response["data"]["gameType"] === "joined") {
+          setModalMessage({
+            title: "You have joined the game",
+            body: "Have Fun!",
+          });
+          setModalVis(true);
+          setModalButtonsOk(true);
+        } else if (response["data"]["gameType"] === "notFound") {
+          setModalMessage({
+            title: "The game could not be found",
+            body: "Please try another game number",
+          });
+          setModalVis(true);
+          setModalButtonsOk(true);
+        }
+
         // saveGameMessage(response["data"]["body"]);
       })
       //catch an error
@@ -464,6 +486,7 @@ function App() {
               toggleGameListVisibleTest={toggleGameListVisibleTest}
               getUserGamesTest={getUserGamesTest}
               gameListsTest={gameListsTest}
+              setGameListsTest={setGameListsTest}
               setModalVis={setModalVis}
               setModalButtonsOk={setModalButtonsOk}
               setModalMessage={setModalMessage}

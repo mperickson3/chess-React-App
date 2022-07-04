@@ -17,78 +17,27 @@ const MenuSelection = (props) => {
     // props.setModalButtonsOk(true);
   };
   const newGameLocal = async () => {
-    // let newGameNumber = (gameLists.length + 1).toString();
-    let newGameNumber = "0";
-    if (props.gameListsTest.length > 0) {
-      //If there are games in the game list set the new game number to 1 higher than the Highest internal unique gamenumber ID
-      newGameNumber = (
-        parseInt(
-          props.gameListsTest[props.gameListsTest.length - 1]["gameNumber"]
-        ) + 1
-      ).toString();
-    }
-
-    console.log("New Game Number: " + newGameNumber);
+    // console.log("New Game Number: " + newGameNumber);
     // props.changeGame(props.newGameState, props.username, newGameNumber, "w");
     await props.saveGame(props.username); //Save the new game with the newgamenumber
     props.getUserGamesTest();
     // props.gameVisible(true); //Display the newgame
     // toggleGameListVisible(false); //Turn off the game list menu
-    setMenuScreen("main");
+    await setMenuScreen("main");
 
     // props.changeGame(props.gameStateStart, props.userName, newGameNumber, "w");
   };
 
   const newNetworkGame = async () => {
-    console.log("New");
-    // props.setModalMessage({
-    //   title: "Multiplayer games in progress",
-    //   body: "Please go back",
-    // });
-    newMultiplayer("muliplayer");
-    // props.setModalMessage({
-    //   title: "Multiplayer games in progress",
-    //   body: "Please go back",
-    // });
+    await props.saveGame(
+      props.username,
+      gameInput["enteredGameNumber"],
+      false,
+      true
+    );
+    await props.getUserGamesTest();
+    await setMenuScreen("main");
     // newMultiplayer("muliplayer");
-    // // const saveAPI =
-    // //   "https://k2flzsd971.execute-api.us-east-2.amazonaws.com/dev";
-    // let data = {}; // Declare the JSON object to be sent to the api
-
-    // const token = await Auth.currentSession().then((data) => {
-    //   // console.log(data["idToken"]);
-    //   return data["idToken"]["jwtToken"];
-    // });
-
-    // await axios
-
-    //   //post the desired move and the current gameState to the API
-    //   .post(saveAPI, data, {
-    //     headers: {
-    //       authorization: token,
-    //     },
-    //   })
-    //   //Get response
-    //   .then((response) => {
-    //     //Checking format and returning response
-    //     // console.log("Full Response: ");
-    //     // console.log(response["data"]);
-    //     console.log("Response from Lamda Save: " + response["data"]["body"]);
-    //     if (response["data"]["statusCode"] === 201) {
-    //       // console.log("No New Game");
-    //       setModalMessage({
-    //         title: "New game could not be created",
-    //         body: "Each user is limited to six games",
-    //       });
-    //       setModalVis(true);
-    //       setModalButtonsOk(true);
-    //     }
-    //     // saveGameMessage(response["data"]["body"]);
-    //   })
-    //   //catch an error
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
 
   const joinNetworkGames = async () => {
@@ -108,8 +57,19 @@ const MenuSelection = (props) => {
     // console.log(gameInput);
   };
 
+  const signOutHandler = () => {
+    props.setGameListsTest([]);
+    props.signOut();
+  };
+
   const joinGame = async () => {
-    props.saveGame(props.username, gameInput["enteredGameNumber"], true);
+    await props.saveGame(
+      props.username,
+      gameInput["enteredGameNumber"],
+      true,
+      true
+    );
+    await props.getUserGamesTest();
   };
 
   return (
@@ -120,7 +80,19 @@ const MenuSelection = (props) => {
             New Local Game
           </button>
           <button className="GameButton" onClick={newNetworkGame}>
-            New Multiplayer Game
+            Create Multiplayer Game
+          </button>
+
+          <input
+            className="newGameButton"
+            type="text"
+            id="gameNumber"
+            placeholder="Enter Game Number"
+            maxLength={4}
+            onChange={gamenumberHandler}
+          ></input>
+          <button className="GameButton" onClick={joinGame}>
+            Join Game
           </button>
           <button className="signOutButton" onClick={mainMenu}>
             Back
@@ -186,7 +158,7 @@ const MenuSelection = (props) => {
         ></GameList>
       )}
       {menuScreen === "main" && props.gameListVisibleTest && (
-        <button className="signOutButton" onClick={props.signOut}>
+        <button className="signOutButton" onClick={signOutHandler}>
           Sign out
         </button>
       )}
