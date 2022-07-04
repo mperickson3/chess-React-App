@@ -300,7 +300,7 @@ function App() {
   };
 
   const signInTest = async () => {
-    await Auth.signIn("testUser", "test1234");
+    await Auth.signIn("multiTest", "test1234");
     setTestSignInUser("Signed In");
     setWaterMark("This is a test session");
     window.location.reload();
