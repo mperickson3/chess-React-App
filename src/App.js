@@ -152,12 +152,20 @@ function App() {
         if (!response["data"]["testSync"]) {
           setModalMessage({
             title: "Desync detected",
-            body: "A desync with the database has been detected. You will be brought back to the game selection screen",
+            body: "You will be brought back to the game selection screen",
           });
           setModalVis(true);
           setTimeout(() => {
             window.location.reload();
           }, 3000);
+        }
+        if (!response["data"]["Turn"]) {
+          setModalMessage({
+            title: "It is not your turn",
+            body: "Please wait your turn",
+          });
+          setModalButtonsOk(true);
+          setModalVis(true);
         }
         return response["data"]["moveLegal"];
       })
