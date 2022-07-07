@@ -13,6 +13,10 @@
   flex-direction: row;
 }
 
+.GameList {
+  margin: 75px 0 0 0;
+}
+
 .gameMessage {
   display: flex;
   flex-direction: column;

@@ -3,9 +3,12 @@ import GameList from "../GameSelection/GameList";
 import lPawn from "../Icons/largePawn.png";
 import MultiPlayer from "./multiplayer";
 import Solo from "./solo";
+import Signout from "../Icons/signout.png";
+import "./MenuSelection.css";
+import MenuTitle from "./MenuTitle";
+import Board from "../GameBoard/Board";
 
 const MenuSelection = (props) => {
-  const [menuScreen, setMenuScreen] = useState("main");
   const [gameInput, setGameInput] = useState("");
 
   useEffect(() => {
@@ -24,13 +27,13 @@ const MenuSelection = (props) => {
   }, []);
 
   const newGameMenu = () => {
-    setMenuScreen("newGame");
+    props.setMenuScreen("newGame");
   };
   const mainMenu = () => {
-    setMenuScreen("main");
+    props.setMenuScreen("main");
   };
   const newMultiplayer = () => {
-    setMenuScreen("multiplayer");
+    props.setMenuScreen("multiplayer");
     // props.setModalVis(true);
     // props.setModalButtonsOk(true);
   };
@@ -41,7 +44,7 @@ const MenuSelection = (props) => {
     props.getUserGamesTest();
     // props.gameVisible(true); //Display the newgame
     // toggleGameListVisible(false); //Turn off the game list menu
-    await setMenuScreen("main");
+    await props.setMenuScreen("main");
 
     // props.changeGame(props.gameStateStart, props.userName, newGameNumber, "w");
   };
@@ -54,18 +57,18 @@ const MenuSelection = (props) => {
       true
     );
     await props.getUserGamesTest();
-    await setMenuScreen("main");
+    await props.setMenuScreen("main");
     // newMultiplayer("muliplayer");
   };
 
-  const joinNetworkGames = async () => {
-    console.log("Join");
-    // props.setModalMessage({
-    //   title: "Multiplayer games in progress",
-    //   body: "Please go back",
-    // });
-    setMenuScreen("joinNetwork");
-  };
+  // const joinNetworkGames = async () => {
+  //   console.log("Join");
+  //   // props.setModalMessage({
+  //   //   title: "Multiplayer games in progress",
+  //   //   body: "Please go back",
+  //   // });
+  //   setMenuScreen("joinNetwork");
+  // };
 
   const gamenumberHandler = (event) => {
     // console.log(event.target.value);
@@ -92,25 +95,36 @@ const MenuSelection = (props) => {
   };
 
   const currentGamesMenu = () => {
-    setMenuScreen("current");
+    props.setMenuScreen("current");
+  };
+
+  const gameBackHandler = async () => {
+    await props.getUserGamesTest();
+    await props.setMenuScreen("current");
   };
 
   const menuOff = () => {};
   return (
     <div>
-      {menuScreen === "newGame" && (
+      {props.menuScreen === "newGame" && (
         <div className="column">
+          <MenuTitle MenuTitle={"New Game"} backSelect={mainMenu}></MenuTitle>
           <Solo newGameLocal={newGameLocal}></Solo>
-          <MultiPlayer setMenuScreen={setMenuScreen}></MultiPlayer>
+          <MultiPlayer setMenuScreen={props.setMenuScreen}></MultiPlayer>
 
-          <button className="signOutButton" onClick={mainMenu}>
+          {/* <button className="signOutButton" onClick={mainMenu}>
             Back
-          </button>
+          </button> */}
         </div>
       )}
 
-      {menuScreen === "multiplayer" && (
+      {props.menuScreen === "multiplayer" && (
         <div className="column">
+          <MenuTitle
+            MenuTitle={"Multiplayer"}
+            backSelect={newGameMenu}
+          ></MenuTitle>
+
           <button className="newGameButton" onClick={newNetworkGame}>
             Create Game
           </button>
@@ -126,13 +140,13 @@ const MenuSelection = (props) => {
           <button className="newGameButton" onClick={joinGame}>
             Join Game
           </button>
-          <button className="signOutButton" onClick={newGameMenu}>
+          {/* <button className="signOutButton" onClick={newGameMenu}>
             Back
-          </button>
+          </button> */}
         </div>
       )}
 
-      {menuScreen === "joinNetwork" && (
+      {props.menuScreen === "joinNetwork" && (
         <div className="column">
           <button className="GameButton" onClick={joinGame}>
             Join Game
@@ -151,25 +165,35 @@ const MenuSelection = (props) => {
         </div>
       )}
 
-      {menuScreen === "main" && props.gameListVisibleTest && (
-        <div className="column">
-          <img
-            src={lPawn}
-            className="pawnGraphic"
-            width={150}
-            height={196.5}
-          ></img>
-          <button className="newGameButton" onClick={newGameMenu}>
-            New Game
+      {props.menuScreen === "main" && props.gameListVisibleTest && (
+        <div>
+          <button className="signOut" onClick={signOutHandler}>
+            <img src={Signout} className="functionIcon"></img>
           </button>
-          <button className="GameButton" onClick={currentGamesMenu}>
-            {" "}
-            Current Games
-          </button>
+          <div className="column">
+            <img
+              src={lPawn}
+              className="pawnGraphic"
+              width={150}
+              height={196.5}
+            ></img>
+            <button className="newGameButton" onClick={newGameMenu}>
+              New Game
+            </button>
+            <button className="GameButton" onClick={currentGamesMenu}>
+              {" "}
+              Current Games
+            </button>
+          </div>
         </div>
       )}
-      {menuScreen === "current" && (
+      {props.menuScreen === "current" && (
         <div>
+          <MenuTitle
+            MenuTitle={"Current Games"}
+            backSelect={mainMenu}
+          ></MenuTitle>
+
           <GameList
             username={props.username}
             gameNumber={props.gameNumber}
@@ -186,20 +210,25 @@ const MenuSelection = (props) => {
             toggleGameListVisibleTest={props.toggleGameListVisibleTest}
             getUserGamesTest={props.getUserGamesTest}
             gameListsTest={props.gameListsTest}
-            setMenuScreen={setMenuScreen}
+            setMenuScreen={props.setMenuScreen}
             setboardVisible={props.setboardVisible}
           ></GameList>
-          {!props.boardVisible && (
+          {/* {!props.boardVisible && (
             <button className="signOutButton" onClick={mainMenu}>
               Back
             </button>
-          )}
+          )} */}
         </div>
       )}
-      {menuScreen === "main" && props.gameListVisibleTest && (
-        <button className="signOutButton" onClick={signOutHandler}>
-          Sign out
-        </button>
+      {props.menuScreen === "game" && (
+        <div>
+          <MenuTitle
+            MenuTitle={"Game " + props.gameNumber}
+            backSelect={gameBackHandler}
+            deleteGameModal={props.deleteGameModal}
+            menuScreen={props.menuScreen}
+          ></MenuTitle>
+        </div>
       )}
     </div>
   );

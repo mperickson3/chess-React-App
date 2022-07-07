@@ -1,0 +1,29 @@
+.MenuBox {
+  width: 100vw;
+  height: 75px;
+  background-color: #354c75;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+}
+.backB {
+  background-color: #354c75;
+  margin: 0px 10px 0 10px;
+}
+
+.buttonContainer {
+  background-color: #354c75;
+  margin: 0px 10px 0 10px;
+  width: 5vh;
+}
+
+.menuName {
+  font-size: x-large;
+  font-weight: bold;
+  margin: auto;
+  color: white;
+}

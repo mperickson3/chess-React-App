@@ -93,6 +93,7 @@ function App() {
   const [gameNumber, setGameNumber] = useState("0");
   const [boardVisible, setboardVisible] = useState(false);
   const [modal, setModalVis] = useState(false);
+  const [menuScreen, setMenuScreen] = useState("main");
   const [modalMessage, setModalMessage] = useState({
     title: "",
     body: "",
@@ -366,6 +367,7 @@ function App() {
 
     if (deleteConfirmed) {
       deleteGameTest();
+      setMenuScreen("current");
     }
   };
 
@@ -518,6 +520,8 @@ function App() {
               setModalMessage={setModalMessage}
               setSignInTestBool={setSignInTestBool}
               setboardVisible={setboardVisible}
+              menuScreen={menuScreen}
+              setMenuScreen={setMenuScreen}
             ></MenuSelection>
             {boardVisible && (
               <div>

@@ -15,6 +15,7 @@ const TurnIcon = (props) => {
     <div className="row">
       {props.turn === "w" && <div className="turnWhiteIcon"></div>}
       {props.turn === "b" && <div className="turnBlackIcon"></div>}
+      {props.turn === "" && <div className="turnHiddenIcon"></div>}
     </div>
   );
 };

@@ -4,6 +4,7 @@ import Games from "./Games";
 import Trash from "../Icons/garbage.png";
 import Back from "../Icons/Back.png";
 import Auth from "aws-amplify";
+import "./GameList.css";
 
 const GameList = (props) => {
   const deleteGameConfirm = () => {
@@ -11,8 +12,8 @@ const GameList = (props) => {
   };
 
   return (
-    <div className="column">
-      {props.boardVisible === true && (
+    <div className="gameListContainer">
+      {/* {props.boardVisible === true && (
         <div>
           <button
             className="functionGameButton"
@@ -24,7 +25,8 @@ const GameList = (props) => {
             <img src={Trash} className="functionIcon" alt="Trash" />
           </button>
         </div>
-      )}
+      )} */}
+      {/* <div className="GameList"> */}
       {props.gameListVisibleTest &&
         props.gameListsTest.length > 0 &&
         props.gameListsTest.map((gameInfo, index) => {
@@ -44,6 +46,7 @@ const GameList = (props) => {
           );
         })}
     </div>
+    // </div>
   );
 };
 
