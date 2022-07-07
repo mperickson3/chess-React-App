@@ -10,6 +10,8 @@ import wKing from "./wKing.png";
 import bKing from "./bKing.png";
 import wQueen from "./wQueen.png";
 import bQueen from "./bQueen.png";
+import Multi from "./Multi.png";
+import Single from "./Single.png";
 
 const Icons = {
   bPawn: bPawn,
@@ -24,5 +26,7 @@ const Icons = {
   wKing: wKing,
   bQueen: bQueen,
   wQueen: wQueen,
+  Multi: Multi,
+  Single: Single,
 };
 export default Icons;

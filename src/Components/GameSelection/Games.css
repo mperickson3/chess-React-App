@@ -1,0 +1,35 @@
+.Game {
+  width: 342px;
+  height: 140px;
+  background-color: #0e1929;
+  margin: 0 auto 15px auto;
+  color: white;
+  border-radius: 15px;
+  border-width: 3px;
+
+  border-color: #354c75;
+  border-style: solid;
+  display: flex;
+  flex-direction: row;
+}
+
+.gameMessage {
+  display: flex;
+  flex-direction: column;
+  margin: 7% 0 0 9%;
+}
+
+.gameTitle {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.gameDesc {
+  font-size: large;
+  font-weight: bold;
+  margin-right: 20%;
+}
+
+.gameImage {
+  margin: 10% 0 0 15%;
+}

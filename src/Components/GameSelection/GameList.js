@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Games from "./Games";
 import Trash from "../Icons/garbage.png";
-import Menu from "../Icons/menu.png";
+import Back from "../Icons/Back.png";
 import Auth from "aws-amplify";
 
 const GameList = (props) => {
@@ -12,13 +12,13 @@ const GameList = (props) => {
 
   return (
     <div className="column">
-      {!props.gameListVisibleTest && (
+      {props.boardVisible && (
         <div>
           <button
             className="functionGameButton"
             onClick={props.getUserGamesTest}
           >
-            <img src={Menu} className="functionIcon" alt="Menu" />
+            <img src={Back} className="functionIcon" alt="Menu" />
           </button>
           <button className="functionGameButton" onClick={deleteGameConfirm}>
             <img src={Trash} className="functionIcon" alt="Trash" />
@@ -31,13 +31,14 @@ const GameList = (props) => {
           return (
             <Games
               key={gameInfo["userName"] + gameInfo["gameNumber"]}
-              userName={gameInfo["userName"]}
+              userName={props.username}
               //Game Number seen by the user will be the index of the array
               gameNumberDisplayed={gameInfo["gameNumber"]}
               gameInfo={gameInfo}
               changeGame={props.changeGame}
               gameVisible={props.gameVisible}
               toggleGameListVisible={props.toggleGameListVisibleTest}
+              setMenuScreen={props.setMenuScreen}
             />
           );
         })}

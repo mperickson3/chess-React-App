@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GameList from "../GameSelection/GameList";
+import lPawn from "../Icons/largePawn.png";
+import MultiPlayer from "./multiplayer";
+import Solo from "./solo";
 
 const MenuSelection = (props) => {
   const [menuScreen, setMenuScreen] = useState("main");
   const [gameInput, setGameInput] = useState("");
+
+  useEffect(() => {
+    props.setSignInTestBool(false);
+    props.getUserGamesTest();
+    console.log(props.username);
+    if (props.username === "multitest") {
+      props.setModalMessage({
+        title: "You have signed in as a test user",
+        body: "Some changes may be overwritten",
+      });
+      console.log("MODAL");
+      props.setModalVis(true);
+      props.setModalButtonsOk(true);
+    }
+  }, []);
 
   const newGameMenu = () => {
     setMenuScreen("newGame");
@@ -57,9 +75,10 @@ const MenuSelection = (props) => {
     // console.log(gameInput);
   };
 
-  const signOutHandler = () => {
+  const signOutHandler = async () => {
     props.setGameListsTest([]);
-    props.signOut();
+    await props.signOut();
+    props.setSignInTestBool(true);
   };
 
   const joinGame = async () => {
@@ -72,28 +91,18 @@ const MenuSelection = (props) => {
     await props.getUserGamesTest();
   };
 
+  const currentGamesMenu = () => {
+    setMenuScreen("current");
+  };
+
+  const menuOff = () => {};
   return (
     <div>
       {menuScreen === "newGame" && (
         <div className="column">
-          <button className="newGameButton" onClick={newGameLocal}>
-            New Local Game
-          </button>
-          <button className="GameButton" onClick={newNetworkGame}>
-            Create Multiplayer Game
-          </button>
+          <Solo newGameLocal={newGameLocal}></Solo>
+          <MultiPlayer setMenuScreen={setMenuScreen}></MultiPlayer>
 
-          <input
-            className="newGameButton"
-            type="text"
-            id="gameNumber"
-            placeholder="Enter Game Number"
-            maxLength={4}
-            onChange={gamenumberHandler}
-          ></input>
-          <button className="GameButton" onClick={joinGame}>
-            Join Game
-          </button>
           <button className="signOutButton" onClick={mainMenu}>
             Back
           </button>
@@ -103,9 +112,18 @@ const MenuSelection = (props) => {
       {menuScreen === "multiplayer" && (
         <div className="column">
           <button className="newGameButton" onClick={newNetworkGame}>
-            Create New Game
+            Create Game
           </button>
-          <button className="GameButton" onClick={joinNetworkGames}>
+
+          <input
+            className="GameButton"
+            type="text"
+            id="gameNumber"
+            placeholder="Enter Game Number"
+            maxLength={4}
+            onChange={gamenumberHandler}
+          ></input>
+          <button className="newGameButton" onClick={joinGame}>
             Join Game
           </button>
           <button className="signOutButton" onClick={newGameMenu}>
@@ -134,28 +152,48 @@ const MenuSelection = (props) => {
       )}
 
       {menuScreen === "main" && props.gameListVisibleTest && (
-        <button className="newGameButton" onClick={newGameMenu}>
-          New Game
-        </button>
+        <div className="column">
+          <img
+            src={lPawn}
+            className="pawnGraphic"
+            width={150}
+            height={196.5}
+          ></img>
+          <button className="newGameButton" onClick={newGameMenu}>
+            New Game
+          </button>
+          <button className="GameButton" onClick={currentGamesMenu}>
+            {" "}
+            Current Games
+          </button>
+        </div>
       )}
-      {menuScreen === "main" && (
-        <GameList
-          username={props.username}
-          gameNumber={props.gameNumber}
-          changeGame={props.changeGame}
-          newGameState={props.newGameState}
-          gameVisible={props.gameVisible}
-          saveGame={props.saveGame}
-          signOut={props.signOut}
-          turn={props.turn}
-          getToken={props.getToken}
-          authToken={props.authToken}
-          deleteGameModal={props.deleteGameModal}
-          gameListVisibleTest={props.gameListVisibleTest}
-          toggleGameListVisibleTest={props.toggleGameListVisibleTest}
-          getUserGamesTest={props.getUserGamesTest}
-          gameListsTest={props.gameListsTest}
-        ></GameList>
+      {menuScreen === "current" && (
+        <div>
+          <GameList
+            username={props.username}
+            gameNumber={props.gameNumber}
+            changeGame={props.changeGame}
+            newGameState={props.newGameState}
+            boardVisible={props.boardVisible}
+            saveGame={props.saveGame}
+            signOut={props.signOut}
+            turn={props.turn}
+            getToken={props.getToken}
+            authToken={props.authToken}
+            deleteGameModal={props.deleteGameModal}
+            gameListVisibleTest={props.gameListVisibleTest}
+            toggleGameListVisibleTest={props.toggleGameListVisibleTest}
+            getUserGamesTest={props.getUserGamesTest}
+            gameListsTest={props.gameListsTest}
+            setMenuScreen={setMenuScreen}
+          ></GameList>
+          {!props.boardVisible && (
+            <button className="signOutButton" onClick={mainMenu}>
+              Back
+            </button>
+          )}
+        </div>
       )}
       {menuScreen === "main" && props.gameListVisibleTest && (
         <button className="signOutButton" onClick={signOutHandler}>

@@ -1,3 +1,6 @@
+import "./Games.css";
+import Icon from "../Icons/Icons";
+
 const Games = (props) => {
   const selectGame = () => {
     //Select game will take the gameInfo and call the change game function to load the gameState into the board
@@ -18,12 +21,32 @@ const Games = (props) => {
     );
     props.gameVisible(true);
     props.toggleGameListVisible(false);
+    props.setMenuScreen("off");
   };
+
+  let gameType = "";
+  let oponent = "";
+  if (props.gameInfo["whitePlayer"] === props.gameInfo["blackPlayer"]) {
+    gameType = "Single";
+  } else {
+    gameType = "Multi";
+    if (props.gameInfo["blackPlayer"] === "") {
+      oponent = "Invite a Player";
+    } else if (props.userName === props.gameInfo["whitePlayer"]) {
+      oponent = "VS " + props.gameInfo["blackPlayer"];
+    } else {
+      oponent = "VS " + props.gameInfo["whitePlayer"];
+    }
+  }
 
   return (
     <div className="column">
-      <button className="GameButton" onClick={selectGame}>
-        <div>{"Game " + props.gameNumberDisplayed}</div>
+      <button className="Game" onClick={selectGame}>
+        <img src={Icon[gameType]} className="gameImage"></img>
+        <div className="gameMessage">
+          <div className="gameTitle">{"Game " + props.gameNumberDisplayed}</div>
+          <div className="gameDesc">{oponent}</div>
+        </div>
       </button>
     </div>
   );

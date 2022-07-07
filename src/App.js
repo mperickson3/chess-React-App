@@ -111,11 +111,13 @@ function App() {
     // console.log(data["idToken"]);
     return data["idToken"]["jwtToken"];
   });
+  const [signInTestBool, setSignInTestBool] = useState(true);
 
   const [userName1, setUserName1] = useState("");
 
   const checkValidMove = async (moveFrom, moveTo, pieceName, username) => {
-    console.log("apiCheckMove Called");
+    // console.log("apiCheckMove Called");
+    console.log(gameState);
     const api =
       "https://fvhal8jc98.execute-api.us-east-2.amazonaws.com/multiplayerTest";
 
@@ -177,6 +179,7 @@ function App() {
 
   const movePiece = async (moveFrom, moveTo, piece, username) => {
     // console.log("movePiece function executed");
+    console.log(username);
     //check to see if the current turn is the same color as the piece being moved
     if (turn === piece[0]) {
       //Calls the check valid move function This function will return a promise object until a response is recieved
@@ -195,6 +198,13 @@ function App() {
           const newGameState = prevGameState;
           newGameState[moveFrom] = "";
           newGameState[moveTo] = piece;
+          if (turn === "w") {
+            // saveGame(username, "b");
+            newGameState["turn"] = "b";
+          } else {
+            // saveGame(username, "w");
+            newGameState["turn"] = "w";
+          }
 
           return { ...newGameState };
         });
@@ -274,6 +284,13 @@ function App() {
         } else if (response["data"]["gameType"] === "notFound") {
           setModalMessage({
             title: "The game could not be found",
+            body: "Please try another game number",
+          });
+          setModalVis(true);
+          setModalButtonsOk(true);
+        } else if (response["data"]["gameType"] === "full") {
+          setModalMessage({
+            title: "This game is already full",
             body: "Please try another game number",
           });
           setModalVis(true);
@@ -445,15 +462,16 @@ function App() {
 
   useEffect(() => {
     getUserGamesTest();
-
-    // if (userName1 === "testuser")
+    // console.log(userName1);
+    // if (userName1 === "multitest") {
     //   setModalMessage({
     //     title: "You have signed in as a test user",
     //     body: "Some changes may not be overwritten",
     //   });
-    // console.log("MODAL");
-    // setModalVis(true);
-    // setModalButtonsOk(true);
+    //   console.log("MODAL");
+    //   setModalVis(true);
+    //   setModalButtonsOk(true);
+    // }
   }, []);
 
   const toggleGameListVisibleTest = (value) => {
@@ -483,7 +501,7 @@ function App() {
               gameNumber={gameNumber}
               changeGame={changeGame}
               newGameState={newGameState}
-              gameVisible={gameVisible}
+              boardVisible={boardVisible}
               saveGame={saveGame}
               signOut={signOut}
               turn={turn}
@@ -498,11 +516,13 @@ function App() {
               setModalVis={setModalVis}
               setModalButtonsOk={setModalButtonsOk}
               setModalMessage={setModalMessage}
+              setSignInTestBool={setSignInTestBool}
             ></MenuSelection>
             {boardVisible && (
               <div>
                 <Board
                   gameState={gameState}
+                  boardVisible={boardVisible}
                   movePiece={movePiece}
                   apiTest={checkValidMove}
                   username={user.username}
@@ -511,6 +531,10 @@ function App() {
                   setModalMessage={setModalMessage}
                   setModalVis={setModalVis}
                   deleteGameTest={deleteGameTest}
+                  setGameState={setGameState}
+                  setTurn={setTurn}
+                  authToken={authToken}
+                  gameNumber={gameNumber}
                 />
                 <TurnIndicator turn={turn} />
               </div>
@@ -518,14 +542,16 @@ function App() {
           </main>
         )}
       </Authenticator>
-      <button
-        className="button-signIn"
-        type="submit"
-        // data-variation="primary"
-        onClick={signInTest}
-      >
-        {testSignInUser}
-      </button>
+      {signInTestBool && (
+        <button
+          className="button-signIn"
+          type="submit"
+          // data-variation="primary"
+          onClick={signInTest}
+        >
+          {testSignInUser}
+        </button>
+      )}
     </div>
   );
 }

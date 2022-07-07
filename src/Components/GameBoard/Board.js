@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Boardspace from "./Boardspace";
 import "./Board.css";
 import Icons from "../Icons/Icons";
-import { findByLabelText } from "@testing-library/react";
+// import { findByLabelText } from "@testing-library/react";
+import axios from "axios";
 
 //Matthew
 
@@ -214,6 +215,70 @@ const Board = (props) => {
     76: "g6",
     86: "h6",
   };
+
+  // const updateGameAPI = async () => {
+  //   const getAPI =
+  //     "https://4aobk66o27.execute-api.us-east-2.amazonaws.com/multiplayerTest";
+  //   let retrievedGameState = {};
+
+  //   let turn = "";
+  //   // let userName = await Auth.currentAuthenticatedUser();
+  //   // userName = userName["username"];
+  //   let responseGames = [];
+
+  //   const header = {
+  //     headers: {
+  //       authorization: props.authToken,
+  //     },
+  //   };
+  //   // console.log(userName["username"]);
+  //   // console.log("userName: " + userName1);
+
+  //   await axios
+
+  //     //post the desired move and the current gameState to the API to check the move
+  //     // .post(getAPI, { userName: props.username, gameNumber: props.gameNumber })
+  //     .post(getAPI, { userName: props.username, gameNumber: "1" }, header)
+
+  //     //Get response
+  //     .then((response) => {
+  //       // console.log(userName);
+
+  //       // console.log(response);
+  //       //Checking format and returning response
+  //       retrievedGameState = response["data"];
+  //       responseGames = response["data"]["games"];
+  //       console.log(responseGames);
+  //       // console.log(retrievedGameState);
+  //     })
+  //     //catch an error
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+
+  //   for (const game of responseGames) {
+  //     console.log(game["gameNumber"] + props.gameNumber);
+  //     if (game["gameNumber"] === props.gameNumber) {
+  //       game["userName"] = props.username;
+  //       console.log("Update Game");
+  //       props.setGameState(game);
+  //       props.setTurn(game["turn"]);
+  //     }
+  //   }
+  // };
+
+  const gameUpdateTime = 1500000;
+
+  useEffect(() => {
+    if (props.boardVisible) {
+      const updateGame = setInterval(() => {
+        // console.log("Logs every 10 seconds");
+        // updateGameAPI();
+      }, gameUpdateTime);
+
+      return () => clearInterval(updateGame);
+    }
+  }, [props.boardVisible]);
 
   //This may be used to change the color of the selected space for some more user feedback
   // const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
