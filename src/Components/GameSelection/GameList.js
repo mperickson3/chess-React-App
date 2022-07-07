@@ -12,7 +12,7 @@ const GameList = (props) => {
 
   return (
     <div className="column">
-      {props.boardVisible && (
+      {props.boardVisible === true && (
         <div>
           <button
             className="functionGameButton"
@@ -36,7 +36,8 @@ const GameList = (props) => {
               gameNumberDisplayed={gameInfo["gameNumber"]}
               gameInfo={gameInfo}
               changeGame={props.changeGame}
-              gameVisible={props.gameVisible}
+              boardVisible={props.boardVisible}
+              setboardVisible={props.setboardVisible}
               toggleGameListVisible={props.toggleGameListVisibleTest}
               setMenuScreen={props.setMenuScreen}
             />

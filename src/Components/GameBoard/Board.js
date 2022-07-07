@@ -4,6 +4,8 @@ import "./Board.css";
 import Icons from "../Icons/Icons";
 // import { findByLabelText } from "@testing-library/react";
 import axios from "axios";
+import Trash from "../Icons/garbage.png";
+import Back from "../Icons/Back.png";
 
 //Matthew
 
@@ -267,18 +269,18 @@ const Board = (props) => {
   //   }
   // };
 
-  const gameUpdateTime = 1500000;
+  // const gameUpdateTime = 1500000;
 
-  useEffect(() => {
-    if (props.boardVisible) {
-      const updateGame = setInterval(() => {
-        // console.log("Logs every 10 seconds");
-        // updateGameAPI();
-      }, gameUpdateTime);
+  // useEffect(() => {
+  //   if (props.boardVisible) {
+  //     const updateGame = setInterval(() => {
+  //       // console.log("Logs every 10 seconds");
+  //       // updateGameAPI();
+  //     }, gameUpdateTime);
 
-      return () => clearInterval(updateGame);
-    }
-  }, [props.boardVisible]);
+  //     return () => clearInterval(updateGame);
+  //   }
+  // }, [props.boardVisible]);
 
   //This may be used to change the color of the selected space for some more user feedback
   // const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
@@ -982,6 +984,10 @@ const Board = (props) => {
 
   const setCurrentSpaceCheck = (space) => {
     // setCurrentSpaceSelected(space);
+  };
+
+  const deleteGameConfirm = () => {
+    props.deleteGameModal(props.username, props.gameNumber);
   };
 
   return (

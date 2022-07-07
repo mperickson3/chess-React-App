@@ -187,6 +187,7 @@ const MenuSelection = (props) => {
             getUserGamesTest={props.getUserGamesTest}
             gameListsTest={props.gameListsTest}
             setMenuScreen={setMenuScreen}
+            setboardVisible={props.setboardVisible}
           ></GameList>
           {!props.boardVisible && (
             <button className="signOutButton" onClick={mainMenu}>

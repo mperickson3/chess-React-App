@@ -517,6 +517,7 @@ function App() {
               setModalButtonsOk={setModalButtonsOk}
               setModalMessage={setModalMessage}
               setSignInTestBool={setSignInTestBool}
+              setboardVisible={setboardVisible}
             ></MenuSelection>
             {boardVisible && (
               <div>
@@ -526,6 +527,7 @@ function App() {
                   movePiece={movePiece}
                   apiTest={checkValidMove}
                   username={user.username}
+                  getUserGamesTest={getUserGamesTest}
                   turn={turn}
                   setModalButtonsOk={setModalButtonsOk}
                   setModalMessage={setModalMessage}

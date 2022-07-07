@@ -1,5 +1,7 @@
 import "./Games.css";
 import Icon from "../Icons/Icons";
+import TurnIndicator from "./TurnIndicator";
+import TurnIcon from "./turnIcon";
 
 const Games = (props) => {
   const selectGame = () => {
@@ -19,9 +21,9 @@ const Games = (props) => {
       props.gameInfo["gameNumber"],
       props.gameInfo["turn"]
     );
-    props.gameVisible(true);
+    props.setboardVisible(true);
     props.toggleGameListVisible(false);
-    props.setMenuScreen("off");
+    // props.setMenuScreen("off");
   };
 
   let gameType = "";
@@ -39,9 +41,21 @@ const Games = (props) => {
     }
   }
 
+  let turnHighlight = "";
+  let blackBorder = "";
+  let whiteBorder = "";
+  if (props.turn === "w") {
+    turnHighlight = "turnWhite";
+    whiteBorder = "#d1ad6b";
+  } else {
+    turnHighlight = "turnBlack";
+    blackBorder = "#d1ad6b";
+  }
+
   return (
     <div className="column">
       <button className="Game" onClick={selectGame}>
+        <TurnIcon turn={"b"}></TurnIcon>
         <img src={Icon[gameType]} className="gameImage"></img>
         <div className="gameMessage">
           <div className="gameTitle">{"Game " + props.gameNumberDisplayed}</div>

@@ -21,3 +21,29 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   transition: 0.5s;
 }
+
+.turnWhiteIcon {
+  margin: 3px 0px 0px 0px;
+  width: 15px;
+  height: 15px;
+  background-color: #ffffff;
+  border: #ffffff solid 5px;
+  border-radius: 25px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  transition: 0.5s;
+  border-color: #d1ad6b;
+}
+
+.turnBlackIcon {
+  margin: 5px 0px 0px 0px;
+  border-color: #d1ad6b;
+  width: 15px;
+  height: 15px;
+  background-color: #364c75;
+  border: #364c75 solid 5px;
+  /* border: #d1ad6b solid 4px; */
+
+  border-radius: 25px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  transition: 0.5s;
+}
