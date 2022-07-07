@@ -1,7 +1,7 @@
 import "./Games.css";
 import Icon from "../Icons/Icons";
 import TurnIndicator from "./TurnIndicator";
-import TurnIcon from "./TurnIcon";
+import TurnIcon from "./turnIcon";
 
 const Games = (props) => {
   const selectGame = () => {
