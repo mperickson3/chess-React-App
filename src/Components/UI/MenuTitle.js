@@ -28,6 +28,7 @@ const MenuTitle = (props) => {
           )}
         </div>
       </div>
+      <div className="dropInfo"></div>
     </div>
   );
 };

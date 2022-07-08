@@ -366,8 +366,8 @@ function App() {
     // console.log(deleteConfirmed);
 
     if (deleteConfirmed) {
-      deleteGameTest();
-      setMenuScreen("current");
+      await deleteGameTest();
+      await setMenuScreen("current");
     }
   };
 
@@ -404,7 +404,7 @@ function App() {
         console.log(error);
       });
 
-    getUserGamesTest();
+    await getUserGamesTest();
 
     // return responseGames;
     // console.log(gameLists);

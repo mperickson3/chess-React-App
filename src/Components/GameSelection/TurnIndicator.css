@@ -1,7 +1,9 @@
 .turnWhite {
   margin: 3px 0px 0px 20px;
-  width: 45px;
-  height: 45px;
+  width: 2.5vh;
+  height: 2.5vh;
+  min-width: 45px;
+  min-height: 45px;
   background-color: #ffffff;
   border: #ffffff solid 5px;
   border-radius: 25px;
@@ -11,8 +13,10 @@
 
 .turnBlack {
   margin: 5px 0px 0px 20px;
-  width: 45px;
-  height: 45px;
+  width: 2.5vh;
+  height: 2.5vh;
+  min-width: 45px;
+  min-height: 45px;
   background-color: #364c75;
   border: #364c75 solid 5px;
   /* border: #d1ad6b solid 4px; */
@@ -23,9 +27,9 @@
 }
 
 .turnWhiteIcon {
-  margin: 3px 0px 0px 0px;
-  width: 15px;
-  height: 15px;
+  margin: 0.5vmin 0px 0px 0px;
+  width: 2vmax;
+  height: 2vmax;
   background-color: #ffffff;
   border: solid 1px;
   border-radius: 25px;
@@ -35,10 +39,10 @@
 }
 
 .turnBlackIcon {
-  margin: 5px 0px 0px 0px;
+  margin: 0.5vmin 0px 0px 0px;
   border-color: #d1ad6b;
-  width: 15px;
-  height: 15px;
+  width: 2vmax;
+  height: 2vmax;
   background-color: #364c75;
   border: solid 1px;
   /* border: #d1ad6b solid 4px; */

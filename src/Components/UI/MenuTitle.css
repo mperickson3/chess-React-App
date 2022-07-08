@@ -1,6 +1,6 @@
 .MenuBox {
   width: 100vw;
-  height: 75px;
+  height: 8vh;
   background-color: #354c75;
   position: fixed;
   top: 0;
@@ -22,7 +22,7 @@
 }
 
 .menuName {
-  font-size: x-large;
+  font-size: 3vh;
   font-weight: bold;
   margin: auto;
   color: white;

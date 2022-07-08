@@ -1,6 +1,8 @@
 .gameType {
-  width: 342px;
-  height: 140px;
+  /* width: 342px; */
+  width: 60vw;
+  height: 20vh;
+  max-height: 25vw;
   background-color: #0e1929;
   margin: 0 auto 15px auto;
   color: white;
@@ -16,20 +18,22 @@
 .gameMessage {
   display: flex;
   flex-direction: column;
-  margin: 7% 0 0 9%;
+  margin: auto 0 auto 9%;
 }
 
-.gameTitle {
+/* .gameTitle {
   font-size: x-large;
   font-weight: bold;
-}
+  font-size: 2.5vh;
+} */
 
-.gameDesc {
+/* .gameDesc {
   font-size: large;
   font-weight: bold;
   margin-right: 20%;
-}
+  font-size: 1.5vh;
+} */
 
 .gameImage {
-  margin: 10% 0 0 15%;
+  margin: auto 0 auto 15%;
 }

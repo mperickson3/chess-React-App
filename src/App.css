@@ -38,13 +38,16 @@
 .GameButton {
   color: #364c75;
   margin: 20px 41px 0px 41px;
-  height: 75px;
+  height: 5vh;
   padding: auto;
-  min-width: 400px;
+  width: 60vw;
+  max-width: 600px;
+
   background-color: white;
-  border-radius: 20px;
+  border-radius: 1vh;
   border-width: 0px;
-  font-size: 36px;
+  font-size: 3.5vh;
+
   font-weight: bold;
   box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
   text-align: center;
@@ -54,14 +57,17 @@
   color: white;
   margin: 20px 41px 0px 41px;
   padding: auto;
-  height: 75px;
-  min-width: 400px;
+  height: 5vh;
+  width: 60vw;
+  max-width: 600px;
   text-align: center;
+  align-items: center;
   /* background-color: #b9c6df; */
   background-color: #d1ad6b;
-  border-radius: 20px;
+  border-radius: 1vh;
   border-width: 0px;
-  font-size: 36px;
+  /* font-size: 36px; */
+  font-size: 3.5vh;
   font-weight: bold;
   box-shadow: 0px 11px 33px -5px rgba(0, 0, 0, 0.15);
 }
