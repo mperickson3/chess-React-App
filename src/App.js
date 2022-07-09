@@ -385,6 +385,8 @@ function App() {
     const data = {
       userName: userName1,
       gameNumber: gameNumber,
+      whitePlayer: gameState["whitePlayer"],
+      blackPlayer: gameState["blackPlayer"],
     };
     // console.log(props.authToken);
 
@@ -396,7 +398,7 @@ function App() {
 
       //Get response
       .then((response) => {
-        // console.log(response);
+        console.log(response);
         //Checking format and returning response
       })
       //catch an error
