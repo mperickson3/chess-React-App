@@ -40,35 +40,39 @@ const MenuSelection = (props) => {
   const newGameLocal = async () => {
     // console.log("New Game Number: " + newGameNumber);
     // props.changeGame(props.newGameState, props.username, newGameNumber, "w");
-    await props.saveGame(props.username); //Save the new game with the newgamenumber
-    props.getUserGamesTest();
+    let newGameNumber = await props.saveGame(props.username); //Save the new game with the newgamenumber
+    await props.getUserGamesTest();
     // props.gameVisible(true); //Display the newgame
     // toggleGameListVisible(false); //Turn off the game list menu
     await props.setMenuScreen("main");
-
+    await console.log(props.gameListsTest);
+    let ghostGame = {
+      ...props.gameStateStart,
+      whitePlayer: props.username,
+      blackPlayer: props.username,
+    };
+    await props.changeGame(ghostGame, props.username, newGameNumber, "w");
     // props.changeGame(props.gameStateStart, props.userName, newGameNumber, "w");
+    props.setMenuScreen("game");
   };
 
   const newNetworkGame = async () => {
-    await props.saveGame(
+    let newGameNumber = await props.saveGame(
       props.username,
       gameInput["enteredGameNumber"],
       false,
       true
     );
     await props.getUserGamesTest();
-    await props.setMenuScreen("main");
-    // newMultiplayer("muliplayer");
+    let ghostGame = {
+      ...props.gameStateStart,
+      whitePlayer: props.username,
+      blackPlayer: "",
+    };
+    await props.changeGame(ghostGame, props.username, newGameNumber, "w");
+    // props.changeGame(props.gameStateStart, props.userName, newGameNumber, "w");
+    await props.setMenuScreen("game");
   };
-
-  // const joinNetworkGames = async () => {
-  //   console.log("Join");
-  //   // props.setModalMessage({
-  //   //   title: "Multiplayer games in progress",
-  //   //   body: "Please go back",
-  //   // });
-  //   setMenuScreen("joinNetwork");
-  // };
 
   const gamenumberHandler = (event) => {
     // console.log(event.target.value);

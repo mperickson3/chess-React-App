@@ -160,7 +160,7 @@ function App() {
           setModalVis(true);
           setTimeout(() => {
             window.location.reload();
-          }, 3000);
+          }, 10000);
         }
         if (!response["data"]["Turn"]) {
           setModalMessage({
@@ -233,11 +233,10 @@ function App() {
   ) {
     const saveAPI =
       "https://vyhkeclbph.execute-api.us-east-2.amazonaws.com/Create-Game-API";
-    let data = {}; // Declare the JSON object to be sent to the api
 
     //If a new game is selected the JSON object will take the starting position of the game state
 
-    data = {
+    let data = {
       userName: username,
       gameNumber: newGameNumber,
       joinGame: joinGame,
@@ -252,7 +251,7 @@ function App() {
       return data["idToken"]["jwtToken"];
     });
 
-    await axios
+    return await axios
 
       //post the desired move and the current gameState to the API
       .post(saveAPI, data, {
@@ -297,7 +296,7 @@ function App() {
           setModalVis(true);
           setModalButtonsOk(true);
         }
-
+        return response["data"]["newGameNumber"];
         // saveGameMessage(response["data"]["body"]);
       })
       //catch an error
@@ -352,11 +351,6 @@ function App() {
       return data["username"];
     });
     setUserName1(thisUserName);
-
-    // setTimeout(() => {
-    //   setModalVis(false);
-    //   setModalButtons(false);
-    // }, 2000);
   };
 
   const deleteResult = async (deleteConfirmed) => {
