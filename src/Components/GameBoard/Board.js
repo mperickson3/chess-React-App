@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Boardspace from "./Boardspace";
 import "./Board.css";
 import Icons from "../Icons/Icons";
@@ -81,6 +81,9 @@ const Board = (props) => {
   const [lastSelectedSpace, setLastSelectedSpace] = useState("");
   const [lastSelectedPiece, setLastSelectedPiece] = useState("");
   const [piecesCheck, setPiecesCheck] = useState(null);
+  const ws = new WebSocket(
+    "wss://tcc8cwso9j.execute-api.us-east-2.amazonaws.com/production"
+  );
   //Bi directional Map for doing space math better
   const keysForSpaceMath = {
     a1: "11",
@@ -217,6 +220,96 @@ const Board = (props) => {
     76: "g6",
     86: "h6",
   };
+  // var ws;
+
+  let oponent = "";
+
+  if (props.gameState["whitePlayer"] === props.username) {
+    oponent = props.gameState["blackPlayer"];
+  } else {
+    oponent = props.gameState["whitePlayer"];
+  }
+  const moveData = JSON.stringify({
+    action: "sendGame",
+    message: "Hello",
+    userName: oponent,
+    gameNumber: props.gameNumber,
+  });
+
+  useEffect(() => {
+    const connectData = JSON.stringify({
+      action: "addConnection",
+      message: "Hello",
+      userName: props.username,
+      gameNumber: props.gameNumber,
+    });
+
+    const disconnectData = JSON.stringify({
+      action: "removeConnection",
+      message: "Hello",
+      userName: props.username,
+      gameNumber: props.gameNumber,
+    });
+
+    let oponentColor = "";
+    let oponent = "";
+
+    if (props.gameState["whitePlayer"] === props.username) {
+      oponent = props.gameState["blackPlayer"];
+    } else {
+      oponent = props.gameState["whitePlayer"];
+    }
+
+    console.log(oponent + " " + props.username);
+
+    const moveData = JSON.stringify({
+      action: "sendGame",
+      message: "Hello",
+      userName: oponent,
+      gameNumber: props.gameNumber,
+    });
+
+    let responseW = "";
+    if (
+      props.gameState["blackPlayer"] !== props.gameState["whitePlayer"] &&
+      props.gameState["blackPlayer"] !== ""
+    ) {
+      console.log("OPEN WEBSOCKET");
+      // ws = new WebSocket(
+      //   "wss://tcc8cwso9j.execute-api.us-east-2.amazonaws.com/production"
+      // );
+
+      // setWs(
+      //   new WebSocket(
+      //     "wss://tcc8cwso9j.execute-api.us-east-2.amazonaws.com/production"
+      //   )
+      // );
+
+      ws.onopen = (event) => {
+        ws.send(connectData);
+      };
+    }
+
+    ws.onmessage = function (event) {
+      const response = JSON.parse(event.data);
+      console.log("[message] Data received from server:");
+      console.log(response);
+      if (response["updateGame"]) {
+        response["gameState"]["userName"] = props.username;
+        console.log("Update Game");
+        props.setGameState(response["gameState"]);
+        props.setTurn(response["gameState"]["turn"]);
+      }
+    };
+
+    return () => {
+      if (ws) {
+        ws.send(disconnectData);
+        ws.close();
+        console.log("Remove Socket");
+      }
+    };
+  }, []);
 
   // const updateGameAPI = async () => {
   //   const getAPI =
@@ -285,7 +378,9 @@ const Board = (props) => {
   //This may be used to change the color of the selected space for some more user feedback
   // const [currentSpaceSelected, setCurrentSpaceSelected] = useState("");
 
-  const clickedPieceCheck = (space) => {
+  const clickedPieceCheck = async (space) => {
+    // console.log("WEBSOCKET DEFINED");
+    // console.log(ws);
     //Check to see if a move is attempted
     //Click the piece you would like to move then click the space you would like to go to
 
@@ -353,12 +448,25 @@ const Board = (props) => {
           setPiecesCheck(null);
         }
         //Need to call checkKing here to see if you will put yourself in check
-        props.movePiece(
+        const moveMade = await props.movePiece(
           lastSelectedSpace,
           currentSpace,
           lastSelectedPiece,
           props.username
         );
+
+        console.log(moveMade);
+        if (await moveMade) {
+          console.log("Move MADE");
+          console.log(ws.readyState);
+          ws.send(moveData);
+          ws.onmessage = function (event) {
+            const response = JSON.parse(event.data);
+            console.log("[message] Data received from server:");
+            console.log(response);
+          };
+          // console.log(ws);
+        }
 
         setLastSelectedPiece("");
         setLastSelectedSpace("");
@@ -990,6 +1098,77 @@ const Board = (props) => {
     props.deleteGameModal(props.username, props.gameNumber);
   };
 
+  const backRefresh = () => {
+    console.log("Hello " + props.username);
+    // const ws = useRef();
+    ws = new WebSocket(
+      "wss://tcc8cwso9j.execute-api.us-east-2.amazonaws.com/production"
+    );
+
+    const connectData = JSON.stringify({
+      action: "addConnection",
+      message: "Hello",
+      userName: props.username,
+      gameNumber: props.gameNumber,
+    });
+
+    const disconnectData = JSON.stringify({
+      action: "removeConnection",
+      message: "Hello",
+      userName: props.username,
+      gameNumber: props.gameNumber,
+    });
+
+    let oponentColor = "";
+    let oponent = "";
+
+    if (props.gameState["whitePlayer"] === props.username) {
+      oponent = props.gameState["blackPlayer"];
+    } else {
+      oponent = props.gameState["whitePlayer"];
+    }
+
+    console.log(oponent + " " + props.username);
+
+    const moveData = JSON.stringify({
+      action: "sendGame",
+      message: "Hello",
+      userName: oponent,
+      gameNumber: props.gameNumber,
+    });
+
+    let responseW = "";
+    ws.onopen = (event) => {
+      ws.send(connectData);
+    };
+    setTimeout(() => {
+      console.log("1");
+      ws.send(moveData);
+    }, 4000);
+    setTimeout(() => {
+      console.log("2");
+      ws.send(disconnectData);
+    }, 30000);
+    ws.onmessage = function (event) {
+      const response = JSON.parse(event.data);
+      console.log("[message] Data received from server:");
+      console.log(response);
+      if (response["updateGame"]) {
+        response["gameState"]["userName"] = props.username;
+        console.log("Update Game");
+        props.setGameState(response["gameState"]);
+        props.setTurn(response["gameState"]["turn"]);
+      }
+    };
+    setTimeout(() => {
+      ws.close();
+    }, 60000);
+  };
+
+  const closeSocket = () => {
+    // ws.close();
+  };
+
   return (
     <div className="board">
       <div className="rowC">
@@ -1012,6 +1191,15 @@ const Board = (props) => {
           );
         })}
       </div>
+      {/* <button className="signOut" onClick={backRefresh}>
+        Open
+      </button> */}
+
+      {/* <button className="signOut" onClick={closeSocket}>
+        
+        Close
+      </button> */}
+      <div></div>
     </div>
   );
 };

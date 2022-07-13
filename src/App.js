@@ -118,7 +118,7 @@ function App() {
 
   const checkValidMove = async (moveFrom, moveTo, pieceName, username) => {
     // console.log("apiCheckMove Called");
-    console.log(gameState);
+    // console.log(gameState);
     const api =
       "https://fvhal8jc98.execute-api.us-east-2.amazonaws.com/multiplayerTest";
 
@@ -149,9 +149,9 @@ function App() {
       //Get response
       .then((response) => {
         //Checking format and returning response
-        console.log(response["data"]);
-        console.log(response["data"]["body"]);
-        console.log("Result " + response["data"]["moveLegal"]);
+        // console.log(response["data"]);
+        // console.log(response["data"]["body"]);
+        // console.log("Result " + response["data"]["moveLegal"]);
         if (!response["data"]["testSync"]) {
           setModalMessage({
             title: "Desync detected",
@@ -219,6 +219,7 @@ function App() {
             return "w";
           }
         });
+        return true;
       }
       // return true;
     }
