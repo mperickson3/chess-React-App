@@ -44,6 +44,10 @@ const Games = (props) => {
       yourColor = "b";
     }
   }
+  let borderColorH = "#354c75";
+  if (props.gameInfo["turn"] === yourColor) {
+    borderColorH = "#d1ad6b";
+  }
 
   let turnHighlight = "";
   let blackBorder = "";
@@ -58,7 +62,11 @@ const Games = (props) => {
 
   return (
     <div className="column">
-      <button className="Game" onClick={selectGame}>
+      <button
+        className="Game"
+        onClick={selectGame}
+        style={{ borderColor: borderColorH }}
+      >
         <TurnIcon turn={yourColor}></TurnIcon>
         <img src={Icon[gameType]} className="gameImage"></img>
         <div className="gameMessage">
