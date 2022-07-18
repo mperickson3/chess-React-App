@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Boardspace from "./Boardspace";
 import "./Board.css";
 import Icons from "../Icons/Icons";
@@ -6,6 +6,7 @@ import Icons from "../Icons/Icons";
 import axios from "axios";
 import Trash from "../Icons/garbage.png";
 import Back from "../Icons/Back.png";
+// import ws from "./Websocket";
 
 //Matthew
 
@@ -81,9 +82,20 @@ const Board = (props) => {
   const [lastSelectedSpace, setLastSelectedSpace] = useState("");
   const [lastSelectedPiece, setLastSelectedPiece] = useState("");
   const [piecesCheck, setPiecesCheck] = useState(null);
-  const ws = new WebSocket(
-    "wss://tcc8cwso9j.execute-api.us-east-2.amazonaws.com/production"
+  //Use memo here so that websocket is not re-rendered. Otherwise run into
+  //insufficient resources error after X moves
+  const ws = useMemo(
+    () =>
+      new WebSocket(
+        "wss://tcc8cwso9j.execute-api.us-east-2.amazonaws.com/production"
+      ),
+    []
   );
+  // const [ws, setWebsocket] = useState(
+  //   new WebSocket(
+  //     "wss://tcc8cwso9j.execute-api.us-east-2.amazonaws.com/production"
+  //   )
+  // );
 
   //Bi directional Map for doing space math better
   const keysForSpaceMath = {
@@ -221,7 +233,6 @@ const Board = (props) => {
     76: "g6",
     86: "h6",
   };
-  // var ws;
 
   const checkIsTurn = (username, gamestate) => {
     if (gamestate["turn"] === "w") {
@@ -308,44 +319,15 @@ const Board = (props) => {
           oponentColor + "King1"
         );
 
-        let kingCheckbool = kingCheck(
+        let KingCheckbool = kingCheck(
           kingLocation,
           oponentColor,
           response["gameState"]
         );
         console.log("KING CHECK BOOL");
-        console.log(kingCheckbool);
-
-        if (kingCheckbool) {
-          setTimeout(() => {
-            let checkMateBool = isCheckMate(
-              kingLocation,
-              oponentColor,
-              response["gameState"]
-            );
-            console.log(checkMateBool);
-            if (checkMateBool) {
-              if (oponentColor === "b") {
-                props.setModalMessage({
-                  title: "Check Mate: White Player Wins!!!",
-                  body: "Delete the game when you are ready",
-                });
-              } else {
-                props.setModalMessage({
-                  title: "Black Player Wins!!!",
-                  body: "Delete the game when you are ready",
-                });
-              }
-
-              props.setModalButtonsOk(true);
-              props.setModalVis(true);
-            }
-          }, 700);
-
-          setPiecesCheck(oponentColor + "King1");
-        } else {
-          setPiecesCheck(null);
-        }
+        console.log(KingCheckbool);
+        const tempGame = { ...response["gameState"] };
+        kingMateCheck(KingCheckbool, kingLocation, oponentColor, tempGame);
       }
     };
 
@@ -357,6 +339,8 @@ const Board = (props) => {
       }
     };
   }, []);
+
+  const newCheckMate = (opponentColor, tempGame) => {};
 
   const clickedPieceCheck = async (space) => {
     // console.log("WEBSOCKET DEFINED");
@@ -379,6 +363,7 @@ const Board = (props) => {
     );
     const isTurn = checkIsTurn(props.username, props.gameState);
     //Calls the parent Move Piece function if certain conditions are met
+
     if (availableMoves.includes(currentSpace)) {
       if (true) {
         let oponentColor = "";
@@ -392,41 +377,42 @@ const Board = (props) => {
         // console.log(props.gameState);
         let kingLocation = getKeyByValue(tempGameState, oponentColor + "King1");
         // console.log(kingLocation + " : " + oponentColor);
-        let kingCheckbool = kingCheck(
+        let KingCheckbool = kingCheck(
           kingLocation,
           oponentColor,
           tempGameState
         );
-        if (kingCheckbool) {
-          setTimeout(() => {
-            let checkMateBool = isCheckMate(
-              kingLocation,
-              oponentColor,
-              tempGameState
-            );
-            console.log(checkMateBool);
-            if (checkMateBool) {
-              if (oponentColor === "b") {
-                props.setModalMessage({
-                  title: "Check Mate: White Player Wins!!!",
-                  body: "Delete the game when you are ready",
-                });
-              } else {
-                props.setModalMessage({
-                  title: "Black Player Wins!!!",
-                  body: "Delete the game when you are ready",
-                });
-              }
+        kingMateCheck(KingCheckbool, kingLocation, oponentColor, tempGameState);
+        // if (kingCheckbool) {
+        //   setTimeout(() => {
+        //     let checkMateBool = isCheckMate(
+        //       kingLocation,
+        //       oponentColor,
+        //       tempGameState
+        //     );
+        //     console.log(checkMateBool);
+        //     if (checkMateBool) {
+        //       if (oponentColor === "b") {
+        //         props.setModalMessage({
+        //           title: "Check Mate: White Player Wins!!!",
+        //           body: "Delete the game when you are ready",
+        //         });
+        //       } else {
+        //         props.setModalMessage({
+        //           title: "Black Player Wins!!!",
+        //           body: "Delete the game when you are ready",
+        //         });
+        //       }
 
-              props.setModalButtonsOk(true);
-              props.setModalVis(true);
-            }
-          }, 700);
+        //       props.setModalButtonsOk(true);
+        //       props.setModalVis(true);
+        //     }
+        //   }, 700);
 
-          setPiecesCheck(oponentColor + "King1");
-        } else {
-          setPiecesCheck(null);
-        }
+        //   setPiecesCheck(oponentColor + "King1");
+        // } else {
+        //   setPiecesCheck(null);
+        // }
         //Need to call checkKing here to see if you will put yourself in check
         const moveMade = await props.movePiece(
           lastSelectedSpace,
@@ -438,14 +424,12 @@ const Board = (props) => {
         console.log(moveMade);
         if (await moveMade) {
           console.log("Move MADE");
-          console.log(ws.readyState);
-          ws.send(moveData);
-          // ws.onmessage = function (event) {
-          //   const response = JSON.parse(event.data);
-          //   console.log("[message] Data received from server:");
-          //   console.log(response);
-          // };
-          // console.log(ws);
+          try {
+            console.log(ws.readyState);
+            ws.send(moveData);
+          } catch {
+            console.log("error");
+          }
         }
 
         setLastSelectedPiece("");
@@ -520,7 +504,7 @@ const Board = (props) => {
     return options;
   };
 
-  const pawnMoves = (location, color) => {
+  const pawnMoves = (location, color, tempGameState) => {
     let numericLocation = keysForSpaceMath[location];
 
     let distance = 1;
@@ -571,7 +555,7 @@ const Board = (props) => {
     let willCheck = null;
     let finalOptions = [];
     for (const move of options) {
-      let tempGameState = { ...props.gameState };
+      // let tempGameState = { ...props.gameState };
 
       tempGameState[move] = color + "Pawn1";
       tempGameState[location] = "";
@@ -585,7 +569,7 @@ const Board = (props) => {
     return finalOptions;
   };
 
-  const bishopMoves = (location, color) => {
+  const bishopMoves = (location, color, tempGame) => {
     let options = [];
     const directions = [-1, 1];
 
@@ -600,7 +584,7 @@ const Board = (props) => {
     let willCheck = null;
     let finalOptions = [];
     for (const move of options) {
-      let tempGameState = { ...props.gameState };
+      let tempGameState = { ...tempGame };
       // console.log(move);
 
       tempGameState[move] = color + "Queen1";
@@ -615,7 +599,7 @@ const Board = (props) => {
     return finalOptions;
   };
 
-  const rookMoves = (location, color) => {
+  const rookMoves = (location, color, tempGame) => {
     let options = [];
 
     const directions2 = [
@@ -636,7 +620,7 @@ const Board = (props) => {
     let willCheck = null;
     let finalOptions = [];
     for (const move of options) {
-      let tempGameState = { ...props.gameState };
+      let tempGameState = { ...tempGame };
       // console.log(move);
 
       tempGameState[move] = color + "Rook1";
@@ -651,7 +635,7 @@ const Board = (props) => {
     return finalOptions;
   };
 
-  const queenMoves = (location, color) => {
+  const queenMoves = (location, color, tempGame) => {
     let options = [];
     const directions = [-1, 0, 1];
 
@@ -665,7 +649,7 @@ const Board = (props) => {
     let willCheck = null;
     let finalOptions = [];
     for (const move of options) {
-      let tempGameState = { ...props.gameState };
+      let tempGameState = { ...tempGame };
       // console.log(move);
 
       tempGameState[move] = color + "Queen1";
@@ -816,7 +800,7 @@ const Board = (props) => {
         ) {
           // console.log(xlocation + " " + ylocation);
           nextSpacePiece =
-            props.gameState[spaceMathString(iteratedLocation, x, y)];
+            gameStateUsed[spaceMathString(iteratedLocation, x, y)];
           // console.log(nextSpacePiece);
           if (nextSpacePiece === "" || nextSpacePiece[0] !== color) {
             optionsKing.push(spaceMathString(iteratedLocation, x, y));
@@ -882,26 +866,79 @@ const Board = (props) => {
     return false;
   };
 
-  const isCheckMate = (location, color, gameStateUse) => {
+  const kingMateCheck = (
+    kingCheckBool,
+    kingLocation,
+    oponentColor,
+    tempGameState
+  ) => {
+    if (kingCheckBool) {
+      setTimeout(() => {
+        let checkMateBool = isCheckMate(
+          kingLocation,
+          oponentColor,
+          tempGameState
+        );
+        console.log(checkMateBool);
+        if (checkMateBool) {
+          if (oponentColor === "b") {
+            props.setModalMessage({
+              title: "Check Mate: White Player Wins!!!",
+              body: "Delete the game when you are ready",
+            });
+          } else {
+            props.setModalMessage({
+              title: "Black Player Wins!!!",
+              body: "Delete the game when you are ready",
+            });
+          }
+
+          props.setModalButtonsOk(true);
+          props.setModalVis(true);
+        }
+      }, 2000);
+
+      setPiecesCheck(oponentColor + "King1");
+    } else {
+      setPiecesCheck(null);
+    }
+  };
+
+  const isCheckMate = (location, color, gameStateUsed) => {
     console.log("In Check Mate Check");
     let checkMate = true;
     let validMoves = [];
     for (const space of boardMapKeys) {
       // console.log(props.gameState[space]);
-      if (props.gameState[space][0] === color) {
+      if (gameStateUsed[space][0] === color) {
         // console.log(props.gameState[space]);
-        validMoves = findValidMoves(props.gameState[space], space, color);
+        validMoves = findValidMoves(
+          gameStateUsed[space],
+          space,
+          color,
+          gameStateUsed
+        );
 
         // console.log(validMoves);
         if (validMoves.length !== 0) {
           checkMate = false;
+          console.log("******SPACE*******");
+          console.log(space);
+          console.log(gameStateUsed[space]);
+          console.log(validMoves);
+          console.log(validMoves.length);
+
+          console.log("******SPACE*******");
+        } else {
+          // console.log("******SPACE*******");
+          // console.log(space);
         }
       }
     }
     return checkMate;
   };
 
-  const kingMoves = (location, color) => {
+  const kingMoves = (location, color, tempGame) => {
     // kingCheck(location, color);
     let options = [];
     const directions = [-1, 0, 1];
@@ -941,7 +978,7 @@ const Board = (props) => {
     let willCheck = null;
     let finalOptions = [];
     for (const move of options) {
-      let tempGameState = { ...props.gameState };
+      let tempGameState = { ...tempGame };
       // console.log(move);
 
       tempGameState[move] = color + "King1";
@@ -956,7 +993,7 @@ const Board = (props) => {
     return finalOptions;
   };
 
-  const knightMoves = (location, color) => {
+  const knightMoves = (location, color, tempGame) => {
     let options = [];
     const directions = [
       [2, 1],
@@ -1005,7 +1042,7 @@ const Board = (props) => {
     let willCheck = null;
     let finalOptions = [];
     for (const move of options) {
-      let tempGameState = { ...props.gameState };
+      let tempGameState = { ...tempGame };
       // console.log(move);
 
       tempGameState[move] = color + "Knight1";
@@ -1020,7 +1057,12 @@ const Board = (props) => {
     return finalOptions;
   };
 
-  const findValidMoves = (pieceName, location, turn) => {
+  const findValidMoves = (
+    pieceName,
+    location,
+    turn,
+    tempGameState = { ...props.gameState }
+  ) => {
     const pieceColor = pieceName[0];
     const pieceSwitch = pieceName.slice(1, -1);
     let moves = [];
@@ -1028,36 +1070,36 @@ const Board = (props) => {
       case "Pawn":
         // console.log("pawn" + location);
         turn === pieceColor
-          ? (moves = pawnMoves(location, pieceColor))
+          ? (moves = pawnMoves(location, pieceColor, tempGameState))
           : (moves = []);
         break;
       case "Rook":
         turn === pieceColor
-          ? (moves = rookMoves(location, pieceColor))
+          ? (moves = rookMoves(location, pieceColor, tempGameState))
           : (moves = []);
         // console.log("Rook: " + moves);
         break;
       case "Knight":
         turn === pieceColor
-          ? (moves = knightMoves(location, pieceColor))
+          ? (moves = knightMoves(location, pieceColor, tempGameState))
           : (moves = []);
         // console.log("Knight: " + moves);
         break;
       case "Bishop":
         turn === pieceColor
-          ? (moves = bishopMoves(location, pieceColor))
+          ? (moves = bishopMoves(location, pieceColor, tempGameState))
           : (moves = []);
         // console.log("Bishop: " + moves);
         break;
       case "Queen":
         turn === pieceColor
-          ? (moves = queenMoves(location, pieceColor))
+          ? (moves = queenMoves(location, pieceColor, tempGameState))
           : (moves = []);
         // console.log("Queen: " + moves);
         break;
       case "King":
         turn === pieceColor
-          ? (moves = kingMoves(location, pieceColor))
+          ? (moves = kingMoves(location, pieceColor, tempGameState))
           : (moves = []);
         // console.log("King: " + moves);
         break;
