@@ -78,12 +78,13 @@ const Board = (props) => {
     "h8",
   ];
   const [availableMoves, setAvailableMoves] = useState([]);
-  const [kingCheckSpaces, setKingCheckSpaces] = useState([]);
+  // const [kingCheckSpaces, setKingCheckSpaces] = useState([]);
   const [lastSelectedSpace, setLastSelectedSpace] = useState("");
   const [lastSelectedPiece, setLastSelectedPiece] = useState("");
   const [piecesCheck, setPiecesCheck] = useState(null);
   //Use memo here so that websocket is not re-rendered. Otherwise run into
   //insufficient resources error after X moves
+  //This may not be recommended and will continue researching other options
   const ws = useMemo(
     () =>
       new WebSocket(
@@ -257,6 +258,18 @@ const Board = (props) => {
   });
 
   useEffect(() => {
+    let kingLocationW = getKeyByValue(props.gameState, "w" + "King1");
+    let kingLocationB = getKeyByValue(props.gameState, "b" + "King1");
+    let kingCheckBoolB = kingCheck(kingLocationB, "b", props.gameState);
+    let kingCheckBoolW = kingCheck(kingLocationW, "w", props.gameState);
+    let tempGame = { ...props.gameState };
+    if (kingCheckBoolW) {
+      kingMateCheck(kingCheckBoolW, kingLocationW, "w", tempGame);
+    }
+    if (kingCheckBoolB) {
+      kingMateCheck(kingCheckBoolB, kingLocationB, "b", tempGame);
+    }
+
     const connectData = JSON.stringify({
       action: "addConnection",
       message: "Hello",
@@ -383,37 +396,6 @@ const Board = (props) => {
           tempGameState
         );
         kingMateCheck(KingCheckbool, kingLocation, oponentColor, tempGameState);
-        // if (kingCheckbool) {
-        //   setTimeout(() => {
-        //     let checkMateBool = isCheckMate(
-        //       kingLocation,
-        //       oponentColor,
-        //       tempGameState
-        //     );
-        //     console.log(checkMateBool);
-        //     if (checkMateBool) {
-        //       if (oponentColor === "b") {
-        //         props.setModalMessage({
-        //           title: "Check Mate: White Player Wins!!!",
-        //           body: "Delete the game when you are ready",
-        //         });
-        //       } else {
-        //         props.setModalMessage({
-        //           title: "Black Player Wins!!!",
-        //           body: "Delete the game when you are ready",
-        //         });
-        //       }
-
-        //       props.setModalButtonsOk(true);
-        //       props.setModalVis(true);
-        //     }
-        //   }, 700);
-
-        //   setPiecesCheck(oponentColor + "King1");
-        // } else {
-        //   setPiecesCheck(null);
-        // }
-        //Need to call checkKing here to see if you will put yourself in check
         const moveMade = await props.movePiece(
           lastSelectedSpace,
           currentSpace,
@@ -504,7 +486,7 @@ const Board = (props) => {
     return options;
   };
 
-  const pawnMoves = (location, color, tempGameState) => {
+  const pawnMoves = (location, color, tempGame) => {
     let numericLocation = keysForSpaceMath[location];
 
     let distance = 1;
@@ -555,7 +537,7 @@ const Board = (props) => {
     let willCheck = null;
     let finalOptions = [];
     for (const move of options) {
-      // let tempGameState = { ...props.gameState };
+      let tempGameState = { ...tempGame };
 
       tempGameState[move] = color + "Pawn1";
       tempGameState[location] = "";
@@ -896,7 +878,7 @@ const Board = (props) => {
           props.setModalButtonsOk(true);
           props.setModalVis(true);
         }
-      }, 2000);
+      }, 900);
 
       setPiecesCheck(oponentColor + "King1");
     } else {
