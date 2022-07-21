@@ -461,6 +461,7 @@ function App() {
 
   useEffect(() => {
     getUserGamesTest();
+
     // console.log(userName1);
     // if (userName1 === "multitest") {
     //   setModalMessage({
