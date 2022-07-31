@@ -12,13 +12,19 @@
 }
 .backB {
   background-color: #354c75;
-  margin: 0px 10px 0 10px;
+
+  margin: auto;
+  height: 2.5vh;
+  width: auto;
 }
 
 .buttonContainer {
   background-color: #354c75;
   margin: 0px 10px 0 10px;
-  width: 5vh;
+  width: 4vh;
+  height: 4vh;
+  align-items: center;
+  padding-top: 0.8vh;
 }
 
 .menuName {

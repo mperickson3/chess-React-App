@@ -1,0 +1,67 @@
+.playerInfo {
+  min-width: 15vw;
+  padding: 0 1vw 0 1vw;
+  height: 4vh;
+  background-color: #0e1929;
+  color: white;
+  align-items: center;
+  text-align: start;
+  margin: 0vh 100% 1vh auto;
+  font-size: 2.5vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.margin {
+  margin-top: 8vh;
+  /* margin-right: 50vw;
+  justify-content: left;
+  align-items: inherit; */
+}
+
+.rowP {
+  flex-direction: row;
+  display: flex;
+  margin-right: 100%;
+}
+
+.smallPiece {
+  margin: auto 0.2vmin auto auto;
+
+  width: auto;
+  height: 3vmin;
+}
+
+.capturesContainer {
+  padding-top: 0.5vmin;
+  width: auto;
+  height: auto;
+  margin: auto 0 auto 2vmin;
+  display: flex;
+  flex-direction: row;
+}
+
+.activePlayerIcon {
+  margin: auto auto auto auto;
+  width: 2vmax;
+  height: 2vmax;
+  background-color: #00be2d;
+  border: solid 0.25vh;
+  border-radius: 25px;
+  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25); */
+  transition: 0.5s;
+  border-color: #00be2d;
+}
+
+.playerName {
+  margin: auto auto auto auto;
+  border-color: #d1ad6b;
+  border-bottom: solid 0.5vw #d1ad6b;
+}
+
+.turnIconBalnce {
+  margin: auto 1vmin auto 1vmin;
+
+  width: 2.5vh;
+  height: 2.5vh;
+}

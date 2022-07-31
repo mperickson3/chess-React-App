@@ -11,6 +11,7 @@ import GameList from "./Components/GameSelection/GameList";
 import TurnIndicator from "./Components/GameSelection/TurnIndicator";
 import ErrorModal from "./Components/UI/ErrorModal";
 import MenuSelection from "./Components/UI/MenuSelection";
+import GameContainer from "./Components/GameBoard/GameContainer";
 Amplify.configure(config);
 
 //Matthew
@@ -180,7 +181,7 @@ function App() {
 
   const movePiece = async (moveFrom, moveTo, piece, username) => {
     // console.log("movePiece function executed");
-    console.log(username);
+    // console.log(username);
     //check to see if the current turn is the same color as the piece being moved
     if (turn === piece[0]) {
       //Calls the check valid move function This function will return a promise object until a response is recieved
@@ -264,8 +265,8 @@ function App() {
       .then((response) => {
         //Checking format and returning response
         // console.log("Full Response: ");
-        console.log(response["data"]);
-        console.log("Response from Lamda Save: " + response["data"]["body"]);
+        // console.log(response["data"]);
+        // console.log("Response from Lamda Save: " + response["data"]["body"]);
         if (response["data"]["statusCode"] === 201) {
           // console.log("No New Game");
           setModalMessage({
@@ -307,7 +308,7 @@ function App() {
   }
 
   const changeGame = async (changedGame, userName, gameNumber, turn) => {
-    console.log("Change Game Called");
+    // console.log("Change Game Called");
     // console.log(changedGame);
     setGameState(() => {
       return changedGame;
@@ -321,7 +322,7 @@ function App() {
 
   const gameVisible = (value) => {
     //Takes a boolean to define if the gameboard is visibile
-    console.log("Game Board Visible Trigger");
+    // console.log("Game Board Visible Trigger");
     setboardVisible(value);
   };
 
@@ -370,10 +371,15 @@ function App() {
     const deleteAPI =
       "https://b62dmtbp99.execute-api.us-east-2.amazonaws.com/multiplayerTest";
 
+    const token = await Auth.currentSession().then((data) => {
+      // console.log(data["idToken"]);
+      return data["idToken"]["jwtToken"];
+    });
+
     const header = {
       headers: {
         // authorization: await props.getToken().toString(),
-        authorization: authToken,
+        authorization: token,
       },
     };
 
@@ -393,7 +399,7 @@ function App() {
 
       //Get response
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         //Checking format and returning response
       })
       //catch an error
@@ -417,10 +423,13 @@ function App() {
     let userName = await Auth.currentAuthenticatedUser();
     userName = userName["username"];
     let responseGames = [];
-
+    const token = await Auth.currentSession().then((data) => {
+      // console.log(data["idToken"]);
+      return data["idToken"]["jwtToken"];
+    });
     const header = {
       headers: {
-        authorization: authToken,
+        authorization: token,
       },
     };
     // console.log(userName["username"]);
@@ -523,7 +532,7 @@ function App() {
             ></MenuSelection>
             {boardVisible && (
               <div>
-                <Board
+                <GameContainer
                   gameState={gameState}
                   boardVisible={boardVisible}
                   movePiece={movePiece}
@@ -540,7 +549,6 @@ function App() {
                   authToken={authToken}
                   gameNumber={gameNumber}
                 />
-                <TurnIndicator turn={turn} />
               </div>
             )}
           </main>

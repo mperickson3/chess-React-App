@@ -20,7 +20,7 @@ const MenuSelection = (props) => {
         title: "You have signed in as a test user",
         body: "Some changes may be overwritten",
       });
-      console.log("MODAL");
+      // console.log("MODAL");
       props.setModalVis(true);
       props.setModalButtonsOk(true);
     }

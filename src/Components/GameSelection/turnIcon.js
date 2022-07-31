@@ -12,7 +12,7 @@ const TurnIcon = (props) => {
     blackBorder = "#d1ad6b";
   }
   return (
-    <div className="row">
+    <div className="turnIconCont">
       {props.turn === "w" && <div className="turnWhiteIcon"></div>}
       {props.turn === "b" && <div className="turnBlackIcon"></div>}
       {props.turn === "" && <div className="turnHiddenIcon"></div>}

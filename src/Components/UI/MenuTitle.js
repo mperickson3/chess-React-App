@@ -15,7 +15,7 @@ const MenuTitle = (props) => {
   };
 
   return (
-    <div>
+    <div className="column">
       <div className="MenuBox">
         <div className="buttonContainer" onClick={backClickHandler}>
           <img src={Back} className="backB" alt="Menu" />

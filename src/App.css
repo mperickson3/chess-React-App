@@ -38,10 +38,11 @@
 .GameButton {
   color: #364c75;
   margin: 20px 41px 0px 41px;
-  height: 5vh;
+  height: auto;
   padding: auto;
   width: 60vw;
   max-width: 600px;
+  min-width: 110px;
 
   background-color: white;
   border-radius: 1vh;
@@ -57,8 +58,10 @@
   color: white;
   margin: 20px 41px 0px 41px;
   padding: auto;
-  height: 5vh;
+  height: auto;
   width: 60vw;
+  min-width: 110px;
+
   max-width: 600px;
   text-align: center;
   align-items: center;

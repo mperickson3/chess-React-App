@@ -12,9 +12,9 @@ const TurnIndicator = (props) => {
     blackBorder = "#d1ad6b";
   }
   return (
-    <div className="row">
-      <div className="turnWhite" style={{ borderColor: whiteBorder }}></div>
+    <div className="turnIndicatorContainer">
       <div className="turnBlack" style={{ borderColor: blackBorder }}></div>
+      <div className="turnWhite" style={{ borderColor: whiteBorder }}></div>
     </div>
   );
 };

@@ -11,7 +11,7 @@ import Back from "../Icons/Back.png";
 //Matthew
 
 const Board = (props) => {
-  const boardMapKeys = [
+  const boardMapKeysConst = [
     "a1",
     "b1",
     "c1",
@@ -77,6 +77,8 @@ const Board = (props) => {
     "g8",
     "h8",
   ];
+  let boardMapKeys = [];
+  // boardMapKeys = boardMapKeys.reverse();
   const [availableMoves, setAvailableMoves] = useState([]);
   // const [kingCheckSpaces, setKingCheckSpaces] = useState([]);
   const [lastSelectedSpace, setLastSelectedSpace] = useState("");
@@ -92,6 +94,14 @@ const Board = (props) => {
       ),
     []
   );
+
+  if (props.gameState["whitePlayer"] === props.username) {
+    // console.log("IN IF");
+    boardMapKeys = boardMapKeysConst;
+  } else {
+    // console.log("IN ELSE");
+    boardMapKeys = boardMapKeysConst.reverse();
+  }
   // const [ws, setWebsocket] = useState(
   //   new WebSocket(
   //     "wss://tcc8cwso9j.execute-api.us-east-2.amazonaws.com/production"
@@ -293,7 +303,7 @@ const Board = (props) => {
       oponent = props.gameState["whitePlayer"];
     }
 
-    console.log(oponent + " " + props.username);
+    // console.log(oponent + " " + props.username);
 
     const moveData = JSON.stringify({
       action: "sendGame",
@@ -316,7 +326,7 @@ const Board = (props) => {
 
     ws.onmessage = function (event) {
       const response = JSON.parse(event.data);
-      console.log("[message] Data received from server:");
+
       console.log(response);
       if (response["updateGame"]) {
         response["gameState"]["userName"] = props.username;
@@ -337,8 +347,8 @@ const Board = (props) => {
           oponentColor,
           response["gameState"]
         );
-        console.log("KING CHECK BOOL");
-        console.log(KingCheckbool);
+        // console.log("KING CHECK BOOL");
+        // console.log(KingCheckbool);
         const tempGame = { ...response["gameState"] };
         kingMateCheck(KingCheckbool, kingLocation, oponentColor, tempGame);
       }
@@ -403,11 +413,10 @@ const Board = (props) => {
           props.username
         );
 
-        console.log(moveMade);
+        // console.log(moveMade);
         if (await moveMade) {
-          console.log("Move MADE");
           try {
-            console.log(ws.readyState);
+            // console.log(ws.readyState);
             ws.send(moveData);
           } catch {
             console.log("error");
@@ -492,6 +501,9 @@ const Board = (props) => {
     let distance = 1;
     if (location[1] === "7" || location[1] === "2") {
       distance = 2;
+    }
+    if (location[1] === "8" || location[1] === "0") {
+      return [];
     }
     let options = [];
     for (let i = 1; i <= distance; i++) {
@@ -840,7 +852,6 @@ const Board = (props) => {
     for (const space of optionsKing) {
       // console.log(props.gameState[space]);
       if (gameStateUsed[space].includes(oponentColor + "King")) {
-        console.log("CHECK King");
         return true;
       }
     }
@@ -861,7 +872,7 @@ const Board = (props) => {
           oponentColor,
           tempGameState
         );
-        console.log(checkMateBool);
+        // console.log(checkMateBool);
         if (checkMateBool) {
           if (oponentColor === "b") {
             props.setModalMessage({
@@ -887,7 +898,7 @@ const Board = (props) => {
   };
 
   const isCheckMate = (location, color, gameStateUsed) => {
-    console.log("In Check Mate Check");
+    console.log("In Check Mate?");
     let checkMate = true;
     let validMoves = [];
     for (const space of boardMapKeys) {
@@ -904,19 +915,20 @@ const Board = (props) => {
         // console.log(validMoves);
         if (validMoves.length !== 0) {
           checkMate = false;
-          console.log("******SPACE*******");
-          console.log(space);
-          console.log(gameStateUsed[space]);
-          console.log(validMoves);
-          console.log(validMoves.length);
+          // console.log("******SPACE*******");
+          // console.log(space);
+          // console.log(gameStateUsed[space]);
+          // console.log(validMoves);
+          // console.log(validMoves.length);
 
-          console.log("******SPACE*******");
+          // console.log("******SPACE*******");
         } else {
           // console.log("******SPACE*******");
           // console.log(space);
         }
       }
     }
+    console.log(checkMate);
     return checkMate;
   };
 
@@ -1140,33 +1152,6 @@ const Board = (props) => {
       userName: oponent,
       gameNumber: props.gameNumber,
     });
-
-    // let responseW = "";
-    // ws.onopen = (event) => {
-    //   ws.send(connectData);
-    // };
-    // setTimeout(() => {
-    //   console.log("1");
-    //   ws.send(moveData);
-    // }, 4000);
-    // setTimeout(() => {
-    //   console.log("2");
-    //   ws.send(disconnectData);
-    // }, 30000);
-    // ws.onmessage = function (event) {
-    //   const response = JSON.parse(event.data);
-    //   console.log("[message] Data received from server:");
-    //   console.log(response);
-    //   if (response["updateGame"]) {
-    //     response["gameState"]["userName"] = props.username;
-    //     console.log("Update Game");
-    //     props.setGameState(response["gameState"]);
-    //     props.setTurn(response["gameState"]["turn"]);
-    //   }
-    // };
-    // setTimeout(() => {
-    //   ws.close();
-    // }, 60000);
   };
 
   const closeSocket = () => {
@@ -1195,15 +1180,6 @@ const Board = (props) => {
           );
         })}
       </div>
-      {/* <button className="signOut" onClick={backRefresh}>
-        Open
-      </button> */}
-
-      {/* <button className="signOut" onClick={closeSocket}>
-        
-        Close
-      </button> */}
-      <div></div>
     </div>
   );
 };
