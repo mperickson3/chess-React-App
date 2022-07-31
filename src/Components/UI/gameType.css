@@ -1,8 +1,10 @@
 .gameType {
   /* width: 342px; */
-  width: 60vw;
+  min-width: 30vh;
+  width: 40vw;
+
   height: 20vh;
-  max-height: 25vw;
+  max-height: 28vw;
   background-color: #0e1929;
   margin: 0 auto 15px auto;
   color: white;
@@ -13,6 +15,7 @@
   border-style: solid;
   display: flex;
   flex-direction: row;
+  padding: 1vh 0 1vh 0;
 }
 
 .gameType:active {

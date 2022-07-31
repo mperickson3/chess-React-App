@@ -751,13 +751,13 @@ const Board = (props) => {
     let nextSpacePiece = "";
     let iteratedLocation = location;
     let xD = [-1, 1];
-
+    // console.log("PAWN CHECK");
     for (const x of xD) {
       if (
         color === "b" &&
         ylocation < 8 &&
-        xlocation + x < 8 &&
-        xlocation + x > 0
+        xlocation + x <= 8 &&
+        xlocation + x >= 0
       ) {
         let y = 1;
         nextSpacePiece = gameStateUsed[spaceMathString(iteratedLocation, x, y)];
@@ -767,8 +767,8 @@ const Board = (props) => {
       } else if (
         color === "w" &&
         ylocation > 0 &&
-        xlocation + x < 8 &&
-        xlocation + x > 0
+        xlocation + x <= 8 &&
+        xlocation + x >= 0
       ) {
         let y = -1;
         nextSpacePiece = gameStateUsed[spaceMathString(iteratedLocation, x, y)];
@@ -845,6 +845,7 @@ const Board = (props) => {
     for (const space of optionsPawn) {
       if (gameStateUsed[space].includes(oponentColor + "Pawn")) {
         // console.log("check Pawn");
+        console.log(space);
         return true;
       }
     }
