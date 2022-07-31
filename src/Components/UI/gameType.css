@@ -19,7 +19,8 @@
 }
 
 .gameType:active {
-  width: 60vw;
+  min-width: 30vh;
+  width: 40vw;
   height: 20vh;
   max-height: 25vw;
   background-color: #354c75;
