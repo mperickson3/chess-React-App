@@ -3,7 +3,12 @@ import "./App.css";
 import "./Components/GameBoard/Board";
 import Board from "./Components/GameBoard/Board";
 import axios from "axios";
-import { withAuthentication, Authenticator } from "@aws-amplify/ui-react";
+import {
+  withAuthenticator,
+  Authenticator,
+  AmplifySignIn,
+} from "@aws-amplify/ui-react";
+
 import { Amplify, Auth, AuthState } from "aws-amplify";
 import config from "./aws-exports";
 import "@aws-amplify/ui-react/styles.css";
@@ -93,14 +98,14 @@ function App() {
   const [turn, setTurn] = useState("w");
   const [gameNumber, setGameNumber] = useState("0");
   const [boardVisible, setboardVisible] = useState(false);
-  const [modal, setModalVis] = useState(false);
+  const [modal, setModalVis] = useState(true);
   const [menuScreen, setMenuScreen] = useState("main");
   const [modalMessage, setModalMessage] = useState({
-    title: "",
-    body: "",
+    title: "Welcome to my chess web app! \n",
+    body: "\nThank you for taking the time to check out my chess web application. I have enjoyed making the application and I hope you enjoy the work that was put into it. \n \n The application will syncronoze the backend database automatically and features WebSocket API for real time multiplayer. \n \n Please create an account to get started or if you'd prefer not to provide an email please click the 'Sign in as a test user' button below to log in as a previously created user for testing purposes. \n \n -Matthew",
   });
   const [modalButtons, setModalButtons] = useState(false);
-  const [modalButtonsOk, setModalButtonsOk] = useState(false);
+  const [modalButtonsOk, setModalButtonsOk] = useState(true);
 
   const [testSignInUser, setTestSignInUser] = useState(
     "Sign in as a test user"
@@ -490,8 +495,17 @@ function App() {
 
   return (
     <div className="signInScreen">
+      {modal && (
+        <ErrorModal
+          title={modalMessage["title"]}
+          body={modalMessage["body"]}
+          modalButtons={modalButtons}
+          deleteResult={deleteResult}
+          modalButtonsOk={modalButtonsOk}
+        />
+      )}
       {/* Sign in to Play Chess */}
-      <Authenticator>
+      <Authenticator className="signInBox">
         {({ signOut, user }) => (
           <main className="App-header">
             {modal && (
