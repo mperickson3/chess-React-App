@@ -6,7 +6,7 @@ const Boardspace = (props) => {
   let color = "";
   const num = parseInt(props.space.charCodeAt(0)) + parseInt(props.space[1]);
   //Used to set the color of the space
-  if (num % 2 === 0) {
+  if ((num + 1) % 2 === 0) {
     color = "spaceBlack";
   } else {
     color = "spaceWhite";

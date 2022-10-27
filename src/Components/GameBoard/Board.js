@@ -363,7 +363,7 @@ const Board = (props) => {
     };
   }, []);
 
-  const newCheckMate = (opponentColor, tempGame) => {};
+  // const newCheckMate = (opponentColor, tempGame) => {};
 
   const clickedPieceCheck = async (space) => {
     // console.log("WEBSOCKET DEFINED");
