@@ -161,14 +161,14 @@ function App() {
         if (!response["data"]["testSync"]) {
           setModalMessage({
             title: "Desync detected",
-            body: "You will be brought back to the game selection screen",
+            body: "You will be brought back to the Main Menu",
           });
+          console.log(response);
           setModalVis(true);
           setTimeout(() => {
             window.location.reload();
-          }, 10000);
-        }
-        if (!response["data"]["Turn"]) {
+          }, 3000);
+        } else if (!response["data"]["Turn"]) {
           setModalMessage({
             title: "It is not your turn",
             body: "Please wait your turn",

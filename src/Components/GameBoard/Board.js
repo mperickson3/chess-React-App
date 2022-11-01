@@ -890,7 +890,7 @@ const Board = (props) => {
           props.setModalButtonsOk(true);
           props.setModalVis(true);
         }
-      }, 900);
+      }, 600);
 
       setPiecesCheck(oponentColor + "King1");
     } else {
